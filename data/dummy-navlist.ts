@@ -1,36 +1,36 @@
 export const dummyNavList = [
     {
-        title: "プレミアリーグ",
+        title: "Premier League",
         url: "/",
         img: "/images/premierleague.png",
     },
     {
-        title: "ブンデスリーガ",
+        title: "Bundesliga",
         url: "/",
         img: "/images/bundesliga.png",
     },
     {
-        title: "セリエA",
+        title: "Serie A",
         url: "/",
         img: "/images/seriea.png",
     },
     {
-        title: "リーガ・エスパニョーラ",
+        title: "La Liga",
         url: "/",
         img: "/images/laliga.png",
     },
     {
-        title: "リーグ・アン",
+        title: "Ligue 1",
         url: "/",
         img: "/images/ligue1.png",
     },
     {
-        title: "チャンピオンズリーグ",
+        title: "Champions League",
         url: "/",
         img: "/images/championsleague.png",
     },
     {
-        title: "ヨーロッパリーグ",
+        title: "Europa League",
         url: "/",
         img: "/images/europaleague.png",
     },

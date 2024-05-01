@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "./components/header";
 import Sidebar from "./components/sidebar";
 import Footer from "./components/footer";
+import { ThemeProvider } from "./components/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,12 +20,19 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="ja">
-            <body className={cn(inter.className, "h-dvh")}>
-                <Header />
-                <Sidebar />
-                {children}
-                <Footer />
+        <html lang="ja" suppressHydrationWarning>
+            <body className={cn(inter.className, "h-dvh ")}>
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    <Header />
+                    <Sidebar />
+                    {children}
+                    <Footer />
+                </ThemeProvider>
             </body>
         </html>
     );
