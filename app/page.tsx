@@ -1,5 +1,5 @@
 import { ChevronRight } from "lucide-react";
-import LeagueList from "./components/match-list";
+import MatchList from "./components/match-list";
 import MatchNav from "./components/match-nav";
 
 export default function Home() {
@@ -12,7 +12,7 @@ export default function Home() {
                 </span>
             </p>
             <MatchNav />
-            <LeagueList />
+            <MatchList />
         </div>
     );
 }
