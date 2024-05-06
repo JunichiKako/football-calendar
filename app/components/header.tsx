@@ -13,7 +13,7 @@ export default function Header() {
                     <Button variant="ghost" asChild>
                         <Link
                             href="/"
-                            className="ms-2 md:me-24 text-xl font-semibold sm:text-2xl  text-white"
+                            className="ms-2  text-xl font-semibold sm:text-2xl  text-white"
                         >
                             Football Table
                         </Link>
