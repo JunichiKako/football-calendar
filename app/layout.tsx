@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="ja" suppressHydrationWarning>
-            <body className={cn(inter.className, "h-dvh ")}>
+            <body className={cn(inter.className)}>
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="system"

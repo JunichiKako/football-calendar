@@ -2,10 +2,9 @@ import { Button } from "@/components/ui/button";
 import {
     Sheet,
     SheetContent,
-    SheetDescription,
     SheetHeader,
     SheetTitle,
-    SheetTrigger,
+    SheetTrigger
 } from "@/components/ui/sheet";
 import { dummyNavList } from "@/data/dummy-navlist";
 import { Menu } from "lucide-react";
@@ -24,7 +23,7 @@ export default function MobileNav() {
                 <SheetHeader>
                     <SheetTitle>リーグを選ぶ</SheetTitle>
                 </SheetHeader>
-                <nav className="mt-10">
+                <nav className="mt-2 overflow-auto">
                     <ul>
                         {dummyNavList.map((item) => (
                             <li key={item.title}>
@@ -35,12 +34,12 @@ export default function MobileNav() {
                                     <div className="flex">
                                         <Image
                                             src={item.img}
-                                            width={40}
-                                            height={40}
+                                            width={30}
+                                            height={30}
                                             className="object-cover"
                                             alt=""
                                         />
-                                        <span className="ml-4">
+                                        <span className="ml-4 text-s">
                                             {item.title}
                                         </span>
                                     </div>

@@ -12,7 +12,7 @@ export default function Sidebar() {
                         <li key={item.title}>
                             <Link
                                 href={item.url}
-                                className="flex items-center p-2 rounded-lg hover:bg-gray-100"
+                                className="flex items-center p-2 rounded-lg hover:bg-gray-200 hover:text-gray-900 transition-colors"
                             >
                                 <div className="flex">
                                     <Image
