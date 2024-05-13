@@ -4,7 +4,7 @@ import {
     SheetContent,
     SheetHeader,
     SheetTitle,
-    SheetTrigger
+    SheetTrigger,
 } from "@/components/ui/sheet";
 import { dummyNavList } from "@/data/dummy-navlist";
 import { Menu } from "lucide-react";

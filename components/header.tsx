@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import MobileNav from "./mobile-nav";
-import UserMenu from "./user-menu";
+import MobileNav from "../app/components/mobile-nav";
+import UserMenu from "../app/components/user-menu";
 
 export default function Header() {
     return (
@@ -19,7 +19,12 @@ export default function Header() {
                         </Link>
                     </Button>
                     <span className="flex-1"></span>
-                    <UserMenu />
+                    <Button variant="outline" asChild>
+                        <Link href="/signin" className="">
+                            サインイン
+                        </Link>
+                    </Button>
+                    {/* <UserMenu /> */}
                 </div>
             </div>
         </header>
