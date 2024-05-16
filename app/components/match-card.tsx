@@ -7,12 +7,10 @@ type MatchProps = {
     home: string;
     away: string;
     time: string;
+    homeEmblemUrl: string;
+    awayEmblemUrl: string;
   }[];
 };
-
-function formatTeamNameToImagePath(teamName: string) {
-  return `/images/${teamName.toLowerCase().replace(/ /g, "-")}.png`;
-}
 
 export default function MatchCard({ date, matches }: MatchProps) {
   return (
@@ -21,23 +19,22 @@ export default function MatchCard({ date, matches }: MatchProps) {
       {matches.map((match) => (
         <div
           key={match.id}
-          className=" w-full p-4 mt-2 shadow-lg rounded-lg flex justify-between items-center border"
+          className="w-full p-4 mt-2 shadow-lg rounded-lg flex justify-between items-center border"
         >
           <div className="flex-1">
             <div className="flex items-center mb-3">
               <Image
-                src={formatTeamNameToImagePath(match.home)}
+                src={match.homeEmblemUrl}
                 width={24}
                 height={24}
                 alt={match.home}
                 className="mr-2"
               />
-
               <span className="text-xs font-semibold">{match.home}</span>
             </div>
             <div className="flex items-center">
               <Image
-                src={formatTeamNameToImagePath(match.away)}
+                src={match.awayEmblemUrl}
                 width={24}
                 height={24}
                 alt={match.away}
