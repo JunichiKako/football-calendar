@@ -34,5 +34,6 @@ export const getCompetitions = cache(async () => {
     })
   );
 
-  return competitions.flat(); // 平坦化された配列を返す
+  return competitions.flat(); 
+  // サブ配列も展開して1つの配列にしてます
 });

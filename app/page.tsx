@@ -1,12 +1,11 @@
-import { getCompetitions } from "@/data/competitions";
+'use client'
+
 import LeagueList from "./components/league-list";
 import SchduleHeader from "./components/schdule-header";
+import { useCompetitions } from "./context/CompetitionsContext";
 
-export default async function Home() {
-  const competitionList = await getCompetitions();
-
-  console.log(competitionList);
-  
+export default function Home() {
+  const { competitionList } = useCompetitions();
 
   // ユニークな日付のリストを作成
   const uniqueDates = Array.from(

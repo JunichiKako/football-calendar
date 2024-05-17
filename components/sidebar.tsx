@@ -3,7 +3,15 @@ import { dummyNavList } from "@/data/dummy-navlist";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Sidebar() {
+type SidebarProps = {
+  sidebarData: {
+    id: number;
+    competition: string;
+    competitionImg: string;
+  }[];
+};
+
+export default function Sidebar({ sidebarData }: SidebarProps) {
   return (
     <aside className="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full border-r border lg:translate-x-0">
       <div className="flex flex-col h-full px-3 pb-4 overflow-y-auto">
