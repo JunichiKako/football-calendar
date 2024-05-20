@@ -19,7 +19,7 @@ export default function MobileNav() {
         </SheetHeader>
         <nav className="mt-2 overflow-auto">
           <ul>
-            {dummyNavList.map((item) => (
+            {/* {dummyNavList.map((item) => (
               <li key={item.title}>
                 <Link
                   href={item.url}
@@ -31,7 +31,7 @@ export default function MobileNav() {
                   </div>
                 </Link>
               </li>
-            ))}
+            ))} */}
           </ul>
         </nav>
       </SheetContent>

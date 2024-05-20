@@ -6,8 +6,6 @@ import Header from "../components/header";
 import Sidebar from "../components/sidebar";
 import { ThemeProvider } from "../components/theme-provider";
 import "./globals.css";
-import { getCompetitions } from "@/data/competitions";
-import { CompetitionsProvider } from "./context/CompetitionsContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,16 +19,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // コンペティションのデータを取得
-  const competitionList = await getCompetitions();
-
-  // サイドバーに必要なデータだけを抽出
-  const sidebarData = competitionList.map((match) => ({
-    id: match.id,
-    competition: match.competition,
-    competitionImg: match.competitionImg,
-  }));
-
   return (
     <html lang="ja" suppressHydrationWarning>
       <body className={cn(inter.className)}>
@@ -40,12 +28,10 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <CompetitionsProvider value={{ competitionList }}>
-            <Header />
-            <Sidebar sidebarData={sidebarData} />
-            {children}
-            <Footer />
-          </CompetitionsProvider>
+          <Header />
+          <Sidebar />
+          {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

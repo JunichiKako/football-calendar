@@ -9,7 +9,7 @@ export const getCompetitions = cache(async () => {
     // leagueIdsは任意のリーグIDの配列
     leagueIds.map(async (id) => {
       const res = await fetch(
-        `https://api.football-data.org/v4/competitions/${id}/matches?season=2023&dateFrom=2024-05-12&dateTo=2024-05-12`,
+        `https://api.football-data.org/v4/competitions/${id}/matches?season=2023&dateFrom=2024-05-18&dateTo=2024-05-19`,
         {
           method: "GET",
           headers: {
@@ -20,12 +20,16 @@ export const getCompetitions = cache(async () => {
       // league.tsの型をleagueに事前設定
       const league: league = await res.json();
 
+      console.log(league.matches);
+
       // 名前は再考の余地あり
+      // チーム名の日本語化
+      // 日付のフォーマット 25:00表記の方が日付はわかりやすい
       return league.matches.map((match) => ({
         id: match.id,
-        competition: match.competition.name,
+        competitionName: match.competition.name,
         competitionImg: match.competition.emblem,
-        date: new Date(match.utcDate).toLocaleString(),
+        matchDate: new Date(match.utcDate).toLocaleString(),
         homeTeam: match.homeTeam.name,
         homeEmblemUrl: match.homeTeam.crest,
         awayTeam: match.awayTeam.name,
@@ -34,6 +38,6 @@ export const getCompetitions = cache(async () => {
     })
   );
 
-  return competitions.flat(); 
+  return competitions.flat();
   // サブ配列も展開して1つの配列にしてます
 });
