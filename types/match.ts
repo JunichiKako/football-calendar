@@ -1,8 +1,9 @@
 // types/match.ts
 export type Match = {
-  id: number;
+  competitionId: number;
   competitionName: string;
   competitionImg: string; 
+  matchId: number;
   matchDate: string;
   homeTeam: string;
   homeEmblemUrl: string;

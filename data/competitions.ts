@@ -1,4 +1,4 @@
-"server-only";
+import "server-only";
 
 import { leagueIds } from "@/lib/league";
 import { league } from "@/types/league";
@@ -26,9 +26,10 @@ export const getCompetitions = cache(async () => {
       // チーム名の日本語化
       // 日付のフォーマット 25:00表記の方が日付はわかりやすい
       return league.matches.map((match) => ({
-        id: match.id,
+        competitionId: match.id,
         competitionName: match.competition.name,
         competitionImg: match.competition.emblem,
+        matchId: match.id,
         matchDate: new Date(match.utcDate).toLocaleString(),
         homeTeam: match.homeTeam.name,
         homeEmblemUrl: match.homeTeam.crest,
@@ -41,3 +42,26 @@ export const getCompetitions = cache(async () => {
   return competitions.flat();
   // サブ配列も展開して1つの配列にしてます
 });
+
+// グループ化されたリーグのデータを取得
+import { Match } from "@/types/match";
+
+export const getCompetionByGroup = async () => {
+  const competitions = await getCompetitions();
+
+  const groupedLeagues = competitions.reduce((acc, league) => {
+    const leagueName = league.competitionName;
+    if (!acc[leagueName]) {
+      acc[leagueName] = {
+        competitionId: league.competitionId,
+        competitionName: league.competitionName,
+        competitionImg: league.competitionImg,
+        matches: [],
+      };
+    }
+    acc[leagueName].matches.push(league);
+    return acc;
+  }, {} as Record<string, { competitionImg: string; competitionId: number; competitionName: string; matches: Match[] }>);
+
+  return groupedLeagues;
+};

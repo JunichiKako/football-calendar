@@ -2,7 +2,8 @@ import Image from "next/image";
 
 type MatchProps = {
   matches: {
-    id: number;
+    competitionId: number;
+    matchId: number;
     home: string;
     away: string;
     time: string;
@@ -17,7 +18,7 @@ export default function MatchCard({ matches }: MatchProps) {
       <div className="grid grid-cols-3 gap-6">
         {matches.map((match) => (
           <div
-            key={match.id}
+            key={match.matchId}
             className="w-full p-4 mt-2 shadow-lg rounded-lg flex justify-between items-center border"
           >
             <div className="flex-1">

@@ -1,22 +1,26 @@
-import Image from "next/image";
-import MatchCard from "./match-card";
 import { Match } from "@/types/match";
-import { groupLeagues } from "../utils/groupLeagues";
+import MatchCard from "./match-card";
 
-type LeagueListProps = {
-  competitionList: Match[];
+type League = {
+  competitionImg: string;
+  competitionId: number;
+  competitionName: string;
+  matches: Match[];
 };
 
-export default function LeagueList({ competitionList }: LeagueListProps) {
-  const groupedMatches = groupLeagues(competitionList);
+type CompetitionGroupProps = {
+  competitionGroup: Record<string, League>;
+};
 
+export default function LeagueList({ competitionGroup }: CompetitionGroupProps) {
   return (
     <div className="px-3">
       <div className="lg:ml-64 px-3 lg:px-8 ">
-        {Object.keys(groupedMatches).map((leagueName) => {
-          const league = groupedMatches[leagueName];
+        {Object.keys(competitionGroup).map((leagueName) => {
+          const league = competitionGroup[leagueName];
           const formattedMatches = league.matches.map((match) => ({
-            id: match.id,
+            competitionId: match.competitionId,
+            matchId: match.matchId,
             home: match.homeTeam,
             away: match.awayTeam,
             time: new Date(match.matchDate).toLocaleTimeString(),
@@ -27,13 +31,6 @@ export default function LeagueList({ competitionList }: LeagueListProps) {
           return (
             <div key={leagueName} className="mb-16 mt-6">
               <div className="flex items-center mb-8">
-                <Image
-                  src={league.competitionImg}
-                  width={28}
-                  height={28}
-                  className="object-cover"
-                  alt={`${leagueName} emblem`}
-                />
                 <h2 className="text-2xl font-bold ml-4">{leagueName}</h2>
               </div>
               <MatchCard matches={formattedMatches} />
