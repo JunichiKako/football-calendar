@@ -4,9 +4,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import { Match } from "@/types/match";
 import { Menu } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
@@ -35,6 +33,7 @@ export default function MobileNav({
   const selectedLeagues = watch("leagues");
 
   useEffect(() => {
+    
     const leagues = searchParams.get("leagues");
     if (leagues) {
       setValue("leagues", leagues.split(","));
@@ -42,11 +41,14 @@ export default function MobileNav({
   }, [searchParams, setValue]);
 
   const handleLeagueToggle = (leagueName: string) => {
+
     const newSelectedLeagues = selectedLeagues.includes(leagueName)
       ? selectedLeagues.filter((league) => league !== leagueName)
       : [...selectedLeagues, leagueName];
     setValue("leagues", newSelectedLeagues);
+
     const params = new URLSearchParams(window.location.search);
+
     if (newSelectedLeagues.length > 0) {
       params.set("leagues", newSelectedLeagues.join(","));
     } else {

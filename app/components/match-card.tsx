@@ -15,13 +15,13 @@ type MatchProps = {
 export default function MatchCard({ matches }: MatchProps) {
   return (
     <>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {matches.map((match) => (
           <div
             key={match.matchId}
             className="w-full p-4 mt-2 shadow-lg rounded-lg flex justify-between items-center border"
           >
-            <div className="flex-1">
+            <div className="flex-1 mr-2">
               <div className="flex items-center mb-3">
                 <Image
                   src={match.homeEmblemUrl}
