@@ -1,17 +1,10 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FormProvider, useForm } from "react-hook-form";
-import { z } from "zod";
-
-import { Checkbox } from "@/components/ui/checkbox";
-import { FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 import { Match } from "@/types/match";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
 type competitionByGroupProps = {
   [key: string]: {
@@ -22,35 +15,67 @@ type competitionByGroupProps = {
   };
 };
 
-const FormSchema = z.object({
-  competitionName: z.string(),
-});
+type FormValues = {
+  leagues: string[];
+};
 
 export function CheckForm({ competitionByGroup }: { competitionByGroup: competitionByGroupProps }) {
-  const { register, watch } = useForm();
-
-  const { replace } = useRouter();
-
-  const value = watch();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const { register, watch, setValue } = useForm<FormValues>({
+    defaultValues: { leagues: [] },
+  });
+  const selectedLeagues = watch("leagues");
 
   useEffect(() => {
-    const params = new URLSearchParams(value);
-    replace(`/competitions?${params.toString()}`);
-  }, [value, replace]);
+    const leagues = searchParams.get("leagues");
+    if (leagues) {
+      setValue("leagues", leagues.split(","));
+    }
+  }, [searchParams, setValue]);
+
+  const handleLeagueToggle = (leagueName: string) => {
+    const newSelectedLeagues = selectedLeagues.includes(leagueName)
+      ? selectedLeagues.filter((league) => league !== leagueName)
+      : [...selectedLeagues, leagueName];
+    setValue("leagues", newSelectedLeagues);
+    const params = new URLSearchParams(window.location.search);
+    if (newSelectedLeagues.length > 0) {
+      params.set("leagues", newSelectedLeagues.join(","));
+    } else {
+      params.delete("leagues");
+    }
+    router.replace(`?${params.toString()}`);
+  };
 
   return (
-    <form className="space-y-8">
-      {Object.entries(competitionByGroup).map(([key, value]) => {
-        const { competitionName } = value;
-        return (
-          <div key={key}>
-            <FormItem className="flex">
-              <Label>{competitionName}</Label>
-              <Input type="checkbox" {...register} />
-            </FormItem>
-          </div>
-        );
-      })}
-    </form>
+    <div className="flex">
+      <aside className="">
+        {Object.keys(competitionByGroup).map((leagueName) => {
+          const league = competitionByGroup[leagueName];
+          return (
+            <div key={league.competitionId} className="hover:bg-gray-100 p-2 rounded-lg cursor-pointer">
+              <label className="flex gap-4 items-center">
+                <input
+                  type="checkbox"
+                  value={leagueName}
+                  {...register("leagues")}
+                  checked={selectedLeagues.includes(leagueName)}
+                  onChange={() => handleLeagueToggle(leagueName)}
+                  className="form-checkbox h-4 w-4"
+                />
+                <Image
+                  src={league.competitionImg}
+                  alt={league.competitionName}
+                  width={32}
+                  height={32}
+                />
+                <span className="">{league.competitionName}</span>
+              </label>
+            </div>
+          );
+        })}
+      </aside>
+    </div>
   );
 }

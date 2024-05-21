@@ -1,3 +1,7 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Match } from "@/types/match";
 import MatchCard from "./match-card";
 
@@ -13,11 +17,31 @@ type CompetitionGroupProps = {
 };
 
 export default function LeagueList({ competitionGroup }: CompetitionGroupProps) {
+  const searchParams = useSearchParams();
+
+  const [filteredLeagues, setFilteredLeagues] = useState<Record<string, League>>(competitionGroup);
+
+  useEffect(() => {
+    const leaguesParam = searchParams.get("leagues");
+    if (leaguesParam) {
+      const selectedLeagues = leaguesParam.split(",");
+      const filtered = Object.keys(competitionGroup).reduce((acc, leagueName) => {
+        if (selectedLeagues.includes(leagueName)) {
+          acc[leagueName] = competitionGroup[leagueName];
+        }
+        return acc;
+      }, {} as Record<string, League>);
+      setFilteredLeagues(filtered);
+    } else {
+      setFilteredLeagues(competitionGroup);
+    }
+  }, [searchParams, competitionGroup]);
+
   return (
     <div className="px-3">
       <div className="lg:ml-64 px-3 lg:px-8 ">
-        {Object.keys(competitionGroup).map((leagueName) => {
-          const league = competitionGroup[leagueName];
+        {Object.keys(filteredLeagues).map((leagueName) => {
+          const league = filteredLeagues[leagueName];
           const formattedMatches = league.matches.map((match) => ({
             competitionId: match.competitionId,
             matchId: match.matchId,

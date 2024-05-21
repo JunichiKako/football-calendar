@@ -1,11 +1,60 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { dummyNavList } from "@/data/dummy-navlist";
+import { Match } from "@/types/match";
 import { Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 
-export default function MobileNav() {
+type competitionByGroupProps = {
+  [key: string]: {
+    competitionId: number;
+    competitionName: string;
+    competitionImg: string;
+    matches: Match[];
+  };
+};
+type FormValues = {
+  leagues: string[];
+};
+
+export default function MobileNav({
+  competitionByGroup,
+}: {
+  competitionByGroup: competitionByGroupProps;
+}) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const { register, watch, setValue } = useForm<FormValues>({
+    defaultValues: { leagues: [] },
+  });
+  const selectedLeagues = watch("leagues");
+
+  useEffect(() => {
+    const leagues = searchParams.get("leagues");
+    if (leagues) {
+      setValue("leagues", leagues.split(","));
+    }
+  }, [searchParams, setValue]);
+
+  const handleLeagueToggle = (leagueName: string) => {
+    const newSelectedLeagues = selectedLeagues.includes(leagueName)
+      ? selectedLeagues.filter((league) => league !== leagueName)
+      : [...selectedLeagues, leagueName];
+    setValue("leagues", newSelectedLeagues);
+    const params = new URLSearchParams(window.location.search);
+    if (newSelectedLeagues.length > 0) {
+      params.set("leagues", newSelectedLeagues.join(","));
+    } else {
+      params.delete("leagues");
+    }
+    router.replace(`?${params.toString()}`);
+  };
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -17,23 +66,37 @@ export default function MobileNav() {
         <SheetHeader>
           <SheetTitle>リーグを選ぶ</SheetTitle>
         </SheetHeader>
-        <nav className="mt-2 overflow-auto">
-          <ul>
-            {/* {dummyNavList.map((item) => (
-              <li key={item.title}>
-                <Link
-                  href={item.url}
-                  className="flex items-center py-4 px-2 rounded-lg hover:bg-gray-100"
+        <div className="mt-2 overflow-auto">
+          <div>
+            {Object.keys(competitionByGroup).map((leagueName) => {
+              const league = competitionByGroup[leagueName];
+              return (
+                <div
+                  key={league.competitionId}
+                  className="hover:bg-gray-100 p-2 rounded-lg cursor-pointer"
                 >
-                  <div className="flex">
-                    <Image src={item.img} width={30} height={30} className="object-cover" alt="" />
-                    <span className="ml-4 text-s">{item.title}</span>
-                  </div>
-                </Link>
-              </li>
-            ))} */}
-          </ul>
-        </nav>
+                  <label className="flex gap-4 items-center">
+                    <input
+                      type="checkbox"
+                      value={leagueName}
+                      {...register("leagues")}
+                      checked={selectedLeagues.includes(leagueName)}
+                      onChange={() => handleLeagueToggle(leagueName)}
+                      className="form-checkbox h-4 w-4"
+                    />
+                    <Image
+                      src={league.competitionImg}
+                      alt={league.competitionName}
+                      width={32}
+                      height={32}
+                    />
+                    <span className="">{league.competitionName}</span>
+                  </label>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </SheetContent>
     </Sheet>
   );

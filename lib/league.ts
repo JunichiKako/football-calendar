@@ -9,20 +9,20 @@ export const leagues = [
     league: "チャンピオンズリーグ",
   },
   {
-    id: 2015,
-    league: "リーグ１",
-  },
-  {
     id: 2002,
     league: "ブンデスリーガ",
+  },
+  {
+    id: 2014,
+    league: "ラ・リーガ",
   },
   {
     id: 2019,
     league: "セリエA",
   },
   {
-    id: 2014,
-    league: "ラ・リーガ",
+    id: 2015,
+    league: "リーグ１",
   },
 ];
 
