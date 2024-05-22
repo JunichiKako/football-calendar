@@ -21,7 +21,7 @@ export default async function Header() {
           <span className="flex-1"></span>
           <Button variant="outline" asChild>
             <Link href="/signin" className="">
-              サインイン
+              Sign in
             </Link>
           </Button>
           {/* <UserMenu /> */}

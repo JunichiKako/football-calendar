@@ -1,9 +1,6 @@
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Footer from "../components/footer";
-import Header from "../components/header";
-import Sidebar from "../components/sidebar";
 import { ThemeProvider } from "../components/theme-provider";
 import "./globals.css";
 
@@ -28,10 +25,7 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          <Sidebar />
           {children}
-          <Footer />
         </ThemeProvider>
       </body>
     </html>
