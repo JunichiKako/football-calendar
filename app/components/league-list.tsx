@@ -1,8 +1,5 @@
-"use client";
-
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
 import { Match } from "@/types/match";
+import Image from "next/image";
 import MatchCard from "./match-card";
 
 type League = {
@@ -14,48 +11,42 @@ type League = {
 
 type CompetitionGroupProps = {
   competitionGroup: Record<string, League>;
+  selectedLeagues: string[];
 };
 
-export default function LeagueList({ competitionGroup }: CompetitionGroupProps) {
-  const searchParams = useSearchParams();
+export default function LeagueList({ competitionGroup, selectedLeagues }: CompetitionGroupProps) {
 
-  const [filteredLeagues, setFilteredLeagues] = useState<Record<string, League>>(competitionGroup);
-
-  useEffect(() => {
-    const leaguesParam = searchParams.get("leagues");
-    if (leaguesParam) {
-      const selectedLeagues = leaguesParam.split(",");
-      const filtered = Object.keys(competitionGroup).reduce((acc, leagueName) => {
-        if (selectedLeagues.includes(leagueName)) {
-          acc[leagueName] = competitionGroup[leagueName];
-        }
-        return acc;
-      }, {} as Record<string, League>);
-      setFilteredLeagues(filtered);
-    } else {
-      setFilteredLeagues(competitionGroup);
-    }
-  }, [searchParams, competitionGroup]);
+  const leaguesToDisplay =
+    selectedLeagues.length > 0
+      ? Object.keys(competitionGroup).filter((leagueName) => selectedLeagues.includes(leagueName))
+      : Object.keys(competitionGroup);
 
   return (
-    <div className="px-3">
-      <div className="lg:ml-64 px-3 lg:px-8 ">
-        {Object.keys(filteredLeagues).map((leagueName) => {
-          const league = filteredLeagues[leagueName];
+    <div className="">
+      <div className="">
+        {leaguesToDisplay.map((leagueName) => {
+          const league = competitionGroup[leagueName];
           const formattedMatches = league.matches.map((match) => ({
-            competitionId: match.competitionId,
+            competitionImg: league.competitionImg,
             matchId: match.matchId,
+            matchDate: match.matchDate,
+            matchTime: match.matchTime,
             home: match.homeTeam,
             away: match.awayTeam,
-            time: new Date(match.matchDate).toLocaleTimeString(),
             homeEmblemUrl: match.homeEmblemUrl,
             awayEmblemUrl: match.awayEmblemUrl,
           }));
 
           return (
             <div key={leagueName} className="mb-16 mt-6">
-              <div className="flex items-center mb-8">
-                <h2 className="text-2xl font-bold ml-4">{leagueName}</h2>
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-2xl font-bold">{league.competitionName}</h2>
+                <Image
+                  src={league.competitionImg}
+                  alt={`${leagueName} logo`}
+                  width={72}
+                  height={30}
+                />
               </div>
               <MatchCard matches={formattedMatches} />
             </div>

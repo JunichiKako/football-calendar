@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
 import { Match } from "@/types/match";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 
 type competitionByGroupProps = {
   [key: string]: {
@@ -20,9 +19,7 @@ type FormValues = {
 };
 
 export function CheckForm({ competitionByGroup }: { competitionByGroup: competitionByGroupProps }) {
-  // 現状んのクエリパラメータを取得
-  const searchParams = useSearchParams();
-  // ルーターを取得
+  // 現状のクエリパラメータを取得
   const router = useRouter();
   const { register, watch, setValue } = useForm<FormValues>({
     defaultValues: { leagues: [] },
@@ -30,14 +27,6 @@ export function CheckForm({ competitionByGroup }: { competitionByGroup: competit
 
   // defaultValues: { leagues: [] } で初期値を設定・監視している
   const selectedLeagues = watch("leagues");
-
-  // searchparamsに変更があった場合に、setValueで値を更新
-  useEffect(() => {
-    const leagues = searchParams.get("leagues");
-    if (leagues) {
-      setValue("leagues", leagues.split(","));
-    }
-  }, [searchParams, setValue]);
 
   const handleLeagueToggle = (leagueName: string) => {
     // 現在の選択状態に基づいて新しい選択状態を決定
@@ -76,7 +65,6 @@ export function CheckForm({ competitionByGroup }: { competitionByGroup: competit
                   // registerでleaguesというフォームフィールドを登録
                   {...register("leagues")}
                   // チェックした時にその部分のリーグ名を追加し、その上でhandleLeagueToggleを実行
-                  checked={selectedLeagues.includes(leagueName)}
                   onChange={() => handleLeagueToggle(leagueName)}
                   className="form-checkbox h-4 w-4"
                 />

@@ -2,11 +2,11 @@ import Image from "next/image";
 
 type MatchProps = {
   matches: {
-    competitionId: number;
     matchId: number;
+    matchDate: string;
+    matchTime: string;
     home: string;
     away: string;
-    time: string;
     homeEmblemUrl: string;
     awayEmblemUrl: string;
   }[];
@@ -21,7 +21,7 @@ export default function MatchCard({ matches }: MatchProps) {
             key={match.matchId}
             className="w-full p-4 mt-2 shadow-lg rounded-lg flex justify-between items-center border"
           >
-            <div className="flex-1 mr-2">
+            <div className="flex-1">
               <div className="flex items-center mb-3">
                 <Image
                   src={match.homeEmblemUrl}
@@ -44,7 +44,10 @@ export default function MatchCard({ matches }: MatchProps) {
               </div>
             </div>
             <div className="border-l-2 border-gray-300 h-10"></div>
-            <div className="pl-4 text-sm font-semibold">{match.time}</div>
+            <div className="flex flex-col items-center">
+              <div className="pl-5 text-xs mb-2">{match.matchDate}</div>
+              <div className="pl-5 text-xs font-semibold ">{match.matchTime}</div>
+            </div>
           </div>
         ))}
       </div>
