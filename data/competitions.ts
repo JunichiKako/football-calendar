@@ -1,32 +1,14 @@
 import "server-only";
 
-// グループ化されたリーグのデータを取得
 import { Match } from "@/types/match";
 import { leagueIds } from "@/lib/league";
 import { league } from "@/types/league";
 import { cache } from "react";
 import { teamTranslations } from "@/data/translations"; // 翻訳マッピングをインポート
-
-// 本日から1週間後の日付を取得する関数
-const getDateRange = () => {
-  const today = new Date();
-  const oneWeekLater = new Date(today);
-  oneWeekLater.setDate(today.getDate() + 7);
-
-  const formatDate = (date: Date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
-
-  return {
-    dateFrom: formatDate(today),
-    dateTo: formatDate(oneWeekLater),
-  };
-};
+import getDateRange from "@/utils/getDate";
 
 export const getCompetitions = cache(async () => {
+  // 1週間後の日付を取得
   // const { dateFrom, dateTo } = getDateRange();
 
   const competitions = await Promise.all(

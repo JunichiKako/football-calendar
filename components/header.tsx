@@ -24,7 +24,7 @@ export default async function Header() {
               Sign in
             </Link>
           </Button>
-          {/* <UserMenu /> */}
+          <UserMenu />
         </div>
       </div>
     </header>
