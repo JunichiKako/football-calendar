@@ -1,6 +1,7 @@
 import { Match } from "@/types/match";
 import getDateRange, { formatDateForDisplay } from "@/utils/getDate";
 import MatchCard from "./match-card";
+import { Calendar, CalendarClock } from "lucide-react";
 
 type League = {
   seasonStartYear: number;
@@ -53,9 +54,12 @@ export default function LeagueList({ competitionGroup, selectedLeagues }: Compet
                   <h2 className="text-2xl font-bold">{league.competitionName}</h2>
                 </div>
               </div>
-              <p className="text-sm text-gray-500">
-                {displayFrom} - {displayTo}
-              </p>
+              <div className="flex gap-2 items-end">
+                <Calendar className="text-gray-500 h-5 w-5" />
+                <p className="text-sm text-gray-500">
+                  {displayFrom} - {displayTo}
+                </p>
+              </div>
             </div>
             <MatchCard matches={formattedMatches} />
           </div>
