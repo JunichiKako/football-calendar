@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import MobileNav from "./mobile-nav";
-import UserMenu from "./user-menu";
+import { SignInButton, SignOutButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { getCompetionByGroup } from "@/data/competitions";
 
 export default async function Header() {
@@ -19,12 +19,24 @@ export default async function Header() {
             </Link>
           </Button>
           <span className="flex-1"></span>
-          <Button variant="outline" asChild>
-            <Link href="/signin" className="">
-              Sign in
-            </Link>
-          </Button>
-          <UserMenu />
+          <SignedOut>
+            <SignInButton>
+              <Button>ログイン</Button>
+            </SignInButton>
+          </SignedOut>
+
+          <SignedIn>
+            <SignOutButton redirectUrl="/">
+              <Button>ログアウト</Button>
+            </SignOutButton>
+
+            <Button asChild>
+              {/* aタグを使っている理由は？ targetのため？ */}
+              <a target="_blank" href="https://sweet-finch-67.accounts.dev/user?redirect_url=/">
+                アカウントポータル
+              </a>
+            </Button>
+          </SignedIn>
         </div>
       </div>
     </header>

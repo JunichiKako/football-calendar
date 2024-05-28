@@ -1,7 +1,7 @@
 import "server-only";
 
 import { Match } from "@/types/match";
-import { leagueIds } from "@/lib/league";
+import { leagueIds } from "@/data/leagueId";
 import { league } from "@/types/league";
 import { cache } from "react";
 import { teamTranslations } from "@/data/translations"; // 翻訳マッピングをインポート
