@@ -58,23 +58,39 @@ export function CheckForm({ competitionByGroup }: { competitionByGroup: competit
               key={league.competitionId}
               className="hover:bg-gray-100 p-2 rounded-lg cursor-pointer"
             >
-              <label className="flex gap-4 items-center">
+              <label className="cursor-pointer flex items-center gap-3">
                 <input
                   type="checkbox"
                   value={leagueName}
-                  // registerでleaguesというフォームフィールドを登録
                   {...register("leagues")}
-                  // チェックした時にその部分のリーグ名を追加し、その上でhandleLeagueToggleを実行
                   onChange={() => handleLeagueToggle(leagueName)}
-                  className="form-checkbox h-4 w-4"
+                  className="hidden"
                 />
+                <div className="w-4 h-4 flex items-center justify-center border border-gray-300 rounded-full transition-colors duration-300">
+                  {selectedLeagues.includes(leagueName) && (
+                    <svg
+                      className="w-8 h-8 text-blue-700"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M5 13l4 4L19 7"
+                      ></path>
+                    </svg>
+                  )}
+                </div>
                 <Image
                   src={league.competitionImg}
                   alt={league.competitionName}
                   width={32}
                   height={32}
                 />
-                <span className="">{league.competitionName}</span>
+                <span className="ml-2 text-gray-700">{league.competitionName}</span>
               </label>
             </div>
           );

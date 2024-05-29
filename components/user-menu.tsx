@@ -1,15 +1,6 @@
 "use client";
 
-import {
-  CircleUser,
-  CreditCard,
-  LogOut,
-  Moon,
-  PlusCircle,
-  Settings,
-  Sun,
-  User,
-} from "lucide-react";
+import { CircleUser, LogOut, LogOutIcon, Settings, User } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,25 +9,24 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useTheme } from "next-themes";
+import { SignOutButton } from "@clerk/nextjs";
 
-export default function UserMenu() {
-  const { setTheme } = useTheme();
+type UserImageProps = {
+  imageUrl: string | undefined;
+};
+
+export default function UserMenu({ imageUrl }: UserImageProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon" className="rounded-full">
           <Avatar>
-            <AvatarImage src="/user-logo.png" alt="@shadcn" />
+            <AvatarImage src={imageUrl} alt="@shadcn" />
             {/* アバターの初期画像は人のアイコンでもいいかも */}
             <AvatarFallback>
               <CircleUser size="icon" className="text-gray-400" />
@@ -45,54 +35,22 @@ export default function UserMenu() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" sideOffset={8} className="w-56">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel>アカウント情報</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
+            <a target="_blank" href="https://delicate-urchin-20.accounts.dev/user?=redirect_url=/">
+              <span>Profile</span>
+            </a>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <CreditCard className="mr-2 h-4 w-4" />
-            <span>Billing</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
+            <LogOutIcon className="mr-2 h-4 w-4" />
+            <SignOutButton redirectUrl="/">
+              Logout
+            </SignOutButton>
           </DropdownMenuItem>
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
-              <Moon className="mr-2 h-4 w-4" />
-              <span>Mode</span>
-            </DropdownMenuSubTrigger>
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent>
-                <DropdownMenuItem onClick={() => setTheme("dark")}>
-                  <Moon className="mr-2 h-4 w-4" />
-                  <span>ダーク</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("light")}>
-                  <Sun className="mr-2 h-4 w-4" />
-                  <span>ライト</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => setTheme("system")}>
-                  <PlusCircle className="mr-2 h-4 w-4" />
-                  <span>システム</span>
-                </DropdownMenuItem>
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-          </DropdownMenuSub>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-
-        <DropdownMenuItem>
-          <LogOut className="mr-2 h-4 w-4" />
-          <span>Log out</span>
-        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
