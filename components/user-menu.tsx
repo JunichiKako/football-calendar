@@ -39,16 +39,18 @@ export default function UserMenu({ imageUrl }: UserImageProps) {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <User className="mr-2 h-4 w-4" />
-            <a target="_blank" href="https://delicate-urchin-20.accounts.dev/user?=redirect_url=/">
+            <a
+              target="_blank"
+              className="flex"
+              href="https://delicate-urchin-20.accounts.dev/user?=redirect_url=/"
+            >
+              <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
             </a>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <LogOutIcon className="mr-2 h-4 w-4" />
-            <SignOutButton redirectUrl="/">
-              Logout
-            </SignOutButton>
+            <SignOutButton redirectUrl="/">Logout</SignOutButton>
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

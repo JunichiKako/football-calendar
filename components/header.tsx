@@ -41,9 +41,6 @@ export default async function Header() {
           </SignedOut>
 
           <SignedIn>
-            <div className="mr-2">
-
-            </div>
             <div className="mt-1.5">
               <UserMenu imageUrl={imageUrl} />
             </div>
