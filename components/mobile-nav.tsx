@@ -8,11 +8,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-type competitionByGroupProps = {
+type leagueByGroupProps = {
   [key: string]: {
-    competitionId: number;
-    competitionName: string;
-    competitionImg: string;
+    leagueId: number;
+    leagueName: string;
+    leagueImg: string;
     matches: Match[];
   };
 };
@@ -20,11 +20,8 @@ type FormValues = {
   leagues: string[];
 };
 
-export default function MobileNav({
-  competitionByGroup,
-}: {
-  competitionByGroup: competitionByGroupProps;
-}) {
+export default function MobileNav({ leagueByGroup }: { leagueByGroup: leagueByGroupProps }) {
+  
   const searchParams = useSearchParams();
   const router = useRouter();
   const { register, watch, setValue } = useForm<FormValues>({
@@ -33,7 +30,6 @@ export default function MobileNav({
   const selectedLeagues = watch("leagues");
 
   useEffect(() => {
-    
     const leagues = searchParams.get("leagues");
     if (leagues) {
       setValue("leagues", leagues.split(","));
@@ -41,7 +37,7 @@ export default function MobileNav({
   }, [searchParams, setValue]);
 
   const handleLeagueToggle = (leagueName: string) => {
-
+    
     const newSelectedLeagues = selectedLeagues.includes(leagueName)
       ? selectedLeagues.filter((league) => league !== leagueName)
       : [...selectedLeagues, leagueName];
@@ -70,11 +66,11 @@ export default function MobileNav({
         </SheetHeader>
         <div className="mt-2 overflow-auto">
           <div>
-            {Object.keys(competitionByGroup).map((leagueName) => {
-              const league = competitionByGroup[leagueName];
+            {Object.keys(leagueByGroup).map((leagueName) => {
+              const league = leagueByGroup[leagueName];
               return (
                 <div
-                  key={league.competitionId}
+                  key={league.leagueId}
                   className="hover:bg-gray-100 p-2 rounded-lg cursor-pointer"
                 >
                   <label className="flex gap-4 items-center">
@@ -86,13 +82,8 @@ export default function MobileNav({
                       onChange={() => handleLeagueToggle(leagueName)}
                       className="form-checkbox h-4 w-4"
                     />
-                    <Image
-                      src={league.competitionImg}
-                      alt={league.competitionName}
-                      width={32}
-                      height={32}
-                    />
-                    <span className="">{league.competitionName}</span>
+                    <Image src={league.leagueImg} alt={league.leagueName} width={32} height={32} />
+                    <span className="">{league.leagueName}</span>
                   </label>
                 </div>
               );

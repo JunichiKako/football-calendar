@@ -1,31 +1,24 @@
 import { Button } from "@/components/ui/button";
+import { getLeagueByGroup } from "@/data/league";
+import { SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
 import Link from "next/link";
 import MobileNav from "./mobile-nav";
-import {
-  SignInButton,
-  SignOutButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-  useUser,
-} from "@clerk/nextjs";
-import { getCompetionByGroup } from "@/data/competitions";
-import UserMenu from "./user-menu";
 import { ModeToggle } from "./mode-toggle";
-import { currentUser } from "@clerk/nextjs/server";
+import UserMenu from "./user-menu";
 
 export default async function Header() {
-  const competitionByGroup = await getCompetionByGroup();
+  const leagueByGroup = await getLeagueByGroup();
 
   const user = await currentUser();
   const imageUrl = user?.imageUrl;
 
   return (
-    <header className="fixed top-0 z-50 w-full py-1.5 lg:py-3 px-2 border-b border bg-[auto_auto] bg-[#4BCBEE] ">
+    <header className="fixed top-0 z-50 w-full py-1.5 lg:py-3 px-2 border-b border  bg-[#4BCBEE] ">
       <div className="absolute inset-0 bg-gradient-to-b from-[rgba(87,138,255,1)]"></div>
       <div className="relative z-10 lg:px-5 lg:pl-3">
         <div className="flex items-center">
-          <MobileNav competitionByGroup={competitionByGroup} />
+          <MobileNav leagueByGroup={leagueByGroup} />
           <Button variant="ghost" asChild>
             <Link href="/" className="ms-2 text-xl font-semibold sm:text-2xl text-white">
               Football Table
@@ -39,13 +32,12 @@ export default async function Header() {
               </Button>
             </SignInButton>
           </SignedOut>
-
           <SignedIn>
             <div className="mt-1.5">
               <UserMenu imageUrl={imageUrl} />
             </div>
           </SignedIn>
-          <div className="ml-16">
+          <div className="ml-6">
             <ModeToggle />
           </div>
         </div>

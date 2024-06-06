@@ -10,6 +10,4 @@ export const createProfile = async (name: string) => {
       name,
     },
   ]);
-
-  console.log("action", error);
 };

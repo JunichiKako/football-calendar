@@ -1,6 +1,6 @@
 "use client";
 
-import { CircleUser, LogOut, LogOutIcon, Settings, User } from "lucide-react";
+import { CircleUser, LogOutIcon, User } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -27,7 +27,6 @@ export default function UserMenu({ imageUrl }: UserImageProps) {
         <Button variant="outline" size="icon" className="rounded-full">
           <Avatar>
             <AvatarImage src={imageUrl} alt="@shadcn" />
-            {/* アバターの初期画像は人のアイコンでもいいかも */}
             <AvatarFallback>
               <CircleUser size="icon" className="text-gray-400" />
             </AvatarFallback>
@@ -41,7 +40,7 @@ export default function UserMenu({ imageUrl }: UserImageProps) {
           <DropdownMenuItem>
             <a
               target="_blank"
-              className="flex"
+              className="flex w-full items-center"
               href="https://delicate-urchin-20.accounts.dev/user?=redirect_url=/"
             >
               <User className="mr-2 h-4 w-4" />

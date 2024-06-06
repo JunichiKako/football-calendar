@@ -2,9 +2,9 @@
 export type Match = {
   seasonStartYear: number;
   seasonEndYear: number;
-  competitionId: number;
-  competitionName: string;
-  competitionImg: string; 
+  leagueId: number;
+  leagueName: string;
+  leagueImg: string; 
   matchId: number;
   matchDate: string;
   matchTime: string;

@@ -1,152 +1,89 @@
-{
-  "filters": {
-    "season": "2023"
-  },
-  "resultSet": {
-    "count": 380,
-    "first": "2023-08-11",
-    "last": "2024-05-19",
-    "played": 370
-  },
-  "competition": {
-    "id": 2021,
-    "name": "Premier League",
-    "code": "PL",
-    "type": "LEAGUE",
-    "emblem": "https://crests.football-data.org/PL.png"
-  },
-  "matches": [
-    {
-      "area": {
-        "id": 2072,
-        "name": "England",
-        "code": "ENG",
-        "flag": "https://crests.football-data.org/770.svg"
-      },
-      "competition": {
-        "id": 2021,
-        "name": "Premier League",
-        "code": "PL",
-        "type": "LEAGUE",
-        "emblem": "https://crests.football-data.org/PL.png"
-      },
-      "season": {
-        "id": 1564,
-        "startDate": "2023-08-11",
-        "endDate": "2024-05-19",
-        "currentMatchday": 37,
-        "winner": null
-      },
-      "id": 435943,
-      "utcDate": "2023-08-11T19:00:00Z",
-      "status": "FINISHED",
-      "matchday": 1,
-      "stage": "REGULAR_SEASON",
-      "group": null,
-      "lastUpdated": "2024-05-16T00:21:15Z",
-      "homeTeam": {
-        "id": 328,
-        "name": "Burnley FC",
-        "shortName": "Burnley",
-        "tla": "BUR",
-        "crest": "https://crests.football-data.org/328.png"
-      },
-      "awayTeam": {
-        "id": 65,
-        "name": "Manchester City FC",
-        "shortName": "Man City",
-        "tla": "MCI",
-        "crest": "https://crests.football-data.org/65.png"
-      },
-      "score": {
-        "winner": "AWAY_TEAM",
-        "duration": "REGULAR",
-        "fullTime": {
-          "home": 0,
-          "away": 3
-        },
-        "halfTime": {
-          "home": 0,
-          "away": 2
-        }
-      },
-      "odds": {
-        "msg": "Activate Odds-Package in User-Panel to retrieve odds."
-      },
-      "referees": [
+import "server-only";
+
+import { Match } from "@/types/match";
+import { leagueIds } from "@/data/leagueId";
+import { league } from "@/types/league";
+import { cache } from "react";
+import { teamTranslations } from "@/data/translations";
+// ここは、今はシーズンオフなのでコメントアウトしています。
+import getDateRange from "@/utils/getDate";
+
+export const getleagues = cache(async () => {
+  // 1週間後の日付を取得
+  // const { dateFrom, dateTo } = getDateRange();
+
+  const leagues = await Promise.all(
+    // leagueIdsは任意のリーグIDの配列
+    leagueIds.map(async (id) => {
+      const res = await fetch(
+        `https://api.football-data.org/v4/competitions/${id}/matches?season=2023&dateFrom=2024-05-18&dateTo=2024-05-19`,
         {
-          "id": 11585,
-          "name": "Craig Pawson",
-          "type": "REFEREE",
-          "nationality": "England"
+          method: "GET",
+          headers: {
+            "X-Auth-Token": process.env.NEXT_PUBLIC_FOOTBALL_API_KEY!,
+          },
         }
-      ]
-    },
-    {
-      "area": {
-        "id": 2072,
-        "name": "England",
-        "code": "ENG",
-        "flag": "https://crests.football-data.org/770.svg"
-      },
-      "competition": {
-        "id": 2021,
-        "name": "Premier League",
-        "code": "PL",
-        "type": "LEAGUE",
-        "emblem": "https://crests.football-data.org/PL.png"
-      },
-      "season": {
-        "id": 1564,
-        "startDate": "2023-08-11",
-        "endDate": "2024-05-19",
-        "currentMatchday": 37,
-        "winner": null
-      },
-      "id": 435944,
-      "utcDate": "2023-08-12T12:00:00Z",
-      "status": "FINISHED",
-      "matchday": 1,
-      "stage": "REGULAR_SEASON",
-      "group": null,
-      "lastUpdated": "2023-09-19T20:20:30Z",
-      "homeTeam": {
-        "id": 57,
-        "name": "Arsenal FC",
-        "shortName": "Arsenal",
-        "tla": "ARS",
-        "crest": "https://crests.football-data.org/57.png"
-      },
-      "awayTeam": {
-        "id": 351,
-        "name": "Nottingham Forest FC",
-        "shortName": "Nottingham",
-        "tla": "NOT",
-        "crest": "https://crests.football-data.org/351.png"
-      },
-      "score": {
-        "winner": "HOME_TEAM",
-        "duration": "REGULAR",
-        "fullTime": {
-          "home": 2,
-          "away": 1
-        },
-        "halfTime": {
-          "home": 2,
-          "away": 0
-        }
-      },
-      "odds": {
-        "msg": "Activate Odds-Package in User-Panel to retrieve odds."
-      },
-      "referees": [
-        {
-          "id": 11605,
-          "name": "Michael Oliver",
-          "type": "REFEREE",
-          "nationality": "England"
-        }
-      ]
+      );
+      // league.tsの型をleagueに事前設定
+      const league: league = await res.json();
+
+      return league.matches.map((match) => {
+        const matchDateTime = new Date(match.utcDate);
+        const matchDate = matchDateTime.toLocaleDateString("ja-JP", {
+          month: "numeric",
+          day: "numeric",
+          weekday: "short",
+        });
+        const matchTime = matchDateTime.toLocaleTimeString("ja-JP", {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+        const seasonStartYear = new Date(match.season.startDate).getFullYear();
+        const seasonEndYear = new Date(match.season.endDate).getFullYear();
+
+        // チーム名を分かりやすい名前に変換
+        const homeTeam = teamTranslations[match.homeTeam.name] || match.homeTeam.name;
+        const awayTeam = teamTranslations[match.awayTeam.name] || match.awayTeam.name;
+
+        return {
+          seasonStartYear: seasonStartYear,
+          seasonEndYear: seasonEndYear,
+          leagueId: match.competition.id,
+          leagueName: match.competition.name,
+          leagueImg: match.competition.emblem,
+          matchId: match.id,
+          matchDate: matchDate,
+          matchTime: matchTime,
+          homeTeam: homeTeam,
+          homeEmblemUrl: match.homeTeam.crest,
+          awayTeam: awayTeam,
+          awayEmblemUrl: match.awayTeam.crest,
+        };
+      });
+    })
+  );
+
+  return leagues.flat();
+  // サブ配列も展開して1つの配列にしてます
+});
+
+// leagueの名前でグループ化されたリーグのデータを取得する関数
+export const getLeagueByGroup = async () => {
+  const leagues = await getleagues();
+
+  const groupedLeagues = leagues.reduce((acc, league) => {
+    const leagueName = league.leagueName;
+    if (!acc[leagueName]) {
+      acc[leagueName] = {
+        leagueId: league.leagueId,
+        leagueName: league.leagueName,
+        leagueImg: league.leagueImg,
+        matches: [],
+      };
     }
-  ]
-}
+    acc[leagueName].matches.push(league);
+    return acc;
+  }, {} as Record<string, { leagueImg: string; leagueId: number; leagueName: string; matches: Match[] }>);
+
+  return groupedLeagues;
+};
