@@ -20,7 +20,7 @@ export const getleagues = cache(async () => {
         {
           method: "GET",
           headers: {
-            "X-Auth-Token": process.env.NEXT_PUBLIC_FOOTBALL_API_KEY!,
+            "X-Auth-Token": process.env.FOOTBALL_API_KEY!,
           },
         }
       );
