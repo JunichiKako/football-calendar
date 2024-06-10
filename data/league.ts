@@ -8,7 +8,7 @@ import { teamTranslations } from "@/data/translations";
 // ここは、今はシーズンオフなのでコメントアウトしています。
 import getDateRange from "@/utils/getDate";
 
-export const getleagues = cache(async () => {
+export const getLeagues = cache(async () => {
   // 1週間後の日付を取得
   // const { dateFrom, dateTo } = getDateRange();
 
@@ -69,7 +69,7 @@ export const getleagues = cache(async () => {
 
 // leagueの名前でグループ化されたリーグのデータを取得する関数
 export const getLeagueByGroup = async () => {
-  const leagues = await getleagues();
+  const leagues = await getLeagues();
 
   const groupedLeagues = leagues.reduce((acc, league) => {
     const leagueName = league.leagueName;
