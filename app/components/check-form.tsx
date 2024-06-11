@@ -2,7 +2,8 @@
 
 import { Match } from "@/types/match";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 type LeagueByGroupProps = {
@@ -21,9 +22,17 @@ type FormValues = {
 export function CheckForm({ leagueByGroup }: { leagueByGroup: LeagueByGroupProps }) {
   // 現状のクエリパラメータを取得
   const router = useRouter();
-  const { register, watch, setValue } = useForm<FormValues>({
-    defaultValues: { leagues: [] },
+  const searchParams = useSearchParams();
+  const paramsLeagues = searchParams.get("leagues");
+  const { register, watch, setValue, reset } = useForm<FormValues>({
+    defaultValues: { leagues: searchParams.get("leagues")?.split(",") || [] },
   });
+
+  useEffect(() => {
+    if (paramsLeagues) {
+      reset({ leagues: paramsLeagues.split(",") });
+    }
+  }, [paramsLeagues, reset]);
 
   const selectedLeagues = watch("leagues");
 
