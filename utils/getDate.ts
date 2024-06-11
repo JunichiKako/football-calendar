@@ -23,7 +23,7 @@ export function formatDateForDisplay(dateFrom: string, dateTo: string) {
   const [, toMonth, toDay] = dateTo.split("-");
 
   return {
-    displayFrom: `${fromYear}-${fromMonth}-${fromDay}`,
-    displayTo: `${toMonth}-${toDay}`,
+    displayFrom: `${fromYear}/${fromMonth}/${fromDay}`,
+    displayTo: `${toMonth}/${toDay}`,
   };
 }
