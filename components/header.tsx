@@ -14,7 +14,7 @@ export default async function Header() {
   const imageUrl = user?.imageUrl;
 
   return (
-    <header className="fixed top-0 z-50 w-full py-1.5 lg:py-3 px-2 border-b border  bg-[#4BCBEE] ">
+    <header className="fixed top-0 z-50 w-full py-1.5 lg:py-3 px-2 border-b bg-[#4BCBEE] ">
       <div className="absolute inset-0 bg-gradient-to-b from-[rgba(87,138,255,1)]"></div>
       <div className="relative z-10 lg:px-5 lg:pl-3">
         <div className="flex items-center">
