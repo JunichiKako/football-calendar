@@ -47,7 +47,7 @@ export default async function LeagueList({ selectedLeagues }: CompetitionGroupPr
               </div>
               <div className="flex gap-2 items-end">
                 <Calendar className="text-gray-500 h-5 w-5" />
-                <p className="text-xs lg:text-sm text-gray-500">
+                <p className="text-sm text-gray-500">
                   {displayFrom} - {displayTo}
                 </p>
               </div>

@@ -28,7 +28,7 @@ export default function MatchCard({ matches }: MatchProps) {
                   width={24}
                   height={24}
                   alt={match.home}
-                  className="mr-2"
+                  className="size-6 mr-2"
                 />
                 <p className="text-xs font-semibold">{match.home}</p>
               </div>
@@ -38,7 +38,7 @@ export default function MatchCard({ matches }: MatchProps) {
                   width={24}
                   height={24}
                   alt={match.away}
-                  className="mr-2"
+                  className="size-6 mr-2"
                 />
                 <p className="text-xs font-semibold">{match.away}</p>
               </div>
