@@ -55,7 +55,7 @@ export function CheckForm({ leagueByGroup }: { leagueByGroup: LeagueByGroupProps
         {Object.keys(leagueByGroup).map((leagueName) => {
           const league = leagueByGroup[leagueName];
           return (
-            <div key={league.leagueId} className="hover:bg-gray-100 p-2 rounded-lg cursor-pointer">
+            <div key={league.leagueId} className="hover:bg-accent p-2 rounded-lg cursor-pointer">
               <label className="cursor-pointer flex items-center gap-3">
                 <input
                   type="checkbox"
@@ -64,10 +64,10 @@ export function CheckForm({ leagueByGroup }: { leagueByGroup: LeagueByGroupProps
                   onChange={() => handleLeagueToggle(leagueName)}
                   className="hidden"
                 />
-                <div className="w-4 h-4 flex items-center justify-center border border-gray-300 rounded-full transition-colors duration-300">
+                <div className="size-4 flex items-center justify-center border border-gray-300 rounded-full transition-colors duration-300">
                   {selectedLeagues.includes(leagueName) && (
                     <svg
-                      className="w-8 h-8 text-blue-700"
+                      className="size-8 text-blue-700"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -82,8 +82,10 @@ export function CheckForm({ leagueByGroup }: { leagueByGroup: LeagueByGroupProps
                     </svg>
                   )}
                 </div>
-                <Image src={league.leagueImg} alt={league.leagueName} width={32} height={32} />
-                <span className="ml-2 text-gray-700">{league.leagueName}</span>
+                <div className="size-10 bg-white rounded-lg grid place-items-center">
+                  <Image src={league.leagueImg} alt={league.leagueName} width={32} height={32} />
+                </div>
+                <p className="ml-2 text-muted-foreground">{league.leagueName}</p>
               </label>
             </div>
           );

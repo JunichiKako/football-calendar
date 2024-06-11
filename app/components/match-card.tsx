@@ -30,7 +30,7 @@ export default function MatchCard({ matches }: MatchProps) {
                   alt={match.home}
                   className="mr-2"
                 />
-                <span className="text-xs font-semibold">{match.home}</span>
+                <p className="text-xs font-semibold">{match.home}</p>
               </div>
               <div className="flex items-center">
                 <Image
@@ -40,10 +40,10 @@ export default function MatchCard({ matches }: MatchProps) {
                   alt={match.away}
                   className="mr-2"
                 />
-                <span className="text-xs font-semibold">{match.away}</span>
+                <p className="text-xs font-semibold">{match.away}</p>
               </div>
             </div>
-            <div className="border-l-2 border-gray-300 h-10"></div>
+            <div className="border-l-2 border-border h-10"></div>
             <div className="flex flex-col items-center">
               <div className="pl-5 text-xs mb-2">{match.matchDate}</div>
               <div className="pl-5 text-xs font-semibold ">{match.matchTime}</div>

@@ -12,7 +12,7 @@ export default async function LeagueList({ selectedLeagues }: CompetitionGroupPr
   const leagueGroup = await getLeagueByGroup();
 
   // leagueの名前で選択されたリーグのデータを取得
-  const leaguesToDisplay =
+  const filteredLeagues =
     selectedLeagues.length > 0
       ? Object.keys(leagueGroup).filter((leagueName) => selectedLeagues.includes(leagueName))
       : Object.keys(leagueGroup);
@@ -23,7 +23,7 @@ export default async function LeagueList({ selectedLeagues }: CompetitionGroupPr
 
   return (
     <>
-      {leaguesToDisplay.map((leagueName) => {
+      {filteredLeagues.map((leagueName) => {
         const league = leagueGroup[leagueName];
         const formattedMatches = league.matches.map((match) => ({
           leagueImg: league.leagueImg,
