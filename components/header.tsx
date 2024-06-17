@@ -28,7 +28,7 @@ export default async function Header() {
           <SignedOut>
             <SignInButton>
               <Button variant="ghost" className="text-background">
-                Login
+                ログイン
               </Button>
             </SignInButton>
           </SignedOut>
