@@ -16,7 +16,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function Page() {
   return (
-    <div className="ml-80 mt-40 w-[800px]">
+    <div className="mt-36 mb-20 mx-auto w-[900px]">
       <Calendar>
         <div className="flex items-center gap-2 mb-4">
           <Button size="sm" variant="ghost" asChild>

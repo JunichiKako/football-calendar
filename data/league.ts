@@ -87,3 +87,17 @@ export const getLeagueByGroup = async () => {
 
   return groupedLeagues;
 };
+
+
+// すべての試合を時系列順に取得する関数
+export const getTimeMatches = async () => {
+  // リーグごとの試合データを取得
+  const leagues = await getLeagues();
+
+  // 試合データを日付と時間でソート
+  return leagues.sort((a, b) => {
+    const dateTimeA = new Date(`${a.matchDate} ${a.matchTime}`);
+    const dateTimeB = new Date(`${b.matchDate} ${b.matchTime}`);
+    return dateTimeA.getTime() - dateTimeB.getTime();
+  });
+};
