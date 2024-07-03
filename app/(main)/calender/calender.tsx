@@ -37,6 +37,7 @@ import {
 } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
+
 type View = "day" | "week" | "month" | "year";
 
 type ContextType = {
@@ -55,6 +56,7 @@ type ContextType = {
 
 const Context = createContext<ContextType>({} as ContextType);
 
+// ここにチーム名とかの型を今後追加する？
 type Event = {
   id: string;
   start: Date;
@@ -70,6 +72,7 @@ type CalendarProps = {
   enableHotkeys?: boolean;
 };
 
+// カレンダー自体の挙動を管理するコンポーネント
 const Calendar = ({
   children,
   defaultDate = new Date(),
@@ -85,12 +88,15 @@ const Calendar = ({
   ],
 }: CalendarProps) => {
   const searchParams = useSearchParams();
+  // URLのクエリパラメータからviewを取得している。なければデフォルトでmonthを表示する
   const [view, setView] = useState<View>((searchParams.get("view") as View) || "month");
   const [date, setDate] = useState(defaultDate);
   const [events, setEvents] = useState<Event[]>(defaultEvents);
   const router = useRouter();
+  // 現在のURLのパスを取得
   const pathname = usePathname();
 
+  // usecallbackで関数を再レンダリング時に再生成しないようにしている
   const addEvent = useCallback((event: Event) => {
     setEvents((prev) => [...prev, event]);
   }, []);
@@ -99,27 +105,31 @@ const Calendar = ({
     setEvents((prev) => prev.filter((event) => event.id !== id));
   }, []);
 
+  // SearchParmasを変数paramsに格納して、viewの値をセットしている
+  // その後、router.replaceでURLを更新している
+
+  // routerの値が変わるたびに実行されるのはなぜ？
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
     params.set("view", view);
     router.replace(`${pathname}?${params.toString()}`);
   }, [view, searchParams, router, pathname]);
 
-  useHotkeys("m", () => setView("month"), {
-    enabled: enableHotkeys,
-  });
+  // useHotkeys("m", () => setView("month"), {
+  //   enabled: enableHotkeys,
+  // });
 
-  useHotkeys("w", () => setView("week"), {
-    enabled: enableHotkeys,
-  });
+  // useHotkeys("w", () => setView("week"), {
+  //   enabled: enableHotkeys,
+  // });
 
-  useHotkeys("y", () => setView("year"), {
-    enabled: enableHotkeys,
-  });
+  // useHotkeys("y", () => setView("year"), {
+  //   enabled: enableHotkeys,
+  // });
 
-  useHotkeys("d", () => setView("day"), {
-    enabled: enableHotkeys,
-  });
+  // useHotkeys("d", () => setView("day"), {
+  //   enabled: enableHotkeys,
+  // });
 
   return (
     <Context.Provider
@@ -144,6 +154,7 @@ const Calendar = ({
 
 export const useCalendar = () => useContext(Context);
 
+// カレンダーのビューを変更するためのトリガー
 const CalendarViewTrigger = forwardRef<
   HTMLButtonElement,
   React.HTMLAttributes<HTMLButtonElement> & {
@@ -160,6 +171,7 @@ const CalendarViewTrigger = forwardRef<
 });
 CalendarViewTrigger.displayName = "CalendarViewTrigger";
 
+// カレンダーの日を表示するコンポーネント
 const CalendarDayView = () => {
   const { view } = useCalendar();
 
@@ -173,6 +185,7 @@ const CalendarDayView = () => {
   );
 };
 
+// カレンダーの月を表示するコンポーネント
 const CalendarMonthView = () => {
   const { date, view, events, locale } = useCalendar();
 
@@ -232,6 +245,7 @@ const CalendarMonthView = () => {
   );
 };
 
+// カレンダーの年を表示するコンポーネント
 const CalendarYearView = () => {
   const { view, date, today, locale } = useCalendar();
 
@@ -289,7 +303,7 @@ const CalendarYearView = () => {
     </div>
   );
 };
-
+// カレンダーの週を表示するコンポーネント
 const CalendarWeekView = () => {
   const { view, date, locale, events } = useCalendar();
 
@@ -380,7 +394,7 @@ const CalendarWeekView = () => {
     </div>
   );
 };
-
+// 次の日、週、月、年に移動するためのトリガー
 const CalendarNextTrigger = forwardRef<HTMLButtonElement, React.HTMLAttributes<HTMLButtonElement>>(
   ({ children, onClick, ...props }, ref) => {
     const { date, setDate, view, enableHotkeys } = useCalendar();
@@ -417,6 +431,7 @@ const CalendarNextTrigger = forwardRef<HTMLButtonElement, React.HTMLAttributes<H
 );
 CalendarNextTrigger.displayName = "CalendarNextTrigger";
 
+// 前の日、週、月、年に移動するためのトリガー
 const CalendarPrevTrigger = forwardRef<HTMLButtonElement, React.HTMLAttributes<HTMLButtonElement>>(
   ({ children, onClick, ...props }, ref) => {
     const { date, setDate, view, enableHotkeys } = useCalendar();
@@ -453,6 +468,7 @@ const CalendarPrevTrigger = forwardRef<HTMLButtonElement, React.HTMLAttributes<H
 );
 CalendarPrevTrigger.displayName = "CalendarPrevTrigger";
 
+// 今日の日付に移動するためのトリガー
 const CalendarTodayTrigger = forwardRef<HTMLButtonElement, React.HTMLAttributes<HTMLButtonElement>>(
   ({ children, onClick, ...props }, ref) => {
     const { setDate, enableHotkeys, today } = useCalendar();
@@ -480,7 +496,7 @@ const CalendarTodayTrigger = forwardRef<HTMLButtonElement, React.HTMLAttributes<
   }
 );
 CalendarTodayTrigger.displayName = "CalendarTodayTrigger";
-
+// カレンダーの現在の日付を表示するコンポーネント
 const CalendarCurrentDate = ({ formatStr }: { formatStr: string }) => {
   const { date } = useCalendar();
 
@@ -491,6 +507,7 @@ const CalendarCurrentDate = ({ formatStr }: { formatStr: string }) => {
   );
 };
 
+// カレンダーの時間割を表示するコンポーネント
 const TimeTable = () => {
   return (
     <div className="pr-2 w-12">
@@ -505,6 +522,7 @@ const TimeTable = () => {
   );
 };
 
+// カレンダーの月の日数を取得する関数
 const getDaysInMonth = (date: Date) => {
   const startOfMonthDate = startOfMonth(date);
   const startOfWeekForMonth = startOfWeek(startOfMonthDate, {
@@ -522,6 +540,7 @@ const getDaysInMonth = (date: Date) => {
   return calendar;
 };
 
+// カレンダーの曜日を取得する関数
 const generateWeekdays = (locale: Locale) => {
   const daysOfWeek = [];
   for (let i = 0; i < 7; i++) {
