@@ -26,13 +26,17 @@ export default async function LeagueList({ selectedLeagues }: CompetitionGroupPr
       {filteredLeagues.map((leagueName) => {
         const league = leagueGroup[leagueName];
         const formattedMatches = league.matches.map((match) => ({
-          leagueImg: league.leagueImg,
+          seasonStartYear: match.seasonStartYear,
+          seasonEndYear: match.seasonEndYear,
+          leagueId: match.leagueId,
+          leagueName: match.leagueName,
+          leagueImg: match.leagueImg,
           matchId: match.matchId,
           matchDate: match.matchDate,
           matchTime: match.matchTime,
-          home: match.homeTeam,
-          away: match.awayTeam,
+          home: match.home,
           homeEmblemUrl: match.homeEmblemUrl,
+          away: match.away,
           awayEmblemUrl: match.awayEmblemUrl,
         }));
 

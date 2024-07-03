@@ -1,6 +1,6 @@
 import { getLeagueByGroup } from "@/data/league";
-import { CheckForm } from "../app/components/check-form";
-import { Button } from "./ui/button";
+import { CheckForm } from "../../app/components/check-form";
+import { Button } from "../ui/button";
 import Link from "next/link";
 
 export default async function Sidebar() {

@@ -4,12 +4,12 @@ export type Match = {
   seasonEndYear: number;
   leagueId: number;
   leagueName: string;
-  leagueImg: string; 
+  leagueImg: string;
   matchId: number;
   matchDate: string;
   matchTime: string;
-  homeTeam: string;
+  home: string;
   homeEmblemUrl: string;
-  awayTeam: string;
+  away: string;
   awayEmblemUrl: string;
 };

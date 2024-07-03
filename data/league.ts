@@ -54,11 +54,11 @@ export const getLeagues = cache(async () => {
           matchId: match.id,
           matchDate: matchDate,
           matchTime: matchTime,
-          homeTeam: homeTeam,
+          home: homeTeam,
           homeEmblemUrl: match.homeTeam.crest,
-          awayTeam: awayTeam,
+          away: awayTeam,
           awayEmblemUrl: match.awayTeam.crest,
-        };
+        } as Match;
       });
     })
   );
@@ -67,37 +67,54 @@ export const getLeagues = cache(async () => {
   // サブ配列も展開して1つの配列にしてます
 });
 
-// leagueの名前でグループ化されたリーグのデータを取得する関数
-export const getLeagueByGroup = async () => {
-  const leagues = await getLeagues();
+// リーグをグループ化する処理は共通ですので、関数化しています。
+const groupLeagues = (leagues: Match[]) => {
+  const groupedLeagues = leagues.reduce((acc, match) => {
+    const leagueName = match.leagueName;
 
-  const groupedLeagues = leagues.reduce((acc, league) => {
-    const leagueName = league.leagueName;
     if (!acc[leagueName]) {
       acc[leagueName] = {
-        leagueId: league.leagueId,
-        leagueName: league.leagueName,
-        leagueImg: league.leagueImg,
-        matches: [],
+        leagueId: match.leagueId,
+        leagueName: match.leagueName,
+        leagueImg: match.leagueImg,
+        matches: [] as Match[],
       };
     }
-    acc[leagueName].matches.push(league);
+
+    acc[leagueName].matches.push(match);
     return acc;
-  }, {} as Record<string, { leagueImg: string; leagueId: number; leagueName: string; matches: Match[] }>);
+  }, {} as Record<string, { leagueId: number; leagueName: string; leagueImg: string; matches: Match[] }>);
+
+  Object.values(groupedLeagues).forEach((league) => {
+    league.matches.sort((a, b) => {
+      const dateTimeA = new Date(`${a.matchDate} ${a.matchTime}`);
+      const dateTimeB = new Date(`${b.matchDate} ${b.matchTime}`);
+      return dateTimeA.getTime() - dateTimeB.getTime();
+    });
+  });
 
   return groupedLeagues;
 };
 
+export default groupLeagues;
 
-// すべての試合を時系列順に取得する関数
-export const getTimeMatches = async () => {
-  // リーグごとの試合データを取得
+// リーグでgroup化した試合データを取得する関数
+export const getLeagueByGroup = async () => {
   const leagues = await getLeagues();
+  return groupLeagues(leagues);
+};
 
-  // 試合データを日付と時間でソート
-  return leagues.sort((a, b) => {
-    const dateTimeA = new Date(`${a.matchDate} ${a.matchTime}`);
-    const dateTimeB = new Date(`${b.matchDate} ${b.matchTime}`);
-    return dateTimeA.getTime() - dateTimeB.getTime();
-  });
+// 時間でgroup化した試合データを取得する関数
+export const getLeagueMatchesByTime = async () => {
+  const leagues = await getLeagues();
+  const groupedLeagues = groupLeagues(leagues);
+  const sortedMatches: Match[] = Object.values(groupedLeagues)
+    .flatMap((league) => league.matches)
+    .sort((a, b) => {
+      const dateTimeA = new Date(`${a.matchDate} ${a.matchTime}`);
+      const dateTimeB = new Date(`${b.matchDate} ${b.matchTime}`);
+      return dateTimeA.getTime() - dateTimeB.getTime();
+    });
+
+  return sortedMatches;
 };

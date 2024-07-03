@@ -1,15 +1,8 @@
+import { Match } from "@/types/match";
 import Image from "next/image";
 
 type MatchProps = {
-  matches: {
-    matchId: number;
-    matchDate: string;
-    matchTime: string;
-    home: string;
-    away: string;
-    homeEmblemUrl: string;
-    awayEmblemUrl: string;
-  }[];
+  matches: Match[];
 };
 
 export default function MatchCard({ matches }: MatchProps) {
@@ -46,7 +39,7 @@ export default function MatchCard({ matches }: MatchProps) {
             <div className="border-l-2 border-border h-10"></div>
             <div className="flex flex-col items-center">
               <div className="pl-5 text-xs mb-2">{match.matchDate}</div>
-              <div className="pl-5 text-xs font-semibold ">{match.matchTime}</div>
+              <div className="pl-5 text-xs font-semibold">{match.matchTime}</div>
             </div>
           </div>
         ))}
