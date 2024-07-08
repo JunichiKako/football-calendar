@@ -23,32 +23,23 @@ const MatchGroup = ({ matches }: MatchGroupProps) => {
 export default async function Page() {
   const allMatches: Match[] = await getLeagueMatchesByTime();
 
-  // Step 1: 時間順にソート
-  const sortedMatches = allMatches.sort((a, b) => {
-    const dateA = new Date(`${a.matchDate}T${a.matchTime}`);
-    const dateB = new Date(`${b.matchDate}T${b.matchTime}`);
-    return dateA.getTime() - dateB.getTime();
-  });
-
-  // Step 2: 試合を時間ごとにグループ化
-  const groupedMatches = sortedMatches.reduce((acc: Match[][], match) => {
+  // 時間順でapiから取得した試合をリーグと時間ごとにグループ化
+  const groupedMatches = allMatches.reduce((acc: Match[][], match) => {
     const lastGroup = acc[acc.length - 1];
     const previousMatch = lastGroup ? lastGroup[lastGroup.length - 1] : null;
 
-    if (
-      previousMatch &&
-      previousMatch.matchDate === match.matchDate &&
-      previousMatch.matchTime === match.matchTime 
-    ) {
+    if (previousMatch && previousMatch.leagueId === match.leagueId) {
+      // 前の試合と同じリーグの試合をまとめる
       lastGroup.push(match);
     } else {
+      // 新しいリーグの試合を開始する
       acc.push([match]);
     }
 
     return acc;
   }, []);
 
-  // Step 3: 要素を生成
+  // 要素を生成
   const elements = groupedMatches.map((group, index) => (
     <MatchGroup
       key={`${group[0].leagueId}-${group[0].matchDate}-${group[0].matchTime}-${index}`}
