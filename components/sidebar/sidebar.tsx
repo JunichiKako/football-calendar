@@ -2,6 +2,7 @@ import { getLeagueByGroup } from "@/data/league";
 import { CheckForm } from "../../app/components/check-form";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import ChangeBtn from "./change-btn";
 
 export default async function Sidebar() {
   // コンペティションのGroup化したものを取得
@@ -12,11 +13,7 @@ export default async function Sidebar() {
       <div className="flex flex-col h-full px-3 pb-4 overflow-y-auto">
         <h3 className="text-sm mb-4">Filter League</h3>
         <CheckForm leagueByGroup={leagueByGroup} />
-        <div className="my-auto text-center">
-          <Button asChild>
-            <Link href="/time">試合時間順で表示</Link>
-          </Button>
-        </div>
+        <ChangeBtn />
       </div>
     </aside>
   );
