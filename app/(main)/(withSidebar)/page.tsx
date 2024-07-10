@@ -1,4 +1,3 @@
-import ProfileForm from "@/app/components/profile-form";
 import LeagueList from "../../components/league-list";
 
 export default async function Home({ searchParams }: { searchParams: { leagues: string[] } }) {

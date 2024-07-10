@@ -1,6 +1,8 @@
 import MatchCard from "@/app/components/match-card";
 import { getLeagueMatchesByTime } from "@/data/league";
+import { league } from "@/types/league";
 import { Match } from "@/types/match";
+import { Search } from "lucide-react";
 import Image from "next/image";
 
 type MatchGroupProps = {
@@ -20,11 +22,21 @@ const MatchGroup = ({ matches }: MatchGroupProps) => {
   );
 };
 
-export default async function Page() {
+export default async function Page({ searchParams }: { searchParams: { leagues: string[] } }) {
   const allMatches: Match[] = await getLeagueMatchesByTime();
 
+  console.log(searchParams);
+
+  const selectedLeagues = searchParams.leagues || [];
+
+  // 選択されたリーグに基づいて試合をフィルタリング
+  const filteredMatches =
+    selectedLeagues.length > 0
+      ? allMatches.filter((match) => selectedLeagues.includes(match.leagueName))
+      : allMatches;
+
   // 時間順でapiから取得した試合をリーグと時間ごとにグループ化
-  const groupedMatches = allMatches.reduce((acc: Match[][], match) => {
+  const groupedMatches = filteredMatches.reduce((acc: Match[][], match) => {
     const lastGroup = acc[acc.length - 1];
     const previousMatch = lastGroup ? lastGroup[lastGroup.length - 1] : null;
 
