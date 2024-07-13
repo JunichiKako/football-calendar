@@ -1,8 +1,6 @@
 import MatchCard from "@/app/components/match-card";
 import { getLeagueMatchesByTime } from "@/data/league";
-import { league } from "@/types/league";
 import { Match } from "@/types/match";
-import { Search } from "lucide-react";
 import Image from "next/image";
 
 type MatchGroupProps = {

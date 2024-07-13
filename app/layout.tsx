@@ -2,12 +2,12 @@ import { cn } from "@/lib/utils";
 import { getURL } from "@/utils/getURL";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
-import { Kiwi_Maru } from "next/font/google";
+import { Noto_Sans_JP } from "next/font/google";
 import { ThemeProvider } from "../components/theme-provider";
 import "./globals.css";
 import { APP_NAME } from "@/config";
 
-const notoSansJP = Kiwi_Maru({ subsets: ["latin"], weight: ["400"] });
+const notoSansJP  = Noto_Sans_JP({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(getURL()),
