@@ -23,7 +23,7 @@ export default function MatchCard({ matches }: MatchProps) {
                   alt={match.home}
                   className="size-6 mr-2"
                 />
-                <p className="text-xs font-semibold">{match.home}</p>
+                <p className="text-xs">{match.home}</p>
               </div>
               <div className="flex items-center">
                 <Image
@@ -33,7 +33,7 @@ export default function MatchCard({ matches }: MatchProps) {
                   alt={match.away}
                   className="size-6 mr-2"
                 />
-                <p className="text-xs font-semibold">{match.away}</p>
+                <p className="text-xs">{match.away}</p>
               </div>
             </div>
             <div className="border-l-2 border-border h-10"></div>

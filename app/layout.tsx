@@ -2,12 +2,12 @@ import { cn } from "@/lib/utils";
 import { getURL } from "@/utils/getURL";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Kiwi_Maru } from "next/font/google";
 import { ThemeProvider } from "../components/theme-provider";
 import "./globals.css";
 import { APP_NAME } from "@/config";
 
-const inter = Inter({ subsets: ["latin"] });
+const notoSansJP = Kiwi_Maru({ subsets: ["latin"], weight: ["400"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(getURL()),
@@ -26,7 +26,7 @@ export default async function RootLayout({
   return (
     <ClerkProvider>
       <html lang="ja" suppressHydrationWarning>
-        <body className={cn(inter.className)}>
+        <body className={cn(notoSansJP.className)}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
