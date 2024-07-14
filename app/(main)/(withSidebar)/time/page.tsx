@@ -23,8 +23,6 @@ const MatchGroup = ({ matches }: MatchGroupProps) => {
 export default async function Page({ searchParams }: { searchParams: { leagues: string[] } }) {
   const allMatches: Match[] = await getLeagueMatchesByTime();
 
-  console.log(searchParams);
-
   const selectedLeagues = searchParams.leagues || [];
 
   // 選択されたリーグに基づいて試合をフィルタリング
