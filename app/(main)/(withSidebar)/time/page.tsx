@@ -1,4 +1,4 @@
-import MatchCard from "@/app/components/match-card";
+import MatchCard from "@/components/main/match-card";
 import { getLeagueMatchesByTime } from "@/data/league";
 import { Match } from "@/types/match";
 import Image from "next/image";

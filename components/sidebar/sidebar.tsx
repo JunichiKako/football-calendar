@@ -1,8 +1,6 @@
 import { getLeagueByGroup } from "@/data/league";
-import { CheckForm } from "../../app/components/check-form";
-import { Button } from "../ui/button";
-import Link from "next/link";
 import ChangeBtn from "./change-btn";
+import { CheckForm } from "./check-form";
 
 export default async function Sidebar() {
   // コンペティションのGroup化したものを取得
