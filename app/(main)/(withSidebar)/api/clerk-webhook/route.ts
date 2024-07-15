@@ -1,19 +1,18 @@
-import { NextResponse } from "next/server";
-import { Webhook } from "svix";
-import { headers } from "next/headers";
-import { WebhookEvent, UserJSON } from "@clerk/nextjs/server";
-import { createClerkSupabaseClient } from "@/lib/supabase/clerk";
+import { NextResponse } from 'next/server';
+import { Webhook } from 'svix';
+import { headers } from 'next/headers';
+import { WebhookEvent, UserJSON } from '@clerk/nextjs/server';
+import { createClerkSupabaseClient } from '@/lib/supabase/clerk';
 
 
-// Disable body parsing for this route
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-const webhookSecret = process.env.WEBHOOK_SECRET;
+const webhookSecret = process.env.CLERK_WEBHOOK_SECRET!;
 
 export async function POST(req: Request) {
   if (!webhookSecret) {
-    throw new Error("Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local");
+    throw new Error('Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local');
   }
 
   // Get the headers
@@ -24,8 +23,8 @@ export async function POST(req: Request) {
 
   // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    return new Response("Error occurred -- no svix headers", {
-      status: 400,
+    return new Response('Error occurred -- no svix headers', {
+      status: 400
     });
   }
 
@@ -46,9 +45,9 @@ export async function POST(req: Request) {
       "svix-signature": svix_signature,
     }) as WebhookEvent;
   } catch (err) {
-    console.error("Error verifying webhook:", err);
-    return new Response("Error occurred", {
-      status: 400,
+    console.error('Error verifying webhook:', err);
+    return new Response('Error occurred', {
+      status: 400
     });
   }
 
@@ -60,40 +59,43 @@ export async function POST(req: Request) {
 
   const supabase = await createClerkSupabaseClient();
 
-  if (eventType === "user.created") {
+  if (eventType === 'user.created') {
     const { data: existingUser, error: fetchError } = await supabase
-      .from("user")
-      .select("*")
-      .eq("user_id", user.id)
+      .from('user')
+      .select('*')
+      .eq('user_id', user.id)
       .single();
 
-    if (fetchError && fetchError.code !== "PGRST116") {
+    if (fetchError && fetchError.code !== 'PGRST116') {
       throw fetchError;
     }
 
     if (!existingUser) {
-      const fullName = `${user.first_name || ""} ${user.last_name || ""}`.trim();
+      const fullName = `${user.first_name || ''} ${user.last_name || ''}`.trim();
       const { error } = await supabase
-        .from("user")
-        .insert([{ user_id: user.id, name: fullName || "No Name" }]);
+        .from('user')
+        .insert([{ user_id: user.id, name: fullName || 'No Name' }]);
 
       if (error) {
         throw error;
       }
 
-      console.log("User inserted successfully");
+      console.log('User inserted successfully');
     } else {
-      console.log("User already exists");
+      console.log('User already exists');
     }
-  } else if (eventType === "user.deleted") {
-    const { error } = await supabase.from("user").delete().eq("user_id", user.id);
+  } else if (eventType === 'user.deleted') {
+    const { error } = await supabase
+      .from('user')
+      .delete()
+      .eq('user_id', user.id);
 
     if (error) {
       throw error;
     }
 
-    console.log("User deleted successfully");
+    console.log('User deleted successfully');
   }
 
-  return new Response("", { status: 200 });
+  return new Response('', { status: 200 });
 }
