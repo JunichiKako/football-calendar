@@ -1,7 +1,13 @@
+import { NextResponse } from "next/server";
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent, UserJSON } from "@clerk/nextjs/server";
 import { createClerkSupabaseClient } from "@/lib/supabase/clerk";
+
+
+// Disable body parsing for this route
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 const webhookSecret = process.env.WEBHOOK_SECRET;
 
@@ -18,7 +24,7 @@ export async function POST(req: Request) {
 
   // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    return new Response("Error occured -- no svix headers", {
+    return new Response("Error occurred -- no svix headers", {
       status: 400,
     });
   }
@@ -41,7 +47,7 @@ export async function POST(req: Request) {
     }) as WebhookEvent;
   } catch (err) {
     console.error("Error verifying webhook:", err);
-    return new Response("Error occured", {
+    return new Response("Error occurred", {
       status: 400,
     });
   }
@@ -91,9 +97,3 @@ export async function POST(req: Request) {
 
   return new Response("", { status: 200 });
 }
-
-export const config = {
-  api: {
-    bodyParser: false, // ClerkのWebhookのためにbodyParserを無効にします
-  },
-};
