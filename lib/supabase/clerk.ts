@@ -1,7 +1,8 @@
 import { auth } from "@clerk/nextjs/server";
-import { CookieOptions, createServerClient } from "@supabase/ssr";
+import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
+// Supabaseクライアントの作成
 export async function createClerkSupabaseClient() {
   const cookieStore = cookies();
   const { getToken } = auth();
@@ -18,21 +19,22 @@ export async function createClerkSupabaseClient() {
         get(name: string) {
           return cookieStore.get(name)?.value;
         },
-        set(name: string, value: string, options: CookieOptions) {
+        set(name: string, value: string) {
           try {
-            cookieStore.set({ name, value, ...options });
+            cookieStore.set({ name, value });
           } catch (error) {
-            // Handle the error
+            // エラーハンドリング
           }
         },
-        remove(name: string, options: CookieOptions) {
+        remove(name: string) {
           try {
-            cookieStore.set({ name, value: "", ...options });
+            cookieStore.set({ name, value: "" });
           } catch (error) {
-            // Handle the error
+            // エラーハンドリング
           }
         },
       },
     }
   );
 }
+
