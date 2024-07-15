@@ -1,9 +1,7 @@
 import { clerkMiddleware } from "@clerk/nextjs/server";
-import { updateSession } from "./lib/supabase/middleware";
 
-export default clerkMiddleware(async (auth, request) => {
-  return await updateSession(request);
-});
+// Make sure that the `/api/webhooks/(.*)` route is not protected here
+export default clerkMiddleware();
 
 export const config = {
   matcher: [
