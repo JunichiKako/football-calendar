@@ -4,7 +4,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Sidebar />
-      {children}
+      <div className="mt-32 px-4 lg:px-11 lg:ml-64">{children}</div>
     </>
   );
 }

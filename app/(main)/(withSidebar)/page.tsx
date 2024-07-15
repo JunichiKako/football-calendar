@@ -4,7 +4,7 @@ export default async function Home({ searchParams }: { searchParams: { leagues: 
   const selectedLeagues = searchParams.leagues || [];
 
   return (
-    <main className="mt-32 px-4 lg:px-11 lg:ml-64">
+    <main className="">
       {/*SupabaseとClerkの連携確認用 <ProfileForm /> */}
       <LeagueList selectedLeagues={selectedLeagues} />
     </main>
