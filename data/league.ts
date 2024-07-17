@@ -1,10 +1,10 @@
-import "server-only";
+import 'server-only';
 
-import { Match } from "@/types/match";
-import { leagueIds } from "@/data/leagueId";
-import { league } from "@/types/league";
-import { cache } from "react";
-import { teamTranslations } from "@/data/translations";
+import { Match } from '@/types/match';
+import { leagueIds } from '@/data/leagueId';
+import { league } from '@/types/league';
+import { cache } from 'react';
+import { teamTranslations } from '@/data/translations';
 // ここは、今はシーズンオフなのでコメントアウトしています。
 // import getDateRange from "@/utils/getDate";
 
@@ -17,9 +17,9 @@ export const getLeagues = cache(async () => {
       const res = await fetch(
         `https://api.football-data.org/v4/competitions/${id}/matches?season=2023&dateFrom=2024-05-12&dateTo=2024-05-19`,
         {
-          method: "GET",
+          method: 'GET',
           headers: {
-            "X-Auth-Token": process.env.FOOTBALL_API_KEY!,
+            'X-Auth-Token': process.env.FOOTBALL_API_KEY!,
           },
         }
       );
@@ -27,20 +27,22 @@ export const getLeagues = cache(async () => {
 
       return league.matches.map((match) => {
         const matchDateTime = new Date(match.utcDate);
-        const matchDate = matchDateTime.toLocaleDateString("ja-JP", {
-          month: "numeric",
-          day: "numeric",
-          weekday: "short",
+        const matchDate = matchDateTime.toLocaleDateString('ja-JP', {
+          month: 'numeric',
+          day: 'numeric',
+          weekday: 'short',
         });
-        const matchTime = matchDateTime.toLocaleTimeString("ja-JP", {
-          hour: "2-digit",
-          minute: "2-digit",
+        const matchTime = matchDateTime.toLocaleTimeString('ja-JP', {
+          hour: '2-digit',
+          minute: '2-digit',
         });
         const seasonStartYear = new Date(match.season.startDate).getFullYear();
         const seasonEndYear = new Date(match.season.endDate).getFullYear();
 
-        const homeTeam = teamTranslations[match.homeTeam.name] || match.homeTeam.name;
-        const awayTeam = teamTranslations[match.awayTeam.name] || match.awayTeam.name;
+        const homeTeam =
+          teamTranslations[match.homeTeam.name] || match.homeTeam.name;
+        const awayTeam =
+          teamTranslations[match.awayTeam.name] || match.awayTeam.name;
 
         return {
           seasonStartYear: seasonStartYear,

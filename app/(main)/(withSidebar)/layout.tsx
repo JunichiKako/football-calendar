@@ -1,10 +1,10 @@
-import Sidebar from "@/components/sidebar/sidebar";
+import Sidebar from '@/components/sidebar/sidebar';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <div className="flex">
       <Sidebar />
-      <div className="mt-32 px-4 lg:px-11 lg:ml-64">{children}</div>
-    </>
+      <main className="py-6 px-10 flex-1">{children}</main>
+    </div>
   );
 }
