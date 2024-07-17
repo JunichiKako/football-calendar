@@ -6,7 +6,7 @@ import { createClerkSupabaseClient } from "@/lib/supabase/clerk";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-const webhookSecret = process.env.CLERK_WEBHOOK_SECRET!;
+const webhookSecret = process.env.CLERK_WEBHOOK_SECRET;
 
 export async function POST(req: Request) {
   console.log("Webhook handler invoked");
