@@ -3,7 +3,6 @@ import { headers } from 'next/headers';
 import { WebhookEvent, UserJSON } from '@clerk/nextjs/server';
 import { createClerkSupabaseClient } from '@/lib/supabase/clerk';
 
-
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
@@ -60,7 +59,7 @@ export async function POST(req: Request) {
 
   if (eventType === 'user.created') {
     const { data: existingUser, error: fetchError } = await supabase
-      .from('user')
+      .from('users')  // Corrected table name
       .select('*')
       .eq('user_id', user.id)
       .single();
@@ -72,7 +71,7 @@ export async function POST(req: Request) {
     if (!existingUser) {
       const fullName = `${user.first_name || ''} ${user.last_name || ''}`.trim();
       const { error } = await supabase
-        .from('user')
+        .from('users')  // Corrected table name
         .insert([{ user_id: user.id, name: fullName || 'No Name' }]);
 
       if (error) {
@@ -85,7 +84,7 @@ export async function POST(req: Request) {
     }
   } else if (eventType === 'user.deleted') {
     const { error } = await supabase
-      .from('user')
+      .from('users')  // Corrected table name
       .delete()
       .eq('user_id', user.id);
 
