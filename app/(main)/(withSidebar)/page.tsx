@@ -9,7 +9,6 @@ export default async function Home({
 
   return (
     <>
-      {/*SupabaseとClerkの連携確認用 <ProfileForm /> */}
       <LeagueList selectedLeagues={selectedLeagues} />
     </>
   );

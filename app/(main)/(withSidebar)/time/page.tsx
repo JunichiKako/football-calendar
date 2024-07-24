@@ -10,6 +10,7 @@ type MatchGroupProps = {
 const MatchGroup = ({ matches }: MatchGroupProps) => {
   const { leagueName, leagueImg } = matches[0];
   return (
+    
     <div className="mb-6">
       <h2 className="text-lg font-bold mb-4 flex items-center">
         <Image

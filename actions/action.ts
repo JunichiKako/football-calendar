@@ -5,7 +5,7 @@ import { createClerkSupabaseClient } from "@/lib/supabase/clerk";
 export const createProfile = async (name: string) => {
   const supabase = await createClerkSupabaseClient();
 
-  const { error } = await supabase.from("user").insert([
+  const { error } = await supabase.from("users").insert([
     {
       name,
     },
