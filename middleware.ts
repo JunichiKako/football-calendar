@@ -1,7 +1,10 @@
-import { clerkMiddleware } from "@clerk/nextjs/server";
+import { updateSession } from '@/lib/supabase/middleware';
 
-// Make sure that the `/api/webhooks/(.*)` route is not protected here
-export default clerkMiddleware();
+import { clerkMiddleware } from '@clerk/nextjs/server';
+
+export default clerkMiddleware(async (auth, request) => {
+  return await updateSession(request);
+});
 
 export const config = {
   matcher: [
@@ -14,10 +17,10 @@ export const config = {
      */
     {
       source:
-        "/((?!api|webhook|zoom|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|mp3)$).*)",
+        '/((?!api|webhook|zoom|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|mp3)$).*)',
       missing: [
-        { type: "header", key: "next-router-prefetch" },
-        { type: "header", key: "purpose", value: "prefetch" },
+        { type: 'header', key: 'next-router-prefetch' },
+        { type: 'header', key: 'purpose', value: 'prefetch' },
       ],
     },
   ],
