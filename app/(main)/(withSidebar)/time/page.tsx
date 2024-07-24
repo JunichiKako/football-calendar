@@ -12,7 +12,13 @@ const MatchGroup = ({ matches }: MatchGroupProps) => {
   return (
     <div className="mb-6">
       <h2 className="text-lg font-bold mb-4 flex items-center">
-        <Image src={leagueImg} width={32} height={32} alt={leagueName} className="mr-2" />
+        <Image
+          src={leagueImg}
+          width={32}
+          height={32}
+          alt={leagueName}
+          className="mr-2"
+        />
         {leagueName}
       </h2>
       <MatchCard matches={matches} />
@@ -20,7 +26,11 @@ const MatchGroup = ({ matches }: MatchGroupProps) => {
   );
 };
 
-export default async function Page({ searchParams }: { searchParams: { leagues: string[] } }) {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: { leagues: string[] };
+}) {
   const allMatches: Match[] = await getLeagueMatchesByTime();
 
   const selectedLeagues = searchParams.leagues || [];
@@ -55,5 +65,5 @@ export default async function Page({ searchParams }: { searchParams: { leagues: 
     />
   ));
 
-  return <div className="mt-32 px-4 lg:px-11 lg:ml-64">{elements}</div>;
+  return <div>{elements}</div>;
 }

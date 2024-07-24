@@ -39,8 +39,10 @@ export const getLeagues = cache(async () => {
         const seasonStartYear = new Date(match.season.startDate).getFullYear();
         const seasonEndYear = new Date(match.season.endDate).getFullYear();
 
-        const homeTeam = teamTranslations[match.homeTeam.name] || match.homeTeam.name;
-        const awayTeam = teamTranslations[match.awayTeam.name] || match.awayTeam.name;
+        const homeTeam =
+          teamTranslations[match.homeTeam.name] || match.homeTeam.name;
+        const awayTeam =
+          teamTranslations[match.awayTeam.name] || match.awayTeam.name;
 
         return {
           seasonStartYear: seasonStartYear,
