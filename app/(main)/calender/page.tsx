@@ -9,7 +9,7 @@ import {
   CalendarViewTrigger,
   CalendarWeekView,
   CalendarYearView,
-} from "../../../components/ui/calender";
+} from "../../../components/ui/my-ui/calender";
 
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
