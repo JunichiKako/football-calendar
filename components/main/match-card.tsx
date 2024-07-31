@@ -43,7 +43,7 @@ function TeamLabel({ imageURL, name }: { imageURL: string; name: string }) {
         width={24}
         height={24}
         alt={name}
-        className="size-6 mr-2"
+        className="size-6 mr-2 bg-white rounded-sm p-0.5"
       />
       <p className="text-sm">{name}</p>
     </div>
