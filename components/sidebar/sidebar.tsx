@@ -1,5 +1,5 @@
 import { getLeagueByGroup } from "@/data/league";
-import ChangeBtn from "./change-btn";
+import ChangeBtn from "./league-toggle";
 import { CheckForm } from "./check-form";
 
 export default async function Sidebar() {
