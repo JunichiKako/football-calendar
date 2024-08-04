@@ -30,8 +30,6 @@ export default async function LeagueList({
       {filteredLeagues.map((leagueName) => {
         const league = leagueGroup[leagueName];
         const formattedMatches = league.matches.map((match) => ({
-          seasonStartYear: match.seasonStartYear,
-          seasonEndYear: match.seasonEndYear,
           leagueId: match.leagueId,
           leagueName: match.leagueName,
           leagueImg: match.leagueImg,
