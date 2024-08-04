@@ -1,6 +1,7 @@
 import { getLeagueByGroup } from "@/data/league";
-import ChangeBtn from "./league-toggle";
+
 import { CheckForm } from "./check-form";
+import LeagueToggle from "./league-toggle";
 
 export default async function Sidebar() {
   // コンペティションのGroup化したものを取得
@@ -12,7 +13,7 @@ export default async function Sidebar() {
         <h3 className="text-sm mb-4">表示するリーグ</h3>
         <CheckForm leagueByGroup={leagueByGroup} />
         <div className="mt-5">
-        <ChangeBtn />
+        <LeagueToggle />
         </div>
       </div>
     </aside>
