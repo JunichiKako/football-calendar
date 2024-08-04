@@ -41,24 +41,35 @@ export function CheckForm({
   const selectedLeagues = watch("leagues");
 
   const handleLeagueToggle = (leagueName: string) => {
-    // 現在の選択状態に基づいて新しい選択状態を決定
-    const newSelectedLeagues = selectedLeagues.includes(leagueName)
-      ? selectedLeagues.filter((league) => league !== leagueName)
-      : [...selectedLeagues, leagueName];
+    const newSelectedLeagues = toggleLeagueSelection(
+      selectedLeagues,
+      leagueName
+    );
 
     // フォームフィールドの値を更新
     setValue("leagues", newSelectedLeagues);
 
-    // 現在のクエリパラメータを取得
+    updateQueryParams(newSelectedLeagues);
+  };
+
+  const toggleLeagueSelection = (
+    selectedLeagues: string[],
+    leagueName: string
+  ) => {
+    return selectedLeagues.includes(leagueName)
+      ? selectedLeagues.filter((league) => league !== leagueName)
+      : [...selectedLeagues, leagueName];
+  };
+
+  const updateQueryParams = (newSelectedLeagues: string[]) => {
     const params = new URLSearchParams(window.location.search);
 
-    // 新しい選択状態に基づいてクエリパラメータを設定
     if (newSelectedLeagues.length > 0) {
       params.set("leagues", newSelectedLeagues.join(","));
     } else {
       params.delete("leagues");
     }
-    // 新しいURLを設定
+
     router.replace(`?${params.toString()}`);
   };
 
@@ -67,10 +78,7 @@ export function CheckForm({
       {Object.keys(leagueByGroup).map((leagueName) => {
         const league = leagueByGroup[leagueName];
         return (
-          <div
-            key={league.leagueId}
-            className="p-2 rounded-lg cursor-pointer"
-          >
+          <div key={league.leagueId} className="p-2 rounded-lg cursor-pointer">
             <label className="cursor-pointer transition hover:bg-accent p-2 rounded-lg opacity-50 border border-transparent has-[:checked]:border-[#016FB9] has-[:checked]:bg-[#016FB9] has-[:checked]:text-white has-[:checked]:opacity-100 flex items-center gap-3">
               <input
                 type="checkbox"
