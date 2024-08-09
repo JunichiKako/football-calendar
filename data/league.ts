@@ -65,7 +65,7 @@ export const getLeagues = cache(async () => {
   return leagues.flat();
 });
 
-// 時間順に試合を並べる関数
+// 時間順に試合を並べるヘルパー関数
 const sortMatchesByDateTime = (matches: Match[]): Match[] => {
   return matches.sort((a, b) => {
     const dateTimeA = new Date(`${a.matchDate} ${a.matchTime}`);
@@ -74,7 +74,7 @@ const sortMatchesByDateTime = (matches: Match[]): Match[] => {
   });
 };
 
-// リーグごとにグループ化する関数
+// リーグごとにグループ化するヘルパー関数
 const groupLeagues = (leagues: Match[]) => {
   return leagues.reduce((acc, match) => {
     const leagueName = match.leagueName;
