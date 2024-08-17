@@ -5,7 +5,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <>
       <div className="flex">
         <Sidebar />
-        <main className="py-6 px-10 flex-1">{children}</main>
+        <main className="py-8 px-10 flex-1">{children}</main>
       </div>
     </>
   );

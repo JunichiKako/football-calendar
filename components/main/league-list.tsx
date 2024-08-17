@@ -29,8 +29,8 @@ export default async function LeagueList({
 
   return (
     <>
-      <div className="border-b pb-3 mb-8 flex justify-between">
-        <p className="text-md">リーグ別表示</p>
+      <div className="border-b pb-4 pt-4 mb-8 flex justify-between">
+        <p className="text-md">リーグ別</p>
         <p className="flex text-muted-foreground text-sm gap-2 items-center">
           <Calendar className="size-5" />
           {displayFrom} - {displayTo}

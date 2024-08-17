@@ -79,7 +79,7 @@ export function CheckForm({
         const league = leagueByGroup[leagueName];
         return (
           <div key={league.leagueId} className="p-2 rounded-lg cursor-pointer">
-            <label className="cursor-pointer transition hover:bg-accent p-2 rounded-lg opacity-50 border border-transparent has-[:checked]:border-[#005C69] has-[:checked]:bg-[#005C69] dark:has-[:checked]:border-[#445E93] dark:has-[:checked]:bg-[#445E93] has-[:checked]:text-white has-[:checked]:opacity-100 flex items-center gap-3">
+            <label className="cursor-pointer transition hover:bg-gray-200 dark:hover:bg-accent p-2 rounded-lg opacity-50 border border-transparent has-[:checked]:border-[#005C69] has-[:checked]:bg-[#005C69] dark:has-[:checked]:border-[#445E93] dark:has-[:checked]:bg-[#445E93] has-[:checked]:text-white has-[:checked]:opacity-100 flex items-center gap-3">
               <input
                 type="checkbox"
                 value={leagueName}
@@ -87,24 +87,6 @@ export function CheckForm({
                 onChange={() => handleLeagueToggle(leagueName)}
                 className="hidden"
               />
-              <div className="size-4 flex items-center justify-center border border-gray-300 rounded-full transition-colors duration-300">
-                {selectedLeagues.includes(leagueName) && (
-                  <svg
-                    className="size-8"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M5 13l4 4L19 7"
-                    ></path>
-                  </svg>
-                )}
-              </div>
               <div className="size-10 bg-white rounded-lg grid place-items-center">
                 <Image
                   src={league.leagueImg}

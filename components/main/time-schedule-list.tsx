@@ -51,14 +51,14 @@ export default async function TimeScheduleList({
     }
   });
 
-    // 表示する日付の範囲を取得
-    const { dateFrom, dateTo } = getDateRange();
-    const { displayFrom, displayTo } = formatDateForDisplay(dateFrom, dateTo);
+  // 表示する日付の範囲を取得
+  const { dateFrom, dateTo } = getDateRange();
+  const { displayFrom, displayTo } = formatDateForDisplay(dateFrom, dateTo);
 
   return (
     <>
-      <div className="border-b pb-2 mb-8 flex justify-between">
-        <p className="text-md ">試合時間順</p>
+      <div className="border-b pb-4 pt-4 mb-8 flex justify-between">
+        <p className="text-md">試合時間順</p>
         <p className="flex text-muted-foreground text-sm gap-2 items-center">
           <Calendar className="size-5" />
           {displayFrom} - {displayTo}
