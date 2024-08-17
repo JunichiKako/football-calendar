@@ -79,7 +79,7 @@ export function CheckForm({
         const league = leagueByGroup[leagueName];
         return (
           <div key={league.leagueId} className="p-2 rounded-lg cursor-pointer">
-            <label className="cursor-pointer transition hover:bg-accent p-2 rounded-lg opacity-50 border border-transparent has-[:checked]:border-[#016FB9] has-[:checked]:bg-[#016FB9] has-[:checked]:text-white has-[:checked]:opacity-100 flex items-center gap-3">
+            <label className="cursor-pointer transition hover:bg-accent p-2 rounded-lg opacity-50 border border-transparent has-[:checked]:border-[#005C69] has-[:checked]:bg-[#005C69] dark:has-[:checked]:border-[#445E93] dark:has-[:checked]:bg-[#445E93] has-[:checked]:text-white has-[:checked]:opacity-100 flex items-center gap-3">
               <input
                 type="checkbox"
                 value={leagueName}

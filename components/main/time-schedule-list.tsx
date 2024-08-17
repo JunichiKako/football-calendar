@@ -1,6 +1,8 @@
 import { Match } from "@/types/match";
 import { getLeagueMatchesByTime } from "@/data/league";
 import TimeMatchGroup from "./time-match-group";
+import { Calendar } from "lucide-react";
+import getDateRange, { formatDateForDisplay } from "@/utils/getDate";
 
 export default async function TimeScheduleList({
   selectedLeagues,
@@ -10,9 +12,10 @@ export default async function TimeScheduleList({
   const allMatches: Match[] = await getLeagueMatchesByTime();
 
   // `selectedLeagues` に基づいて試合をフィルタリング
-  const filteredMatches = selectedLeagues.length > 0
-    ? allMatches.filter((match) => selectedLeagues.includes(match.leagueName))
-    : allMatches;
+  const filteredMatches =
+    selectedLeagues.length > 0
+      ? allMatches.filter((match) => selectedLeagues.includes(match.leagueName))
+      : allMatches;
 
   // 試合を時間順にソート
   const sortedMatches = filteredMatches.sort((a, b) => {
@@ -31,7 +34,7 @@ export default async function TimeScheduleList({
       currentGroup.push(match);
     } else {
       const lastMatch = currentGroup[currentGroup.length - 1];
-      
+
       if (match.leagueName === lastMatch.leagueName) {
         // 同じリーグの試合ならグループに追加
         currentGroup.push(match);
@@ -48,11 +51,24 @@ export default async function TimeScheduleList({
     }
   });
 
+    // 表示する日付の範囲を取得
+    const { dateFrom, dateTo } = getDateRange();
+    const { displayFrom, displayTo } = formatDateForDisplay(dateFrom, dateTo);
+
   return (
-    <div>
-      {groupedMatches.map((matches, index) => (
-        <TimeMatchGroup key={index} matches={matches} />
-      ))}
-    </div>
+    <>
+      <div className="border-b pb-2 mb-8 flex justify-between">
+        <p className="text-md ">試合時間順</p>
+        <p className="flex text-muted-foreground text-sm gap-2 items-center">
+          <Calendar className="size-5" />
+          {displayFrom} - {displayTo}
+        </p>
+      </div>
+      <div>
+        {groupedMatches.map((matches, index) => (
+          <TimeMatchGroup key={index} matches={matches} />
+        ))}
+      </div>
+    </>
   );
 }

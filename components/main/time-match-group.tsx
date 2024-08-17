@@ -1,6 +1,7 @@
 import { Match } from "@/types/match";
 import Image from "next/image";
 import MatchCard from "@/components/main/match-card"; // MatchCardコンポーネントをインポート
+import { cn } from "@/lib/utils";
 
 type TimeMatchGroupProps = {
   matches: Match[]; // `matches` を受け取るように修正
@@ -13,19 +14,26 @@ const TimeMatchGroup: React.FC<TimeMatchGroupProps> = ({ matches }) => {
 
   // グループ内の最初の試合からリーグ名とリーグ画像を取得
   const { leagueName, leagueImg } = matches[0];
+  const isPremierLeague = leagueName === "Premier League";
 
   return (
     <div className="mb-6">
-      <h3 className="text-md font-semibold mb-2 flex items-center">
-        <Image
-          src={leagueImg}
-          width={32}
-          height={32}
-          alt={leagueName}
-          className="mr-2"
-        />
-        {leagueName}
-      </h3>
+      <div className="flex items-center justify-between mb-4">
+        <div className="inline-block">
+          <div className="py-2 rounded-md flex">
+            <Image
+              src={leagueImg}
+              alt={leagueName}
+              width={32}
+              height={32}
+              className={cn("mr-2", {
+                "premier-league-logo": isPremierLeague, 
+              })}
+            />
+            <h2 className="text-lg font-bold">{leagueName}</h2>
+          </div>
+        </div>
+      </div>
       <MatchCard matches={matches} />
     </div>
   );

@@ -24,7 +24,7 @@ export default async function Header() {
       <span className="flex-1"></span>
       <SignedOut>
         <SignInButton>
-          <Button variant="ghost" className="text-background">
+          <Button variant="ghost" className="text-white">
             ログイン
           </Button>
         </SignInButton>

@@ -1,4 +1,6 @@
+import { cn } from "@/lib/utils";
 import { Match } from "@/types/match";
+import { log } from "console";
 import Image from "next/image";
 
 type MatchProps = {
@@ -36,6 +38,9 @@ export default function MatchCard({ matches }: MatchProps) {
 
 // Card情報をまとめる関数
 function TeamLabel({ imageURL, name }: { imageURL: string; name: string }) {
+  const isJuventus = name === "ユベントス"; // ユベントスかどうかを判定
+  
+
   return (
     <div className="flex items-center">
       <Image
@@ -43,7 +48,9 @@ function TeamLabel({ imageURL, name }: { imageURL: string; name: string }) {
         width={24}
         height={24}
         alt={name}
-        className="size-6 mr-2 bg-white rounded-sm p-0.5"
+        className={cn("size-6 mr-2 rounded-sm", {
+          "Juventus-logo": isJuventus,
+        })}
       />
       <p className="text-sm">{name}</p>
     </div>

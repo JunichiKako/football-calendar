@@ -12,12 +12,10 @@ export default async function Sidebar() {
       <div className="sticky top-20">
         <h3 className="text-sm mb-4">表示するリーグ</h3>
         <CheckForm leagueByGroup={leagueByGroup} />
-        <div className="mt-5">
-          <LeagueToggle />
+        <div className="mt-14">
+        <LeagueToggle />
         </div>
       </div>
     </aside>
   );
 }
-
-
