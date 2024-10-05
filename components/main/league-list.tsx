@@ -54,27 +54,25 @@ export default async function LeagueList({
           }));
 
           return (
-            <>
-              <div key={leagueName}>
-                <div className="flex items-center justify-between mb-8">
-                  <div className="inline-block">
-                    <div className="py-2 rounded-md flex">
-                      <Image
-                        src={league.leagueImg}
-                        alt={leagueName}
-                        width={32}
-                        height={32}
-                        className={cn("mr-2", {
-                          "premier-league-logo": isPremierLeague,
-                        })}
-                      />
-                      <h2 className="text-lg font-bold">{league.leagueName}</h2>
-                    </div>
+            <div key={leagueName}>
+              <div className="flex items-center justify-between mb-8">
+                <div className="inline-block">
+                  <div className="py-2 rounded-md flex">
+                    <Image
+                      src={league.leagueImg}
+                      alt={leagueName}
+                      width={32}
+                      height={32}
+                      className={cn("mr-2", {
+                        "premier-league-logo": isPremierLeague,
+                      })}
+                    />
+                    <h2 className="text-lg font-bold">{league.leagueName}</h2>
                   </div>
                 </div>
-                <MatchCard matches={formattedMatches} />
               </div>
-            </>
+              <MatchCard matches={formattedMatches} />
+            </div>
           );
         })}
       </div>
