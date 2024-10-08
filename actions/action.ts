@@ -12,14 +12,12 @@ export const createProfile = async (name: string) => {
     throw new Error('ログインしてください')
   }
 
-  const user_id = user.id
+  const clerk_id = user.id
 
   const { error } = await supabase.from("users").insert([
     {
-      name,
-      user_id
+      clerk_id
     },
   ]);
-  console.log();
   
 };
