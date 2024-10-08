@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 import { Match } from "@/types/match";
-import { log } from "console";
 import Image from "next/image";
 
 type MatchProps = {
@@ -36,7 +35,7 @@ export default function MatchCard({ matches }: MatchProps) {
   );
 }
 
-// Card情報をまとめる関数
+// チーム名によってロゴのデザインを変更する
 function TeamLabel({ imageURL, name }: { imageURL: string; name: string }) {
   const isJuventus = name === "ユベントス"; // ユベントスかどうかを判定
   
