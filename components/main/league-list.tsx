@@ -4,6 +4,8 @@ import MatchCard from "./match-card";
 import { getLeagueByGroup } from "@/data/league";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { currentUser } from "@clerk/nextjs/server";
+import SelectMatchCard from "./select-match-card";
 
 type CompetitionGroupProps = {
   selectedLeagues: string[];
@@ -12,6 +14,8 @@ type CompetitionGroupProps = {
 export default async function LeagueList({
   selectedLeagues,
 }: CompetitionGroupProps) {
+  const user = await currentUser();
+
   // コンペティションのGroup化されたデータを取得
   const leagueGroup = await getLeagueByGroup();
 
@@ -71,7 +75,13 @@ export default async function LeagueList({
                   </div>
                 </div>
               </div>
-              <MatchCard matches={formattedMatches} />
+
+              {/* ユーザーが存在するかどうかでコンポーネントを切り替える */}
+              {user ? (
+                <SelectMatchCard matches={formattedMatches} />
+              ) : (
+                <MatchCard matches={formattedMatches} />
+              )}
             </div>
           );
         })}
