@@ -28,7 +28,7 @@ export const getLeagues = cache(async () => {
           return [];
         }
 
-        const data = await res.json();
+        const data: league = await res.json();
         console.log(
           `Raw API response for league ${id}:`,
           JSON.stringify(data, null, 2)
@@ -87,7 +87,7 @@ export const getLeagues = cache(async () => {
       }
     })
   );
-  
+
   const flattenedLeagues = leagues.flat();
   console.log(`Total matches across all leagues: ${flattenedLeagues.length}`);
   return flattenedLeagues;
