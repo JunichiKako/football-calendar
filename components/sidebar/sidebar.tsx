@@ -12,7 +12,7 @@ export default async function Sidebar() {
       <div className="sticky top-20">
         <CheckForm leagueByGroup={leagueByGroup} />
         <div className="mt-14">
-        <LeagueToggle />
+          <LeagueToggle />
         </div>
       </div>
     </aside>

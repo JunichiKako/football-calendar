@@ -10,7 +10,6 @@ export default function LeagueToggle() {
   const currentView = searchParams.get("view") || "league";
   const currentLeagues = searchParams.get("leagues") || "";
 
-
   return (
     <div className="grid grid-cols-2 gap-2">
       <Button

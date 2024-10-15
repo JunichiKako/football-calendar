@@ -1,33 +1,30 @@
-import getDateRange, { formatDateForDisplay } from "@/utils/getDate";
-import { Calendar } from "lucide-react";
-import MatchCard from "./match-card";
+// LeagueList.tsx
 import { getLeagueByGroup } from "@/data/league";
+import { currentUser } from "@clerk/nextjs/server";
+import { Calendar } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { currentUser } from "@clerk/nextjs/server";
-import SelectMatchCard from "./select-match-card";
-
-type CompetitionGroupProps = {
-  selectedLeagues: string[];
-};
+import getDateRange, { formatDateForDisplay } from "@/utils/getDate";
+import MatchCard from "./match-card";
+import ClientMatchCard from "./client-match-card";
 
 export default async function LeagueList({
   selectedLeagues,
-}: CompetitionGroupProps) {
+}: {
+  selectedLeagues: string[];
+}) {
   const user = await currentUser();
-
-  // コンペティションのGroup化されたデータを取得
   const leagueGroup = await getLeagueByGroup();
 
-  // leagueの名前で選択されたリーグのデータを取得
   const filteredLeagues =
     selectedLeagues.length > 0
-      ? Object.keys(leagueGroup).filter((leagueName) =>
-          selectedLeagues.includes(leagueName)
+      ? Object.fromEntries(
+          Object.entries(leagueGroup).filter(([leagueName]) =>
+            selectedLeagues.includes(leagueName)
+          )
         )
-      : Object.keys(leagueGroup);
+      : leagueGroup;
 
-  // 表示する日付の範囲を取得
   const { dateFrom, dateTo } = getDateRange();
   const { displayFrom, displayTo } = formatDateForDisplay(dateFrom, dateTo);
 
@@ -40,52 +37,36 @@ export default async function LeagueList({
           {displayFrom} - {displayTo}
         </p>
       </div>
-      <div className="space-y-20">
-        {filteredLeagues.map((leagueName) => {
-          const league = leagueGroup[leagueName];
-          const isPremierLeague = leagueName === "Premier League"; // プレミアリーグかどうかを判定
-          const formattedMatches = league.matches.map((match) => ({
-            leagueId: match.leagueId,
-            leagueName: match.leagueName,
-            leagueImg: match.leagueImg,
-            matchId: match.matchId,
-            matchDate: match.matchDate,
-            matchTime: match.matchTime,
-            home: match.home,
-            homeEmblemUrl: match.homeEmblemUrl,
-            away: match.away,
-            awayEmblemUrl: match.awayEmblemUrl,
-          }));
-
-          return (
-            <div key={leagueName}>
-              <div className="flex items-center justify-between mb-8">
-                <div className="inline-block">
-                  <div className="py-2 rounded-md flex">
-                    <Image
-                      src={league.leagueImg}
-                      alt={leagueName}
-                      width={32}
-                      height={32}
-                      className={cn("mr-2", {
-                        "premier-league-logo": isPremierLeague,
-                      })}
-                    />
-                    <h2 className="text-lg font-bold">{league.leagueName}</h2>
+        {user ? (
+          <ClientMatchCard leagues={filteredLeagues} />
+        ) : (
+          <div className="space-y-20">
+            {Object.entries(filteredLeagues).map(([leagueName, league]) => {
+              const isPremierLeague = leagueName === "Premier League";
+              return (
+                <div key={leagueName}>
+                  <div className="flex items-center justify-between mb-8">
+                    <div className="inline-block">
+                      <div className="py-2 rounded-md flex">
+                        <Image
+                          src={league.leagueImg}
+                          alt={leagueName}
+                          width={32}
+                          height={32}
+                          className={cn("mr-2", {
+                            "premier-league-logo": isPremierLeague,
+                          })}
+                        />
+                        <h2 className="text-lg font-bold">{league.leagueName}</h2>
+                      </div>
+                    </div>
                   </div>
+                  <MatchCard matches={league.matches} />
                 </div>
-              </div>
-
-              {/* ユーザーが存在するかどうかでコンポーネントを切り替える */}
-              {user ? (
-                <SelectMatchCard matches={formattedMatches} />
-              ) : (
-                <MatchCard matches={formattedMatches} />
-              )}
-            </div>
-          );
-        })}
-      </div>
+              );
+            })}
+          </div>
+        )}
     </>
   );
 }

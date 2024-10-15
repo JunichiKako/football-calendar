@@ -3,6 +3,7 @@
 import LeagueList from "@/components/main/league-list";
 import TimeScheduleList from "@/components/main/time-schedule-list";
 
+
 export default async function Home({
   searchParams,
 }: {
