@@ -6,11 +6,9 @@ import { cache } from "react";
 import { teamTranslations } from "@/data/translations";
 
 export const getLeagues = cache(async () => {
-  console.log("Starting getLeagues function");
   const leagues = await Promise.all(
     leagueIds.map(async (id) => {
       try {
-        console.log(`Fetching data for league ID: ${id}`);
         const res = await fetch(
           `https://api.football-data.org/v4/competitions/${id}/matches?season=2023&dateFrom=2024-05-12&dateTo=2024-05-19`,
           {
@@ -29,10 +27,6 @@ export const getLeagues = cache(async () => {
         }
 
         const data: league = await res.json();
-        console.log(
-          `Raw API response for league ${id}:`,
-          JSON.stringify(data, null, 2)
-        );
 
         if (!data.matches || !Array.isArray(data.matches)) {
           console.error(
@@ -40,10 +34,6 @@ export const getLeagues = cache(async () => {
           );
           return [];
         }
-
-        console.log(
-          `Number of matches for league ${id}: ${data.matches.length}`
-        );
 
         return data.matches.map((match: any) => {
           const matchDateTime = new Date(match.utcDate);
@@ -89,7 +79,6 @@ export const getLeagues = cache(async () => {
   );
 
   const flattenedLeagues = leagues.flat();
-  console.log(`Total matches across all leagues: ${flattenedLeagues.length}`);
   return flattenedLeagues;
 });
 
@@ -102,7 +91,6 @@ const sortMatchesByDateTime = (matches: Match[]): Match[] => {
 };
 
 export default function groupLeagues(leagues: Match[]) {
-  console.log("Starting groupLeagues function");
   const grouped = leagues.reduce((acc, match) => {
     const leagueName = match.leagueName;
     if (!acc[leagueName]) {
@@ -117,40 +105,23 @@ export default function groupLeagues(leagues: Match[]) {
     return acc;
   }, {} as Record<string, { leagueId: number; leagueName: string; leagueImg: string; matches: Match[] }>);
 
-  console.log("Grouped leagues:", Object.keys(grouped));
   return grouped;
 }
 
-export const getLeagueByGroup = cache(
-  async (selectedLeagues: string[] = []) => {
-    console.log("Starting getLeagueByGroup function");
-    const leagues = await getLeagues();
-    console.log(`Fetched ${leagues.length} matches in total`);
+export const getLeagueByGroup = cache(async () => {
+  const leagues = await getLeagues();
 
-    const groupedLeagues = groupLeagues(leagues);
-    console.log("Grouped leagues:", Object.keys(groupedLeagues));
+  const groupedLeagues = groupLeagues(leagues);
 
-    // 選択されたリーグでフィルタリング
-    const filteredGroupedLeagues =
-      selectedLeagues.length > 0
-        ? Object.fromEntries(
-            Object.entries(groupedLeagues).filter(([leagueName]) =>
-              selectedLeagues.includes(leagueName)
-            )
-          )
-        : groupedLeagues;
+  Object.values(groupedLeagues).forEach((league) => {
+    league.matches = sortMatchesByDateTime(league.matches);
+  });
 
-    Object.values(filteredGroupedLeagues).forEach((league) => {
-      league.matches = sortMatchesByDateTime(league.matches);
-    });
-
-    return filteredGroupedLeagues;
-  }
-);
+  return groupedLeagues;
+});
 
 export const getLeagueMatchesByTime = cache(
   async (selectedLeagues: string[] = []) => {
-    console.log("Starting getLeagueMatchesByTime function");
     const leagues = await getLeagues();
 
     // 選択されたリーグでフィルタリング
@@ -160,7 +131,6 @@ export const getLeagueMatchesByTime = cache(
         : leagues;
 
     const sortedMatches = sortMatchesByDateTime(filteredLeagues);
-    console.log(`Sorted ${sortedMatches.length} matches by time`);
     return sortedMatches;
   }
 );

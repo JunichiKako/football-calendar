@@ -1,11 +1,12 @@
-// LeagueList.tsx
+// components/LeagueList.tsx
 import { getLeagueByGroup } from "@/data/league";
-import { currentUser } from "@clerk/nextjs/server";
 import { Calendar } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import getDateRange, { formatDateForDisplay } from "@/utils/getDate";
 import MatchCard from "./match-card";
+import { Suspense } from 'react';
+import { currentUser } from "@clerk/nextjs/server";
 import ClientMatchCard from "./client-match-card";
 
 export default async function LeagueList({
@@ -13,8 +14,8 @@ export default async function LeagueList({
 }: {
   selectedLeagues: string[];
 }) {
-  const user = await currentUser();
   const leagueGroup = await getLeagueByGroup();
+  const user = await currentUser();
 
   const filteredLeagues =
     selectedLeagues.length > 0
@@ -37,36 +38,38 @@ export default async function LeagueList({
           {displayFrom} - {displayTo}
         </p>
       </div>
-        {user ? (
+      {user ? (
+        <Suspense fallback={<div>Loading client match card...</div>}>
           <ClientMatchCard leagues={filteredLeagues} />
-        ) : (
-          <div className="space-y-20">
-            {Object.entries(filteredLeagues).map(([leagueName, league]) => {
-              const isPremierLeague = leagueName === "Premier League";
-              return (
-                <div key={leagueName}>
-                  <div className="flex items-center justify-between mb-8">
-                    <div className="inline-block">
-                      <div className="py-2 rounded-md flex">
-                        <Image
-                          src={league.leagueImg}
-                          alt={leagueName}
-                          width={32}
-                          height={32}
-                          className={cn("mr-2", {
-                            "premier-league-logo": isPremierLeague,
-                          })}
-                        />
-                        <h2 className="text-lg font-bold">{league.leagueName}</h2>
-                      </div>
+        </Suspense>
+      ) : (
+        <div className="space-y-20">
+          {Object.entries(filteredLeagues).map(([leagueName, league]) => {
+            const isPremierLeague = leagueName === "Premier League";
+            return (
+              <div key={leagueName}>
+                <div className="flex items-center justify-between mb-8">
+                  <div className="inline-block">
+                    <div className="py-2 rounded-md flex">
+                      <Image
+                        src={league.leagueImg}
+                        alt={leagueName}
+                        width={32}
+                        height={32}
+                        className={cn("mr-2", {
+                          "premier-league-logo": isPremierLeague,
+                        })}
+                      />
+                      <h2 className="text-lg font-bold">{league.leagueName}</h2>
                     </div>
                   </div>
-                  <MatchCard matches={league.matches} />
                 </div>
-              );
-            })}
-          </div>
-        )}
+                <MatchCard matches={league.matches} />
+              </div>
+            );
+          })}
+        </div>
+      )}
     </>
   );
 }

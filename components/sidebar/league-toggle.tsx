@@ -7,8 +7,17 @@ import { cn } from "@/lib/utils";
 
 export default function LeagueToggle() {
   const searchParams = useSearchParams();
-  const currentView = searchParams.get("view") || "league";
   const currentLeagues = searchParams.get("leagues") || "";
+  const currentView = searchParams.get("view") || "league";
+
+  const createUrlWithView = (view: string) => {
+    const params = new URLSearchParams();
+
+    if (currentLeagues) params.set("leagues", currentLeagues);
+    params.set("view", view);
+
+    return `?${params.toString()}`;
+  };
 
   return (
     <div className="grid grid-cols-2 gap-2">
@@ -17,7 +26,7 @@ export default function LeagueToggle() {
         asChild
       >
         <Link
-          href={`?view=league&leagues=${currentLeagues}`}
+          href={createUrlWithView("league")}
           className={cn(currentView !== "league" && "opacity-50")}
         >
           リーグ別
@@ -25,7 +34,7 @@ export default function LeagueToggle() {
       </Button>
       <Button variant={currentView !== "time" ? "outline" : "default"} asChild>
         <Link
-          href={`?view=time&leagues=${currentLeagues}`}
+          href={createUrlWithView("time")}
           className={cn(currentView !== "time" && "opacity-50")}
         >
           試合時間順

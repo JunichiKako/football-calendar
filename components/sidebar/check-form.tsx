@@ -33,9 +33,9 @@ export function CheckForm({
   });
 
   useEffect(() => {
-    if (paramsLeagues) {
-      reset({ leagues: paramsLeagues.split(",") });
-    }
+    reset({
+      leagues: paramsLeagues ? paramsLeagues.split(",") : [],
+    });
   }, [paramsLeagues, reset]);
 
   const selectedLeagues = watch("leagues");
