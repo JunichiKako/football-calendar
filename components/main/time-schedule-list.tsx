@@ -1,6 +1,6 @@
 import { Match } from "@/types/match";
 import { getLeagueMatchesByTime } from "@/data/league";
-import TimeMatchGroup from "./time-match-group";
+import TimeMatchGroup from "./time-match-card";
 import { Calendar } from "lucide-react";
 import getDateRange, { formatDateForDisplay } from "@/utils/getDate";
 

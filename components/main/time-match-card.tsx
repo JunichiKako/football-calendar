@@ -3,11 +3,11 @@ import Image from "next/image";
 import MatchCard from "@/components/main/match-card"; // MatchCardコンポーネントをインポート
 import { cn } from "@/lib/utils";
 
-type TimeMatchGroupProps = {
+type TimeMatchCardProps = {
   matches: Match[]; // `matches` を受け取るように修正
 };
 
-const TimeMatchGroup: React.FC<TimeMatchGroupProps> = ({ matches }) => {
+export default function TimeMatchCard({ matches }: TimeMatchCardProps) {
   if (matches.length === 0) {
     return null; // 試合がない場合は何も表示しない
   }
@@ -27,7 +27,7 @@ const TimeMatchGroup: React.FC<TimeMatchGroupProps> = ({ matches }) => {
               width={32}
               height={32}
               className={cn("mr-2", {
-                "premier-league-logo": isPremierLeague, 
+                "premier-league-logo": isPremierLeague,
               })}
             />
             <h2 className="text-lg font-bold">{leagueName}</h2>
@@ -37,6 +37,4 @@ const TimeMatchGroup: React.FC<TimeMatchGroupProps> = ({ matches }) => {
       <MatchCard matches={matches} />
     </div>
   );
-};
-
-export default TimeMatchGroup;
+}

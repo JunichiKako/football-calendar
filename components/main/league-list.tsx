@@ -14,9 +14,12 @@ export default async function LeagueList({
 }: {
   selectedLeagues: string[];
 }) {
+
+  // ここで一括してリーグでグループ化されたリーグデータを取得する
   const leagueGroup = await getLeagueByGroup();
   const user = await currentUser();
 
+  // 選択されたリーグのみをクライアントでフィルタリングして表示する（APIの呼び出しを減らすため）
   const filteredLeagues =
     selectedLeagues.length > 0
       ? Object.fromEntries(
