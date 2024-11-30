@@ -17,9 +17,7 @@ type ClientMatchCardProps = {
   };
 };
 
-const ClientMatchCard = React.memo(function ClientMatchCard({
-  leagues,
-}: ClientMatchCardProps) {
+export default function ClientMatchCard({ leagues }: ClientMatchCardProps) {
   const [selectedMatches, setSelectedMatches] = useState<
     Record<string, boolean>
   >({});
@@ -49,7 +47,8 @@ const ClientMatchCard = React.memo(function ClientMatchCard({
       }
 
       const params = new URLSearchParams();
-      selectedMatchIds.forEach((id) => params.append("matchIds", id));
+      // 複数のmatchIdsを単一のパラメータとしてカンマ区切りで設定
+      params.set("matchIds", selectedMatchIds.join(","));
       const url = `/confirm-matches?${params.toString()}`;
 
       try {
@@ -129,6 +128,4 @@ const ClientMatchCard = React.memo(function ClientMatchCard({
       </div>
     </form>
   );
-});
-
-export default ClientMatchCard;
+}

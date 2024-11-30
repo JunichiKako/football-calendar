@@ -5,7 +5,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import getDateRange, { formatDateForDisplay } from "@/utils/getDate";
 import MatchCard from "./match-card";
-import { Suspense } from 'react';
+import { Suspense } from "react";
 import { currentUser } from "@clerk/nextjs/server";
 import ClientMatchCard from "./client-match-card";
 
@@ -14,7 +14,6 @@ export default async function LeagueList({
 }: {
   selectedLeagues: string[];
 }) {
-
   // ここで一括してリーグでグループ化されたリーグデータを取得する
   const leagueGroup = await getLeagueByGroup();
   const user = await currentUser();
@@ -42,7 +41,7 @@ export default async function LeagueList({
         </p>
       </div>
       {user ? (
-        <Suspense fallback={<div>Loading client match card...</div>}>
+        <Suspense fallback={<div>Loading..</div>}>
           <ClientMatchCard leagues={filteredLeagues} />
         </Suspense>
       ) : (
