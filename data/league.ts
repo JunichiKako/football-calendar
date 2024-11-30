@@ -5,6 +5,7 @@ import { league } from "@/types/league";
 import { cache } from "react";
 import { teamTranslations } from "@/data/translations";
 
+// 外部APIからリーグデータを取得
 export const getLeagues = cache(async () => {
   const leagues = await Promise.all(
     leagueIds.map(async (id) => {
@@ -82,6 +83,7 @@ export const getLeagues = cache(async () => {
   return flattenedLeagues;
 });
 
+// 日付範囲を取得を取得するヘルパー関数
 const sortMatchesByDateTime = (matches: Match[]): Match[] => {
   return matches.sort((a, b) => {
     const dateTimeA = new Date(`${a.matchDate} ${a.matchTime}`);
@@ -90,6 +92,7 @@ const sortMatchesByDateTime = (matches: Match[]): Match[] => {
   });
 };
 
+// リーグをグループ化するヘルパー関数
 export default function groupLeagues(leagues: Match[]) {
   const grouped = leagues.reduce((acc, match) => {
     const leagueName = match.leagueName;
@@ -108,6 +111,7 @@ export default function groupLeagues(leagues: Match[]) {
   return grouped;
 }
 
+// リーグごとにグループ化されたリーグデータを取得する関数
 export const getLeagueByGroup = cache(async () => {
   const leagues = await getLeagues();
 
@@ -120,6 +124,7 @@ export const getLeagueByGroup = cache(async () => {
   return groupedLeagues;
 });
 
+// リーグ関係なく、全ての試合を日付・時刻順に取得する関数
 export const getLeagueMatchesByTime = cache(
   async (selectedLeagues: string[] = []) => {
     const leagues = await getLeagues();
