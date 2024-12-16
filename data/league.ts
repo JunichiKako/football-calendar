@@ -36,7 +36,7 @@ export const getLeagues = cache(async () => {
           return [];
         }
 
-        return data.matches.map((match: any) => {
+        return data.matches.map((match) => {
           const matchDateTime = new Date(match.utcDate);
           const matchDate = matchDateTime.toLocaleDateString("ja-JP", {
             month: "numeric",
@@ -64,6 +64,7 @@ export const getLeagues = cache(async () => {
             leagueName: match.competition.name,
             leagueImg: match.competition.emblem,
             matchId: match.id,
+            utcDate: match.utcDate,
             matchDate,
             matchTime,
             home: homeTeam,
@@ -86,8 +87,8 @@ export const getLeagues = cache(async () => {
 // 日付範囲を取得を取得するヘルパー関数
 const sortMatchesByDateTime = (matches: Match[]): Match[] => {
   return matches.sort((a, b) => {
-    const dateTimeA = new Date(`${a.matchDate} ${a.matchTime}`);
-    const dateTimeB = new Date(`${b.matchDate} ${b.matchTime}`);
+    const dateTimeA = new Date(a.utcDate);
+    const dateTimeB = new Date(b.utcDate);
     return dateTimeA.getTime() - dateTimeB.getTime();
   });
 };

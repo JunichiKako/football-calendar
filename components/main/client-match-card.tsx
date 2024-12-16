@@ -47,19 +47,18 @@ export default function ClientMatchCard({ leagues }: ClientMatchCardProps) {
       }
 
       const params = new URLSearchParams();
-      // 複数のmatchIdsを単一のパラメータとしてカンマ区切りで設定
       params.set("matchIds", selectedMatchIds.join(","));
-      const url = `/confirm-matches?${params.toString()}`;
 
       try {
-        router.push(url);
+        // カレンダーページに遷移
+        router.push(`/calendar?${params.toString()}`);
       } catch (error) {
         alert("ページの遷移に失敗しました。もう一度お試しください。");
       }
     },
     [selectedMatches, router]
   );
-
+  
   return (
     <form onSubmit={handleSubmit} className="relative pb-20">
       {Object.entries(leagues).map(([leagueName, league]) => (

@@ -6,6 +6,7 @@ export type Match = {
   leagueName: string;
   leagueImg: string;
   matchId: number;
+  utcDate: string;
   matchDate: string;
   matchTime: string;
   home: string;
