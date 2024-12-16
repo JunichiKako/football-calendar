@@ -325,12 +325,18 @@ const CalendarWeekView = () => {
 };
 
 const CalendarMonthView = () => {
-  const { date, view, events, locale } = useCalendar();
+  const { date, view, events, locale, setView, setDate } = useCalendar(); // setViewとsetDateを追加
 
   const monthDates = useMemo(() => getDaysInMonth(date), [date]);
   const weekDays = useMemo(() => generateWeekdays(locale), [locale]);
 
   if (view !== "month") return null;
+
+  // 日付クリック時のハンドラー
+  const handleDateClick = (clickedDate: Date) => {
+    setDate(clickedDate);
+    setView("day");
+  };
 
   return (
     <div className="h-full flex flex-col">
@@ -355,8 +361,9 @@ const CalendarMonthView = () => {
 
           return (
             <div
+              onClick={() => handleDateClick(_date)} // クリックハンドラーを追加
               className={cn(
-                "ring-1 p-2 text-sm text-muted-foreground ring-border overflow-auto",
+                "ring-1 p-2 text-sm text-muted-foreground ring-border overflow-auto cursor-pointer hover:bg-accent/50", // スタイルを追加
                 !isSameMonth(date, _date) && "text-muted-foreground/50"
               )}
               key={_date.toString()}
