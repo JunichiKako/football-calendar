@@ -56,7 +56,7 @@ const dayEventVariants = cva("font-bold border-l-4 rounded p-2 text-xs", {
   variants: {
     variant: {
       default: "bg-muted/30 text-muted-foreground border-muted",
-      blue: "bg-blue-500/30 text-blue-600 border-blue-500",
+      blue: "bg-blue-500/50 text-blue-600 border-blue-500",
       green: "bg-green-500/30 text-green-600 border-green-500",
       pink: "bg-pink-500/30 text-pink-600 border-pink-500",
       purple: "bg-purple-500/30 text-purple-600 border-purple-500",
@@ -194,35 +194,48 @@ const EventGroup = ({
   events: CalendarEvent[];
   hour: Date;
 }) => {
-  return (
-    <div className="h-20 border-t last:border-b">
-      {events
-        .filter((event) => isSameHour(event.start, hour))
-        .map((event) => {
-          const hoursDifference =
-            differenceInMinutes(event.end, event.start) / 60;
-          const startPosition = event.start.getMinutes() / 60;
+  const hourEvents = events.filter((event) => isSameHour(event.start, hour));
 
-          return (
-            <div
-              key={event.id}
-              className={cn(
-                "relative",
-                dayEventVariants({ variant: event.color })
-              )}
-              style={{
-                top: `${startPosition * 100}%`,
-                height: `${hoursDifference * 100}%`,
-              }}
-            >
-              {event.title}
+  return (
+    <div className="relative h-20">
+      {/* 時間枠の背景 */}
+      <div className="absolute inset-0" style={{ zIndex: 0 }}>
+        <div className="w-full h-full border-t" />
+      </div>
+
+      {/* イベント */}
+      {hourEvents.map((event, index) => {
+        const hoursDifference =
+          differenceInMinutes(event.end, event.start) / 60;
+        const startPosition = event.start.getMinutes() / 60;
+
+        return (
+          <div
+            key={event.id}
+            className={cn(
+              "absolute",
+              dayEventVariants({ variant: event.color })
+            )}
+            style={{
+              top: `${startPosition * 100}%`,
+              height: `${hoursDifference * 100}%`,
+              width: "50%",
+              left: index === 0 ? "0%" : "50%",
+              zIndex: 1,
+            }}
+          >
+            <div className="flex flex-col gap-1">
+              <div className="font-semibold text-card">{event.title}</div>
+              <div className="text-xs text-card">
+                {format(event.start, "HH:mm")} - {format(event.end, "HH:mm")}
+              </div>
             </div>
-          );
-        })}
+          </div>
+        );
+      })}
     </div>
   );
 };
-
 const CalendarDayView = () => {
   const { view, events, date } = useCalendar();
 
