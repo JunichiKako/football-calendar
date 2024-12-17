@@ -190,9 +190,11 @@ CalendarViewTrigger.displayName = "CalendarViewTrigger";
 const EventGroup = ({
   events,
   hour,
+  shouldSplit = false,
 }: {
   events: CalendarEvent[];
   hour: Date;
+  shouldSplit?: boolean;
 }) => {
   const hourEvents = events.filter((event) => isSameHour(event.start, hour));
 
@@ -219,8 +221,8 @@ const EventGroup = ({
             style={{
               top: `${startPosition * 100}%`,
               height: `${hoursDifference * 100}%`,
-              width: "50%",
-              left: index === 0 ? "0%" : "50%",
+              width: shouldSplit ? "50%" : "100%", // イベントが重なる場合のみ分割
+              left: shouldSplit ? (index === 0 ? "0%" : "50%") : "0%",
               zIndex: 1,
             }}
           >
@@ -247,9 +249,23 @@ const CalendarDayView = () => {
     <div className="flex relative pt-2 overflow-auto h-full">
       <TimeTable />
       <div className="flex-1">
-        {hours.map((hour) => (
-          <EventGroup key={hour.toString()} hour={hour} events={events} />
-        ))}
+        {hours.map((hour) => {
+          // その時間のイベントを取得
+          const hourEvents = events.filter((event) =>
+            isSameHour(event.start, hour)
+          );
+          // 2つ以上のイベントがある場合のみ分割表示
+          const shouldSplit = hourEvents.length > 1;
+
+          return (
+            <EventGroup
+              key={hour.toString()}
+              hour={hour}
+              events={events}
+              shouldSplit={shouldSplit} // shouldSplitを追加
+            />
+          );
+        })}
       </div>
     </div>
   );
@@ -321,13 +337,23 @@ const CalendarWeekView = () => {
                 )}
                 key={hours[0].toString()}
               >
-                {hours.map((hour) => (
-                  <EventGroup
-                    key={hour.toString()}
-                    hour={hour}
-                    events={events}
-                  />
-                ))}
+                {hours.map((hour) => {
+                  // その時間のイベントを取得
+                  const hourEvents = events.filter((event) =>
+                    isSameHour(event.start, hour)
+                  );
+                  // 2つ以上のイベントがある場合のみ分割表示
+                  const shouldSplit = hourEvents.length > 1;
+
+                  return (
+                    <EventGroup
+                      key={hour.toString()}
+                      hour={hour}
+                      events={hourEvents}
+                      shouldSplit={shouldSplit} // 新しいpropsを追加
+                    />
+                  );
+                })}
               </div>
             );
           })}
