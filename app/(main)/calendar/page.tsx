@@ -5,6 +5,7 @@ import { addHours } from "date-fns";
 import CalendarView from "./components/calendar-view";
 import { CalendarEvent } from "@/components/ui/my-ui/calendar";
 
+// app/calendar/page.tsx
 export default async function CalendarPage({
   searchParams,
 }: {
@@ -19,18 +20,21 @@ export default async function CalendarPage({
       .flatMap((league) => league.matches)
       .filter((match) => matchIds.includes(match.matchId.toString()))
       .map((match) => {
-        // ここでmatchDateTimeを直接使用する
-        const startTime = new Date(match.utcDate);
+        // リーグ名による色の振り分け
+        let color = "default";
+        if (match.leagueName === "Premier League") color = "blue";
+        else if (match.leagueName === "La Liga") color = "green";
+        else if (match.leagueName === "Bundesliga") color = "pink";
+        else if (match.leagueName === "Serie A") color = "purple";
+
         return {
           id: match.matchId.toString(),
-          start: startTime,
-          end: addHours(startTime, 2),
+          start: new Date(match.utcDate),
+          end: addHours(new Date(match.utcDate), 2),
           title: `${match.home} vs ${match.away}`,
-          color: "blue" as const,
+          color: color as CalendarEvent["color"],
         };
       });
-    // 最終的なeventsの確認
-    console.log("Final events:", events);
   }
 
   return <CalendarView events={events} />;
