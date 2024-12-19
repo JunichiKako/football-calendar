@@ -7,7 +7,7 @@ import getDateRange, { formatDateForDisplay } from "@/utils/getDate";
 import MatchCard from "./match-card";
 import { Suspense } from "react";
 import { currentUser } from "@clerk/nextjs/server";
-import ClientMatchCard from "./client-match-card";
+import ClientMatchCard from "./selected-match-card";
 
 export default async function LeagueList({
   selectedLeagues,

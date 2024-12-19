@@ -1,12 +1,12 @@
-"use client";
-
-import React, { useState, useCallback } from "react";
+// app/components/match-card.tsx
 import { Match } from "@/types/match";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { TeamLabel } from "@/utils/team-label";
 
-type ClientMatchCardProps = {
+import { revalidatePath } from "next/cache";
+import { saveMatchSelections } from "@/actions/matches";
+
+type MatchCardProps = {
   leagues: {
     [leagueName: string]: {
       leagueId: number;
@@ -17,50 +17,26 @@ type ClientMatchCardProps = {
   };
 };
 
-export default function ClientMatchCard({ leagues }: ClientMatchCardProps) {
-  const [selectedMatches, setSelectedMatches] = useState<
-    Record<string, boolean>
-  >({});
-  const router = useRouter();
+export default async function SelectedMatchCard({ leagues }: MatchCardProps) {
+  // Server Action
+  async function handleSubmit(formData: FormData) {
+    "use server";
 
-  const handleCheckboxChange = useCallback(
-    (matchId: string, isChecked: boolean) => {
-      setSelectedMatches((prev) => ({
-        ...prev,
-        [matchId]: isChecked,
-      }));
-    },
-    []
-  );
+    const selectedMatches = formData.getAll("matches");
+    if (selectedMatches.length === 0) {
+      return { error: "少なくとも1つのマッチを選択してください。" };
+    }
 
-  const handleSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
+    // Supabaseに保存
+    await saveMatchSelections(selectedMatches as string[]);
 
-      const selectedMatchIds = Object.entries(selectedMatches)
-        .filter(([_, isSelected]) => isSelected)
-        .map(([id, _]) => id);
+    // カレンダーページにリダイレクト
+    revalidatePath("/calendar");
+    return { redirect: `/calendar?matchIds=${selectedMatches.join(",")}` };
+  }
 
-      if (selectedMatchIds.length === 0) {
-        alert("少なくとも1つのマッチを選択してください。");
-        return;
-      }
-
-      const params = new URLSearchParams();
-      params.set("matchIds", selectedMatchIds.join(","));
-
-      try {
-        // カレンダーページに遷移
-        router.push(`/calendar?${params.toString()}`);
-      } catch (error) {
-        alert("ページの遷移に失敗しました。もう一度お試しください。");
-      }
-    },
-    [selectedMatches, router]
-  );
-  
   return (
-    <form onSubmit={handleSubmit} className="relative pb-20">
+    <form action={handleSubmit} className="relative pb-20">
       {Object.entries(leagues).map(([leagueName, league]) => (
         <div key={leagueName} className="mb-8">
           <h2 className="text-xl font-bold mb-4 flex items-center">
@@ -78,14 +54,9 @@ export default function ClientMatchCard({ leagues }: ClientMatchCardProps) {
               <div key={match.matchId} className="relative">
                 <input
                   type="checkbox"
+                  name="matches"
+                  value={match.matchId.toString()}
                   id={match.matchId.toString()}
-                  checked={selectedMatches[match.matchId] || false}
-                  onChange={(e) =>
-                    handleCheckboxChange(
-                      match.matchId.toString(),
-                      e.target.checked
-                    )
-                  }
                   className="absolute top-2 right-2 h-4 w-4 z-10"
                 />
                 <label
