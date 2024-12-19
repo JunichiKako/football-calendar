@@ -14,6 +14,10 @@ export default async function CalendarPage({
   const matchIds = searchParams.matchIds?.split(",") || [];
   let events: CalendarEvent[] = [];
 
+  // userに応じて過去に選択したマッチも表示したい
+
+  // ここに追加した時にDBに保存したけど、Googleカレンダーに追加する前にいらなくなった場合はどうする？
+
   if (matchIds.length > 0) {
     const leagueGroup = await getLeagueByGroup();
     events = Object.values(leagueGroup)
@@ -23,7 +27,7 @@ export default async function CalendarPage({
         // リーグ名による色の振り分け
         let color = "default";
         if (match.leagueName === "Premier League") color = "blue";
-        else if (match.leagueName === "La Liga") color = "green";
+        else if (match.leagueName === "Primera Division") color = "green";
         else if (match.leagueName === "Bundesliga") color = "pink";
         else if (match.leagueName === "Serie A") color = "purple";
 
