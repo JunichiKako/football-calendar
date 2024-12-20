@@ -38,6 +38,11 @@ export async function POST(req: NextRequest) {
       "svix-timestamp": svix_timestamp,
       "svix-signature": svix_signature,
     }) as WebhookEvent;
+
+    // ペイロードの確認
+    console.log("Webhook payload:", evt);
+    console.log("Event type:", evt.type);
+    console.log("Clerk ID:", evt.data.id);
   } catch (err) {
     console.error("Error verifying webhook:", err);
     return NextResponse.json(
@@ -54,6 +59,8 @@ export async function POST(req: NextRequest) {
     case "user.updated": {
       // ブロックスコープを作成
       const { id: clerk_id } = evt.data;
+
+      console.log("Creating/Updating user with clerk_id:", clerk_id);
 
       if (!clerk_id) {
         return NextResponse.json(
