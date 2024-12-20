@@ -51,8 +51,16 @@ export async function POST(req: NextRequest) {
   // イベントタイプに基づく処理
   switch (evt.type) {
     case "user.created":
-    case "user.updated":
+    case "user.updated": {
+      // ブロックスコープを作成
       const { id: clerk_id } = evt.data;
+
+      if (!clerk_id) {
+        return NextResponse.json(
+          { error: "Missing clerk_id in create/update event" },
+          { status: 400 }
+        );
+      }
 
       try {
         await supabase.from("users").upsert({
@@ -71,11 +79,21 @@ export async function POST(req: NextRequest) {
           { status: 400 }
         );
       }
+    }
 
-    case "user.deleted":
+    case "user.deleted": {
+      // ブロックスコープを作成
+      const { id: clerk_id } = evt.data;
+
+      if (!clerk_id) {
+        return NextResponse.json(
+          { error: "Missing clerk_id in delete event" },
+          { status: 400 }
+        );
+      }
+
       try {
-        await supabase.from("users").delete().eq("clerk_id", evt.data.id);
-
+        await supabase.from("users").delete().eq("clerk_id", clerk_id);
         return NextResponse.json({ message: "User deleted" }, { status: 200 });
       } catch (err) {
         console.error("Error deleting user:", err);
@@ -84,6 +102,7 @@ export async function POST(req: NextRequest) {
           { status: 400 }
         );
       }
+    }
 
     default:
       return NextResponse.json(
