@@ -7,7 +7,7 @@ import getDateRange, { formatDateForDisplay } from "@/utils/getDate";
 import MatchCard from "./match-card";
 import { Suspense } from "react";
 import { currentUser } from "@clerk/nextjs/server";
-import ClientMatchCard from "./selected-match-card";
+import SelectedMatchCard from "./selected-match-card";
 
 export default async function LeagueList({
   selectedLeagues,
@@ -42,7 +42,7 @@ export default async function LeagueList({
       </div>
       {user ? (
         <Suspense fallback={<div>Loading..</div>}>
-          <ClientMatchCard leagues={filteredLeagues} />
+          <SelectedMatchCard leagues={filteredLeagues} />
         </Suspense>
       ) : (
         <div className="space-y-20">

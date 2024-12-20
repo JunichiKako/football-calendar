@@ -5,6 +5,7 @@ import { TeamLabel } from "@/utils/team-label";
 
 import { revalidatePath } from "next/cache";
 import { saveMatchSelections } from "@/actions/matches";
+import { log } from "node:console";
 
 type MatchCardProps = {
   leagues: {
@@ -26,6 +27,12 @@ export default async function SelectedMatchCard({ leagues }: MatchCardProps) {
     if (selectedMatches.length === 0) {
       return { error: "少なくとも1つのマッチを選択してください。" };
     }
+
+    // SearchParamsで取得する方法が良いのか
+    // or formData.get("matches")を使うのが良いのか
+
+    // SupabaseにはIDだけ渡す方が良いのでは？
+    // 引数に渡すのをIDだけにする
 
     // Supabaseに保存
     await saveMatchSelections(selectedMatches as string[]);
