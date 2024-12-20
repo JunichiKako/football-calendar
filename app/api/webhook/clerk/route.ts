@@ -39,12 +39,8 @@ export async function POST(req: NextRequest) {
       "svix-signature": svix_signature,
     }) as WebhookEvent;
 
-    // ペイロードの確認
-    console.log("Webhook payload:", evt);
-    console.log("Event type:", evt.type);
-    console.log("Clerk ID:", evt.data.id);
+
   } catch (err) {
-    console.error("Error verifying webhook:", err);
     return NextResponse.json(
       { error: "Error verifying webhook" },
       { status: 400 }
@@ -60,7 +56,6 @@ export async function POST(req: NextRequest) {
       // ブロックスコープを作成
       const { id: clerk_id } = evt.data;
 
-      console.log("Creating/Updating user with clerk_id:", clerk_id);
 
       if (!clerk_id) {
         return NextResponse.json(
@@ -75,7 +70,6 @@ export async function POST(req: NextRequest) {
           updated_at: new Date().toISOString(),
         });
 
-        console.log("Supabase upsert result:", { data, error });
 
         if (error) {
           console.error("Supabase error:", error);
@@ -87,7 +81,6 @@ export async function POST(req: NextRequest) {
           { status: 200 }
         );
       } catch (err) {
-        console.error("Error upserting user:", err);
         return NextResponse.json(
           { error: "Error upserting user" },
           { status: 400 }
@@ -112,7 +105,6 @@ export async function POST(req: NextRequest) {
           .delete()
           .eq("clerk_id", clerk_id);
 
-        console.log("Supabase delete result:", { data, error });
 
         if (error) {
           console.error("Supabase error:", error);
@@ -121,7 +113,6 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({ message: "User deleted" }, { status: 200 });
       } catch (err) {
-        console.error("Error deleting user:", err);
         return NextResponse.json(
           { error: "Error deleting user" },
           { status: 400 }
