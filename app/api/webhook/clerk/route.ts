@@ -70,10 +70,17 @@ export async function POST(req: NextRequest) {
       }
 
       try {
-        await supabase.from("users").upsert({
+        const { data, error } = await supabase.from("users").upsert({
           clerk_id,
           updated_at: new Date().toISOString(),
         });
+
+        console.log("Supabase upsert result:", { data, error });
+
+        if (error) {
+          console.error("Supabase error:", error);
+          throw error;
+        }
 
         return NextResponse.json(
           { message: "User created/updated" },
@@ -100,7 +107,18 @@ export async function POST(req: NextRequest) {
       }
 
       try {
-        await supabase.from("users").delete().eq("clerk_id", clerk_id);
+        const { data, error } = await supabase
+          .from("users")
+          .delete()
+          .eq("clerk_id", clerk_id);
+
+        console.log("Supabase delete result:", { data, error });
+
+        if (error) {
+          console.error("Supabase error:", error);
+          throw error;
+        }
+
         return NextResponse.json({ message: "User deleted" }, { status: 200 });
       } catch (err) {
         console.error("Error deleting user:", err);
