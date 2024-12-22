@@ -4,6 +4,7 @@ import Image from "next/image";
 import { TeamLabel } from "@/utils/team-label";
 import { revalidatePath } from "next/cache";
 import { saveMatchSelections } from "@/actions/matches";
+import { SelectedMatchSubmitBtn } from "./selected-match-submit-btn";
 
 type MatchCardProps = {
   leagues: {
@@ -85,12 +86,7 @@ export default async function SelectedMatchCard({ leagues }: MatchCardProps) {
         </div>
       ))}
       <div className="fixed bottom-4 right-4 z-10">
-        <button
-          type="submit"
-          className="px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-        >
-          選択したマッチを確定
-        </button>
+        <SelectedMatchSubmitBtn />
       </div>
     </form>
   );
