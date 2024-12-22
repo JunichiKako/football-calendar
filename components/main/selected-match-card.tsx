@@ -2,10 +2,8 @@
 import { Match } from "@/types/match";
 import Image from "next/image";
 import { TeamLabel } from "@/utils/team-label";
-
 import { revalidatePath } from "next/cache";
 import { saveMatchSelections } from "@/actions/matches";
-import { log } from "node:console";
 
 type MatchCardProps = {
   leagues: {
@@ -23,23 +21,14 @@ export default async function SelectedMatchCard({ leagues }: MatchCardProps) {
   async function handleSubmit(formData: FormData) {
     "use server";
 
-    const selectedMatches = formData.getAll("matches");
+    const selectedMatches = formData.getAll("matches") as string[];
+
     if (selectedMatches.length === 0) {
       return { error: "少なくとも1つのマッチを選択してください。" };
     }
 
-    // SearchParamsで取得する方法が良いのか
-    // or formData.get("matches")を使うのが良いのか
-
-    // SupabaseにはIDだけ渡す方が良いのでは？
-    // 引数に渡すのをIDだけにする
-
-    // Supabaseに保存
-    await saveMatchSelections(selectedMatches as string[]);
-
-    // カレンダーページにリダイレクト
-    revalidatePath("/calendar");
-    return { redirect: `/calendar?matchIds=${selectedMatches.join(",")}` };
+    // Supabaseに保存とリダイレクトを一緒に処理
+    await saveMatchSelections(selectedMatches);
   }
 
   return (

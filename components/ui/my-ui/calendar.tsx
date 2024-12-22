@@ -37,36 +37,6 @@ import {
 } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
-const monthEventVariants = cva("size-2 rounded-full", {
-  variants: {
-    variant: {
-      default: "bg-primary",
-      blue: "bg-blue-500",
-      green: "bg-green-500",
-      pink: "bg-pink-500",
-      purple: "bg-purple-500",
-    },
-  },
-  defaultVariants: {
-    variant: "default",
-  },
-});
-
-const dayEventVariants = cva("font-bold border-l-4 rounded p-2 text-xs", {
-  variants: {
-    variant: {
-      default: "bg-muted/30 text-muted-foreground border-muted",
-      blue: "bg-blue-500/50 text-blue-600 border-blue-500",
-      green: "bg-green-500/30 text-green-600 border-green-500",
-      pink: "bg-pink-500/30 text-pink-600 border-pink-500",
-      purple: "bg-purple-500/30 text-purple-600 border-purple-500",
-    },
-  },
-  defaultVariants: {
-    variant: "default",
-  },
-});
-
 type View = "day" | "week" | "month" | "year";
 
 type ContextType = {
@@ -90,7 +60,7 @@ export type CalendarEvent = {
   start: Date;
   end: Date;
   title: string;
-  color?: VariantProps<typeof monthEventVariants>["variant"];
+  leagueName: string; // リーグ名を追加
 };
 
 type CalendarProps = {
@@ -187,25 +157,56 @@ const CalendarViewTrigger = forwardRef<
 });
 CalendarViewTrigger.displayName = "CalendarViewTrigger";
 
+// リーグごとのスタイルを定義する共通の関数
+const getEventStyle = (leagueName: string): string => {
+  switch (leagueName) {
+    case "Premier League":
+      return "bg-[#3D195B]/80 text-white"; // プレミアリーグの紫
+    case "Bundesliga":
+      return "bg-[#D3010C]/80 text-white"; // ブンデスリーガの赤
+    case "Primera Division":
+      return "bg-[#EE8707]/80 text-white"; // ラ・リーガのオレンジ
+    case "Serie A":
+      return "bg-[#18305B]/80 text-white"; // セリエAの濃紺
+    case "Ligue 1":
+      return "bg-[#091C3E]/80 text-white"; // リーグ・アンの紺
+    default:
+      return "bg-gray-500/80 text-white";
+  }
+};
+
 const EventGroup = ({
   events,
   hour,
-  shouldSplit = false,
 }: {
   events: CalendarEvent[];
   hour: Date;
-  shouldSplit?: boolean;
 }) => {
   const hourEvents = events.filter((event) => isSameHour(event.start, hour));
 
+  const getEventStyle = (leagueName: string): string => {
+    switch (leagueName) {
+      case "Premier League":
+        return "bg-[#3D195B] text-white border border-white/20"; // ボーダーを追加
+      case "Bundesliga":
+        return "bg-[#D3010C] text-white border border-white/20";
+      case "Primera Division":
+        return "bg-[#EE8707] text-white border border-white/20";
+      case "Serie A":
+        return "bg-[#18305B] text-white border border-white/20";
+      case "Ligue 1":
+        return "bg-[#091C3E] text-white border border-white/20";
+      default:
+        return "bg-gray-500/80 text-white border border-white/20";
+    }
+  };
+
   return (
     <div className="relative h-20">
-      {/* 時間枠の背景 */}
       <div className="absolute inset-0" style={{ zIndex: 0 }}>
         <div className="w-full h-full border-t" />
       </div>
 
-      {/* イベント */}
       {hourEvents.map((event, index) => {
         const hoursDifference =
           differenceInMinutes(event.end, event.start) / 60;
@@ -215,20 +216,21 @@ const EventGroup = ({
           <div
             key={event.id}
             className={cn(
-              "absolute",
-              dayEventVariants({ variant: event.color })
+              "absolute hover:z-10",
+              "p-2 rounded-md shadow-sm", // シャドウも追加
+              getEventStyle(event.leagueName)
             )}
             style={{
               top: `${startPosition * 100}%`,
               height: `${hoursDifference * 100}%`,
-              width: shouldSplit ? "50%" : "100%", // イベントが重なる場合のみ分割
-              left: shouldSplit ? (index === 0 ? "0%" : "50%") : "0%",
-              zIndex: 1,
+              width: "25%",
+              left: `${index * 25}%`,
+              zIndex: index,
             }}
           >
-            <div className="flex flex-col gap-1">
-              <div className="font-semibold text-card">{event.title}</div>
-              <div className="text-xs text-card">
+            <div className="flex flex-col gap-1 overflow-hidden">
+              <div className="font-semibold truncate">{event.title}</div>
+              <div className="text-xs whitespace-nowrap opacity-90">
                 {format(event.start, "HH:mm")} - {format(event.end, "HH:mm")}
               </div>
             </div>
@@ -258,12 +260,7 @@ const CalendarDayView = () => {
           const shouldSplit = hourEvents.length > 1;
 
           return (
-            <EventGroup
-              key={hour.toString()}
-              hour={hour}
-              events={events}
-              shouldSplit={shouldSplit} // shouldSplitを追加
-            />
+            <EventGroup key={hour.toString()} hour={hour} events={events} />
           );
         })}
       </div>
@@ -350,7 +347,6 @@ const CalendarWeekView = () => {
                       key={hour.toString()}
                       hour={hour}
                       events={hourEvents}
-                      shouldSplit={shouldSplit} // 新しいpropsを追加
                     />
                   );
                 })}
@@ -422,12 +418,7 @@ const CalendarMonthView = () => {
                     key={event.id}
                     className="px-1 rounded text-xs flex items-center gap-1"
                   >
-                    <div
-                      className={cn(
-                        "shrink-0",
-                        monthEventVariants({ variant: event.color })
-                      )}
-                    ></div>
+                    <div className={cn("shrink-0")}></div>
                     <span className="flex-1 truncate">{event.title}</span>
                     <time className="tabular-nums text-muted-foreground/50 text-xs">
                       {format(event.start, "HH:mm")}

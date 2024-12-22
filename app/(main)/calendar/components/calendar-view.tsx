@@ -16,7 +16,7 @@ import {
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function CalendarView({ events }: { events: CalendarEvent[] }) {
-  console.log("Calendar events:", events);
+
   return (
     <Calendar events={events}>
       <div className="h-dvh p-14 flex flex-col">
