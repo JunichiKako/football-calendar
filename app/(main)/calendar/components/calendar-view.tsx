@@ -56,7 +56,6 @@ export default function CalendarView({ events }: { events: CalendarEvent[] }) {
             <ChevronRight size={20} />
             <span className="sr-only">Next</span>
           </CalendarNextTrigger>
-          <ModeToggle />
         </div>
         <div className="flex-1 px-6 overflow-hidden">
           <CalendarDayView />
