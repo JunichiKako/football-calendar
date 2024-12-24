@@ -1,17 +1,16 @@
 // components/LeagueList.tsx
 import { getLeagueByGroup } from "@/data/league";
-import { Calendar } from "lucide-react";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 import getDateRange, { formatDateForDisplay } from "@/utils/getDate";
-import MatchCard from "./match-card";
-import { Suspense } from "react";
 import { currentUser } from "@clerk/nextjs/server";
+import { Calendar } from "lucide-react";
+import Image from "next/image";
+import MatchCard from "./match-card";
 import SelectedMatchCard from "./selected-match-card";
 
 type LeagueListProps = {
   selectedLeagues: string[];
-  selectedMatches: string[]; 
+  selectedMatches: string[];
 };
 
 export default async function LeagueList({
@@ -45,12 +44,10 @@ export default async function LeagueList({
         </p>
       </div>
       {user ? (
-        <Suspense fallback={<div>Loading..</div>}>
-          <SelectedMatchCard
-            leagues={filteredLeagues}
-            selectedMatches={selectedMatches}
-          />
-        </Suspense>
+        <SelectedMatchCard
+          leagues={filteredLeagues}
+          selectedMatches={selectedMatches}
+        />
       ) : (
         <div className="space-y-20">
           {Object.entries(filteredLeagues).map(([leagueName, league]) => {

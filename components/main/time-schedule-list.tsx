@@ -1,12 +1,10 @@
-import { Match } from "@/types/match";
 import { getLeagueMatchesByTime } from "@/data/league";
-import TimeMatchGroup from "./time-match-group";
-import { Calendar } from "lucide-react";
+import { Match } from "@/types/match";
 import getDateRange, { formatDateForDisplay } from "@/utils/getDate";
 import { currentUser } from "@clerk/nextjs/server";
-
-import { Suspense } from "react";
+import { Calendar } from "lucide-react";
 import SelectedTimeMatchCard from "./selected-time-match-card";
+import TimeMatchGroup from "./time-match-group";
 
 type TimeScheduleListProps = {
   selectedLeagues: string[];
@@ -69,12 +67,10 @@ export default async function TimeScheduleList({
         </p>
       </div>
       {user ? (
-        <Suspense fallback={<div>Loading..</div>}>
-          <SelectedTimeMatchCard
-            matches={sortedMatches}
-            selectedMatches={selectedMatches}
-          />
-        </Suspense>
+        <SelectedTimeMatchCard
+          matches={sortedMatches}
+          selectedMatches={selectedMatches}
+        />
       ) : (
         <div>
           {groupedMatches.map((matches, index) => (
