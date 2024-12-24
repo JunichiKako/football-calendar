@@ -42,7 +42,7 @@ export default async function Page({
     id: match.matchId.toString(),
     title: `${match.home} vs ${match.away}`,
     start: new Date(match.utcDate),
-    end: new Date(new Date(match.utcDate).getTime() + 90 * 60 * 1000),
+    end: new Date(new Date(match.utcDate).getTime() + 120 * 60 * 1000),
     leagueName: match.leagueName,  // リーグ名を追加
   }));
 
