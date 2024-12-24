@@ -28,6 +28,9 @@ export function CheckForm({
   const router = useRouter();
   const searchParams = useSearchParams();
   const paramsLeagues = searchParams.get("leagues");
+  const selectedMatches = searchParams.get("selectedMatches");
+  const view = searchParams.get("view") || "league";
+
   const { register, watch, setValue, reset } = useForm<FormValues>({
     defaultValues: { leagues: searchParams.get("leagues")?.split(",") || [] },
   });
@@ -64,11 +67,18 @@ export function CheckForm({
   const updateQueryParams = (newSelectedLeagues: string[]) => {
     const params = new URLSearchParams(window.location.search);
 
+    // リーグの更新
     if (newSelectedLeagues.length > 0) {
       params.set("leagues", newSelectedLeagues.join(","));
     } else {
       params.delete("leagues");
     }
+
+    // 既存のパラメータを維持
+    if (selectedMatches) {
+      params.set("selectedMatches", selectedMatches);
+    }
+    params.set("view", view);
 
     router.replace(`?${params.toString()}`);
   };

@@ -11,9 +11,8 @@ export default function LeagueToggle() {
   const currentView = searchParams.get("view") || "league";
 
   const createUrlWithView = (view: string) => {
-    const params = new URLSearchParams();
-
-    if (currentLeagues) params.set("leagues", currentLeagues);
+    // 現在のsearchParamsをベースに新しいインスタンスを作成
+    const params = new URLSearchParams(searchParams);
     params.set("view", view);
 
     return `?${params.toString()}`;

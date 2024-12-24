@@ -1,15 +1,24 @@
 import { Match } from "@/types/match";
 import { getLeagueMatchesByTime } from "@/data/league";
-import TimeMatchGroup from "./time-match-card";
+import TimeMatchGroup from "./time-match-group";
 import { Calendar } from "lucide-react";
 import getDateRange, { formatDateForDisplay } from "@/utils/getDate";
+import { currentUser } from "@clerk/nextjs/server";
+
+import { Suspense } from "react";
+import SelectedTimeMatchCard from "./selected-time-match-card";
+
+type TimeScheduleListProps = {
+  selectedLeagues: string[];
+  selectedMatches: string[]; // 追加
+};
 
 export default async function TimeScheduleList({
   selectedLeagues,
-}: {
-  selectedLeagues: string[];
-}) {
+  selectedMatches,
+}: TimeScheduleListProps) {
   const allMatches: Match[] = await getLeagueMatchesByTime();
+  const user = await currentUser();
 
   // `selectedLeagues` に基づいて試合をフィルタリング
   const filteredMatches =
@@ -30,28 +39,23 @@ export default async function TimeScheduleList({
 
   sortedMatches.forEach((match, index) => {
     if (currentGroup.length === 0) {
-      // 最初の試合を新しいグループに追加
       currentGroup.push(match);
     } else {
       const lastMatch = currentGroup[currentGroup.length - 1];
 
       if (match.leagueName === lastMatch.leagueName) {
-        // 同じリーグの試合ならグループに追加
         currentGroup.push(match);
       } else {
-        // 異なるリーグの試合が始まるので、現在のグループを確定
         groupedMatches.push(currentGroup);
-        currentGroup = [match]; // 新しいグループを開始
+        currentGroup = [match];
       }
     }
 
-    // 最後の試合を処理した後にグループを追加
     if (index === sortedMatches.length - 1) {
       groupedMatches.push(currentGroup);
     }
   });
 
-  // 表示する日付の範囲を取得
   const { dateFrom, dateTo } = getDateRange();
   const { displayFrom, displayTo } = formatDateForDisplay(dateFrom, dateTo);
 
@@ -64,11 +68,20 @@ export default async function TimeScheduleList({
           {displayFrom} - {displayTo}
         </p>
       </div>
-      <div>
-        {groupedMatches.map((matches, index) => (
-          <TimeMatchGroup key={index} matches={matches} />
-        ))}
-      </div>
+      {user ? (
+        <Suspense fallback={<div>Loading..</div>}>
+          <SelectedTimeMatchCard
+            matches={sortedMatches}
+            selectedMatches={selectedMatches}
+          />
+        </Suspense>
+      ) : (
+        <div>
+          {groupedMatches.map((matches, index) => (
+            <TimeMatchGroup key={index} matches={matches} />
+          ))}
+        </div>
+      )}
     </>
   );
 }

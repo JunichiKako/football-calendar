@@ -4,6 +4,7 @@ import Image from "next/image";
 import { TeamLabel } from "@/utils/team-label";
 import { saveMatchSelections } from "@/actions/matches";
 import { SelectedMatchSubmitBtn } from "./selected-match-submit-btn";
+import MatchCheckbox from "./match-check-box";
 
 type MatchCardProps = {
   leagues: {
@@ -14,20 +15,19 @@ type MatchCardProps = {
       matches: Match[];
     };
   };
+  selectedMatches: string[];
 };
 
-export default async function SelectedMatchCard({ leagues }: MatchCardProps) {
-  // Server Action
+export default async function SelectedMatchCard({
+  leagues,
+  selectedMatches,
+}: MatchCardProps) {
   async function handleSubmit(formData: FormData) {
     "use server";
-
     const selectedMatches = formData.getAll("matches") as string[];
-
     if (selectedMatches.length === 0) {
       return { error: "少なくとも1つのマッチを選択してください。" };
     }
-
-    // Supabaseに保存とリダイレクトを一緒に処理
     await saveMatchSelections(selectedMatches);
   }
 
@@ -48,12 +48,11 @@ export default async function SelectedMatchCard({ leagues }: MatchCardProps) {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6">
             {league.matches.map((match) => (
               <div key={match.matchId} className="relative">
-                <input
-                  type="checkbox"
-                  name="matches"
-                  value={match.matchId.toString()}
-                  id={match.matchId.toString()}
-                  className="peer hidden"
+                <MatchCheckbox
+                  matchId={match.matchId}
+                  isSelected={selectedMatches.includes(
+                    match.matchId.toString()
+                  )}
                 />
                 <label
                   htmlFor={match.matchId.toString()}

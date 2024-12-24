@@ -7,7 +7,7 @@ type TimeMatchCardProps = {
   matches: Match[]; // `matches` を受け取るように修正
 };
 
-export default function TimeMatchCard({ matches }: TimeMatchCardProps) {
+export default function TimeMatchGroup({ matches }: TimeMatchCardProps) {
   if (matches.length === 0) {
     return null; // 試合がない場合は何も表示しない
   }

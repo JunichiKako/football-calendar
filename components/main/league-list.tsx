@@ -9,11 +9,15 @@ import { Suspense } from "react";
 import { currentUser } from "@clerk/nextjs/server";
 import SelectedMatchCard from "./selected-match-card";
 
+type LeagueListProps = {
+  selectedLeagues: string[];
+  selectedMatches: string[]; 
+};
+
 export default async function LeagueList({
   selectedLeagues,
-}: {
-  selectedLeagues: string[];
-}) {
+  selectedMatches,
+}: LeagueListProps) {
   // ここで一括してリーグでグループ化されたリーグデータを取得する
   const leagueGroup = await getLeagueByGroup();
   const user = await currentUser();
@@ -42,7 +46,10 @@ export default async function LeagueList({
       </div>
       {user ? (
         <Suspense fallback={<div>Loading..</div>}>
-          <SelectedMatchCard leagues={filteredLeagues} />
+          <SelectedMatchCard
+            leagues={filteredLeagues}
+            selectedMatches={selectedMatches}
+          />
         </Suspense>
       ) : (
         <div className="space-y-20">

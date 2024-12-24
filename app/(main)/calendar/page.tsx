@@ -6,11 +6,11 @@ import { redirect } from "next/navigation";
 import { createClerkSupabaseClient } from "@/lib/supabase/clerk";
 import CalendarView from "./components/calendar-view";
 
-
+// app/calendar/page.tsx
 export default async function Page({
   searchParams,
 }: {
-  searchParams: { matchIds?: string };
+  searchParams: { selectedMatches?: string }; // matchIdsからselectedMatchesに変更
 }) {
   const user = await currentUser();
   const supabase = await createClerkSupabaseClient();
@@ -26,26 +26,25 @@ export default async function Page({
     .eq("clerk_id", user.id)
     .single();
 
-  // グループ化されたリーグデータを取得
   const groupedLeagues = await getLeagueByGroup();
 
-  // 保存された全ての試合IDを使用
-  const allMatchIds = savedSelections?.match_ids || [];
+  // URLパラメータまたはDB保存データを使用
+  const matchIds =
+    searchParams.selectedMatches?.split(",") ||
+    savedSelections?.match_ids ||
+    [];
 
-  // 試合をフィルタリング
   const selectedMatches = Object.values(groupedLeagues)
     .flatMap((league) => league.matches)
-    .filter((match) => allMatchIds.includes(match.matchId.toString()));
+    .filter((match) => matchIds.includes(match.matchId.toString()));
 
-  // カレンダーイベント形式に変換
   const calendarEvents: CalendarEvent[] = selectedMatches.map((match) => ({
     id: match.matchId.toString(),
     title: `${match.home} vs ${match.away}`,
     start: new Date(match.utcDate),
     end: new Date(new Date(match.utcDate).getTime() + 120 * 60 * 1000),
-    leagueName: match.leagueName,  // リーグ名を追加
+    leagueName: match.leagueName,
   }));
-
 
   return <CalendarView events={calendarEvents} />;
 }

@@ -4,7 +4,7 @@ import { createClerkSupabaseClient } from "@/lib/supabase/clerk";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
-export async function saveMatchSelections(newMatchIds: string[]) {
+export async function saveMatchSelections(matchIds: string[]) {
   const supabase = await createClerkSupabaseClient();
   const user = await currentUser();
 
@@ -19,15 +19,14 @@ export async function saveMatchSelections(newMatchIds: string[]) {
       .eq("clerk_id", user.id)
       .maybeSingle();
 
-    // filterメソッドのパラメータに型を追加
     const allMatchIds = existing
       ? existing.match_ids
-          .concat(newMatchIds)
+          .concat(matchIds)
           .filter(
             (id: string, index: number, self: string[]) =>
               self.indexOf(id) === index
           )
-      : newMatchIds;
+      : matchIds;
 
     if (existing) {
       const { error: updateError } = await supabase
@@ -47,7 +46,8 @@ export async function saveMatchSelections(newMatchIds: string[]) {
       if (insertError) throw insertError;
     }
 
-    redirect(`/calendar?matchIds=${newMatchIds.join(",")}`);
+    // リダイレクト先を変更
+    redirect(`?selectedMatches=${matchIds.join(",")}`);
   } catch (error) {
     throw error;
   }
