@@ -2,6 +2,17 @@
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogOverlay,
+  AlertDialogPortal,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@radix-ui/react-alert-dialog";
 import { VariantProps, cva } from "class-variance-authority";
 import {
   Locale,
@@ -26,6 +37,7 @@ import {
   subYears,
 } from "date-fns";
 import { enUS } from "date-fns/locale/en-US";
+import { X } from "lucide-react";
 import {
   ReactNode,
   createContext,
@@ -36,6 +48,8 @@ import {
   useState,
 } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { AlertDialogFooter, AlertDialogHeader } from "../alert-dialog";
+import { removeMatchSelections } from "@/actions/matches";
 
 type View = "day" | "week" | "month" | "year";
 
@@ -46,7 +60,10 @@ type ContextType = {
   setDate: (date: Date) => void;
   events: CalendarEvent[];
   locale: Locale;
-  setEvents: (date: CalendarEvent[]) => void;
+  // ここを修正
+  setEvents: (
+    events: CalendarEvent[] | ((prev: CalendarEvent[]) => CalendarEvent[])
+  ) => void;
   onChangeView?: (view: View) => void;
   onEventClick?: (event: CalendarEvent) => void;
   enableHotkeys?: boolean;
@@ -157,24 +174,6 @@ const CalendarViewTrigger = forwardRef<
 });
 CalendarViewTrigger.displayName = "CalendarViewTrigger";
 
-// リーグごとのスタイルを定義する共通の関数
-const getEventStyle = (leagueName: string): string => {
-  switch (leagueName) {
-    case "Premier League":
-      return "bg-[#3D195B]/80 text-white"; // プレミアリーグの紫
-    case "Bundesliga":
-      return "bg-[#D3010C]/80 text-white"; // ブンデスリーガの赤
-    case "Primera Division":
-      return "bg-[#EE8707]/80 text-white"; // ラ・リーガのオレンジ
-    case "Serie A":
-      return "bg-[#18305B]/80 text-white"; // セリエAの濃紺
-    case "Ligue 1":
-      return "bg-[#091C3E]/80 text-white"; // リーグ・アンの紺
-    default:
-      return "bg-gray-500/80 text-white";
-  }
-};
-
 const EventGroup = ({
   events,
   hour,
@@ -182,12 +181,13 @@ const EventGroup = ({
   events: CalendarEvent[];
   hour: Date;
 }) => {
+  const { setEvents } = useCalendar();
   const hourEvents = events.filter((event) => isSameHour(event.start, hour));
 
   const getEventStyle = (leagueName: string): string => {
     switch (leagueName) {
       case "Premier League":
-        return "bg-[#3D195B] text-white border border-white/20"; // ボーダーを追加
+        return "bg-[#3D195B] text-white border border-white/20";
       case "Bundesliga":
         return "bg-[#D3010C] text-white border border-white/20";
       case "Primera Division":
@@ -198,6 +198,17 @@ const EventGroup = ({
         return "bg-[#091C3E] text-white border border-white/20";
       default:
         return "bg-gray-500/80 text-white border border-white/20";
+    }
+  };
+
+  const handleDelete = async (eventId: string) => {
+    try {
+      await removeMatchSelections(eventId);
+      setEvents((prevEvents) =>
+        prevEvents.filter((event) => event.id !== eventId)
+      );
+    } catch (error) {
+      console.error("Error deleting event:", error);
     }
   };
 
@@ -217,7 +228,7 @@ const EventGroup = ({
             key={event.id}
             className={cn(
               "absolute hover:z-10",
-              "p-2 rounded-md shadow-sm", // シャドウも追加
+              "p-2 rounded-md shadow-sm",
               getEventStyle(event.leagueName)
             )}
             style={{
@@ -229,7 +240,44 @@ const EventGroup = ({
             }}
           >
             <div className="flex flex-col gap-1 overflow-hidden">
-              <div className="font-semibold truncate">{event.title}</div>
+              <div className="flex items-start justify-between">
+                <div className="font-semibold truncate">{event.title}</div>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6 p-0 text-white/70 hover:text-white hover:bg-white/10"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogPortal>
+                    <AlertDialogOverlay className="fixed inset-0 bg-black/50 z-50" />
+                    <AlertDialogContent className="fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] z-[51] max-w-md w-[90%] bg-white shadow-lg rounded-lg p-4">
+                      <AlertDialogHeader className="mb-4">
+                        <AlertDialogTitle>イベントの削除</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          本当にこのイベントを削除しますか？
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel asChild>
+                          <Button variant="outline">キャンセル</Button>
+                        </AlertDialogCancel>
+                        <AlertDialogAction asChild>
+                          <Button
+                            variant="destructive"
+                            onClick={() => handleDelete(event.id)}
+                          >
+                            削除
+                          </Button>
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialogPortal>
+                </AlertDialog>
+              </div>
               <div className="text-xs whitespace-nowrap opacity-90">
                 {format(event.start, "HH:mm")} - {format(event.end, "HH:mm")}
               </div>
