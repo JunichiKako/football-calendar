@@ -2,7 +2,6 @@
 import { Match } from "@/types/match";
 import Image from "next/image";
 import { TeamLabel } from "@/utils/team-label";
-import { revalidatePath } from "next/cache";
 import { saveMatchSelections } from "@/actions/matches";
 import { SelectedMatchSubmitBtn } from "./selected-match-submit-btn";
 
@@ -35,7 +34,7 @@ export default async function SelectedMatchCard({ leagues }: MatchCardProps) {
   return (
     <form action={handleSubmit} className="relative pb-20">
       {Object.entries(leagues).map(([leagueName, league]) => (
-        <div key={leagueName} className="mb-8">
+        <div key={leagueName} className="mb-16">
           <h2 className="text-xl font-bold mb-4 flex items-center">
             <Image
               src={league.leagueImg}
@@ -54,11 +53,12 @@ export default async function SelectedMatchCard({ leagues }: MatchCardProps) {
                   name="matches"
                   value={match.matchId.toString()}
                   id={match.matchId.toString()}
-                  className="absolute top-2 right-2 h-4 w-4 z-10"
+                  className="peer hidden"
                 />
                 <label
                   htmlFor={match.matchId.toString()}
-                  className="p-4 shadow-lg rounded-lg flex justify-between items-center border cursor-pointer"
+                  className="p-4 shadow-lg rounded-lg flex justify-between items-center border cursor-pointer
+                  transition-all duration-200 peer-checked:bg-blue-50 peer-checked:border-blue-500 hover:bg-gray-50"
                 >
                   <div className="flex-1 space-y-3">
                     <TeamLabel
