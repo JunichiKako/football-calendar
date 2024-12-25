@@ -1,9 +1,9 @@
-import "server-only";
-import { Match } from "@/types/match";
-import { leagueIds } from "@/data/leagueId";
-import { league } from "@/types/league";
-import { cache } from "react";
-import { teamTranslations } from "@/data/translations";
+import 'server-only';
+import { Match } from '@/types/match';
+import { leagueIds } from '@/data/leagueId';
+import { league } from '@/types/league';
+import { cache } from 'react';
+import { teamTranslations } from '@/data/translations';
 
 // 外部APIからリーグデータを取得
 export const getLeagues = cache(async () => {
@@ -13,9 +13,9 @@ export const getLeagues = cache(async () => {
         const res = await fetch(
           `https://api.football-data.org/v4/competitions/${id}/matches?season=2023&dateFrom=2024-05-12&dateTo=2024-05-19`,
           {
-            method: "GET",
+            method: 'GET',
             headers: {
-              "X-Auth-Token": process.env.FOOTBALL_API_KEY!,
+              'X-Auth-Token': process.env.FOOTBALL_API_KEY!,
             },
           }
         );
@@ -38,14 +38,14 @@ export const getLeagues = cache(async () => {
 
         return data.matches.map((match) => {
           const matchDateTime = new Date(match.utcDate);
-          const matchDate = matchDateTime.toLocaleDateString("ja-JP", {
-            month: "numeric",
-            day: "numeric",
-            weekday: "short",
+          const matchDate = matchDateTime.toLocaleDateString('ja-JP', {
+            month: 'numeric',
+            day: 'numeric',
+            weekday: 'short',
           });
-          const matchTime = matchDateTime.toLocaleTimeString("ja-JP", {
-            hour: "2-digit",
-            minute: "2-digit",
+          const matchTime = matchDateTime.toLocaleTimeString('ja-JP', {
+            hour: '2-digit',
+            minute: '2-digit',
           });
           const seasonStartYear = new Date(
             match.season.startDate

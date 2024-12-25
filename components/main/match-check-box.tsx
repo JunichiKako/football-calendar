@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 type MatchCheckboxProps = {
   matchId: string | number;
@@ -18,7 +18,7 @@ export default function MatchCheckbox({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const params = new URLSearchParams(searchParams);
     const currentSelected =
-      params.get("selectedMatches")?.split(",").filter(Boolean) || [];
+      params.get('selectedMatches')?.split(',').filter(Boolean) || [];
 
     if (e.target.checked) {
       if (!currentSelected.includes(matchId.toString())) {
@@ -32,9 +32,9 @@ export default function MatchCheckbox({
     }
 
     if (currentSelected.length > 0) {
-      params.set("selectedMatches", currentSelected.join(","));
+      params.set('selectedMatches', currentSelected.join(','));
     } else {
-      params.delete("selectedMatches");
+      params.delete('selectedMatches');
     }
 
     // スクロール位置を維持するオプションを追加
@@ -45,11 +45,11 @@ export default function MatchCheckbox({
 
   return (
     <input
-      type="checkbox"
-      name="matches"
+      type='checkbox'
+      name='matches'
       value={matchId.toString()}
       id={matchId.toString()}
-      className="peer hidden"
+      className='peer hidden'
       checked={isSelected}
       onChange={handleChange}
     />

@@ -2,29 +2,29 @@
 export const leagues = [
   {
     id: 2021,
-    league: "プレミアリーグ",
+    league: 'プレミアリーグ',
   },
   {
     id: 2001,
-    league: "チャンピオンズリーグ",
+    league: 'チャンピオンズリーグ',
   },
   {
     id: 2002,
-    league: "ブンデスリーガ",
+    league: 'ブンデスリーガ',
   },
   {
     id: 2014,
-    league: "ラ・リーガ",
+    league: 'ラ・リーガ',
   },
   {
     id: 2019,
-    league: "セリエA",
+    league: 'セリエA',
   },
   {
     id: 2015,
-    league: "リーグ１",
+    league: 'リーグ１',
   },
-  
+
   // EUROやワールドカップなどのリーグも追加可能だがseason=2023を2024に変更する必要があるので注意
   // {
   //   id: 2018,

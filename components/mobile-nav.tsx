@@ -1,12 +1,18 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Match } from "@/types/match";
-import { Menu } from "lucide-react";
-import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+'use client';
+import { Button } from '@/components/ui/button';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import { Match } from '@/types/match';
+import { Menu } from 'lucide-react';
+import Image from 'next/image';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 
 type leagueByGroupProps = {
   [key: string]: {
@@ -20,35 +26,37 @@ type FormValues = {
   leagues: string[];
 };
 
-export default function MobileNav({ leagueByGroup }: { leagueByGroup: leagueByGroupProps }) {
-  
+export default function MobileNav({
+  leagueByGroup,
+}: {
+  leagueByGroup: leagueByGroupProps;
+}) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { register, watch, setValue } = useForm<FormValues>({
     defaultValues: { leagues: [] },
   });
-  const selectedLeagues = watch("leagues");
+  const selectedLeagues = watch('leagues');
 
   useEffect(() => {
-    const leagues = searchParams.get("leagues");
+    const leagues = searchParams.get('leagues');
     if (leagues) {
-      setValue("leagues", leagues.split(","));
+      setValue('leagues', leagues.split(','));
     }
   }, [searchParams, setValue]);
 
   const handleLeagueToggle = (leagueName: string) => {
-    
     const newSelectedLeagues = selectedLeagues.includes(leagueName)
       ? selectedLeagues.filter((league) => league !== leagueName)
       : [...selectedLeagues, leagueName];
-    setValue("leagues", newSelectedLeagues);
+    setValue('leagues', newSelectedLeagues);
 
     const params = new URLSearchParams(window.location.search);
 
     if (newSelectedLeagues.length > 0) {
-      params.set("leagues", newSelectedLeagues.join(","));
+      params.set('leagues', newSelectedLeagues.join(','));
     } else {
-      params.delete("leagues");
+      params.delete('leagues');
     }
     router.replace(`?${params.toString()}`);
   };
@@ -56,34 +64,39 @@ export default function MobileNav({ leagueByGroup }: { leagueByGroup: leagueByGr
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button size="icon" className="lg:hidden" variant="outline">
+        <Button size='icon' className='lg:hidden' variant='outline'>
           <Menu size={20} />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left">
+      <SheetContent side='left'>
         <SheetHeader>
           <SheetTitle>リーグを選ぶ</SheetTitle>
         </SheetHeader>
-        <div className="mt-2 overflow-auto">
+        <div className='mt-2 overflow-auto'>
           <div>
             {Object.keys(leagueByGroup).map((leagueName) => {
               const league = leagueByGroup[leagueName];
               return (
                 <div
                   key={league.leagueId}
-                  className="hover:bg-gray-100 p-2 rounded-lg cursor-pointer"
+                  className='hover:bg-gray-100 p-2 rounded-lg cursor-pointer'
                 >
-                  <label className="flex gap-4 items-center">
+                  <label className='flex gap-4 items-center'>
                     <input
-                      type="checkbox"
+                      type='checkbox'
                       value={leagueName}
-                      {...register("leagues")}
+                      {...register('leagues')}
                       checked={selectedLeagues.includes(leagueName)}
                       onChange={() => handleLeagueToggle(leagueName)}
-                      className="form-checkbox h-4 w-4"
+                      className='form-checkbox h-4 w-4'
                     />
-                    <Image src={league.leagueImg} alt={league.leagueName} width={32} height={32} />
-                    <span className="">{league.leagueName}</span>
+                    <Image
+                      src={league.leagueImg}
+                      alt={league.leagueName}
+                      width={32}
+                      height={32}
+                    />
+                    <span className=''>{league.leagueName}</span>
                   </label>
                 </div>
               );

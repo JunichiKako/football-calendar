@@ -1,7 +1,7 @@
 // /lib/supabase/middleware.js
 
-import { createServerClient, type CookieOptions } from "@supabase/ssr";
-import { NextResponse, type NextRequest } from "next/server";
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
+import { NextResponse, type NextRequest } from 'next/server';
 
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({
@@ -38,7 +38,7 @@ export async function updateSession(request: NextRequest) {
         remove(name: string, options: CookieOptions) {
           request.cookies.set({
             name,
-            value: "",
+            value: '',
             ...options,
           });
           response = NextResponse.next({
@@ -48,7 +48,7 @@ export async function updateSession(request: NextRequest) {
           });
           response.cookies.set({
             name,
-            value: "",
+            value: '',
             ...options,
           });
         },
