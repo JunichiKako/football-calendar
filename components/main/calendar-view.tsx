@@ -73,7 +73,7 @@ export default function CalendarView({
 
   return (
     <Calendar events={events}>
-      <div className='h-dvh p-14 flex flex-col'>
+      <div className='h-full p-14 flex flex-col'>
         <div className='flex px-6 items-center gap-2 mb-6'>
           <CalendarViewTrigger
             className='aria-[current=true]:bg-accent'

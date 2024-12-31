@@ -46,7 +46,7 @@ export default async function Home({ searchParams }: HomeProps) {
     }
 
     return (
-      <div data-view={currentView}>
+      <div data-view={currentView} className='h-full'>
         <Suspense fallback={<div>Loading calendar...</div>}>
           <CalendarView
             groupedLeagues={groupedLeagues}
