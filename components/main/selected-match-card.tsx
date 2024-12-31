@@ -22,6 +22,7 @@ export default async function SelectedMatchCard({
   leagues,
   selectedMatches,
 }: MatchCardProps) {
+  
   async function handleSubmit(formData: FormData) {
     'use server';
     const selectedMatches = formData.getAll('matches') as string[];

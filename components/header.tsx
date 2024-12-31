@@ -24,7 +24,7 @@ export default async function Header() {
       <span className='flex-1'></span>
       <SignedIn>
         <Button variant='ghost' className='text-white' asChild>
-          <Link href='/calendar' className='flex items-center gap-2'>
+          <Link href='/?view=calendar' className='flex items-center gap-2'>
             <Calendar className='h-4 w-4' />
             カレンダーを見る
           </Link>

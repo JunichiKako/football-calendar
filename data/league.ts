@@ -5,8 +5,7 @@ import { league } from '@/types/league';
 import { cache } from 'react';
 import { teamTranslations } from '@/data/translations';
 
-// 外部APIからリーグデータを取得
-export const getLeagues = cache(async () => {
+const getLeaguesWithCache = async () => {
   const leagues = await Promise.all(
     leagueIds.map(async (id) => {
       try {
@@ -71,7 +70,7 @@ export const getLeagues = cache(async () => {
             homeEmblemUrl: match.homeTeam.crest,
             away: awayTeam,
             awayEmblemUrl: match.awayTeam.crest,
-          } as Match;
+          };
         });
       } catch (error) {
         console.error(`Error fetching data for league ${id}:`, error);
@@ -80,11 +79,43 @@ export const getLeagues = cache(async () => {
     })
   );
 
-  const flattenedLeagues = leagues.flat();
-  return flattenedLeagues;
-});
+  const allLeagues = leagues.flat();
+  const sortedLeagues = sortMatchesByDateTime(allLeagues);
 
-// 日付範囲を取得を取得するヘルパー関数
+  // leagueIdsの順序でグループ化
+  const grouped = sortedLeagues.reduce((acc, match) => {
+    const leagueName = match.leagueName;
+    if (!acc[leagueName]) {
+      acc[leagueName] = {
+        leagueId: match.leagueId,
+        leagueName: match.leagueName,
+        leagueImg: match.leagueImg,
+        matches: [],
+      };
+    }
+    acc[leagueName].matches.push(match);
+    return acc;
+  }, {} as Record<string, { leagueId: number; leagueName: string; leagueImg: string; matches: Match[] }>);
+
+  // leagueIdsの順序を維持したまま返す
+  const orderedGrouped = Object.fromEntries(
+    Object.entries(grouped).sort(
+      (a, b) =>
+        leagueIds.indexOf(a[1].leagueId) - leagueIds.indexOf(b[1].leagueId)
+    )
+  );
+
+  // 各リーグの試合を時間順にソート
+  Object.values(orderedGrouped).forEach((league) => {
+    league.matches = sortMatchesByDateTime(league.matches);
+  });
+
+  return {
+    all: sortedLeagues,
+    grouped: orderedGrouped,
+  };
+};
+
 const sortMatchesByDateTime = (matches: Match[]): Match[] => {
   return matches.sort((a, b) => {
     const dateTimeA = new Date(a.utcDate);
@@ -93,50 +124,18 @@ const sortMatchesByDateTime = (matches: Match[]): Match[] => {
   });
 };
 
-// リーグをグループ化するヘルパー関数
-export default function groupLeagues(leagues: Match[]) {
-  const grouped = leagues.reduce((acc, match) => {
-    const leagueName = match.leagueName;
-    if (!acc[leagueName]) {
-      acc[leagueName] = {
-        leagueId: match.leagueId,
-        leagueName: match.leagueName,
-        leagueImg: match.leagueImg,
-        matches: [] as Match[],
-      };
-    }
-    acc[leagueName].matches.push(match);
-    return acc;
-  }, {} as Record<string, { leagueId: number; leagueName: string; leagueImg: string; matches: Match[] }>);
-
-  return grouped;
-}
-
-// リーグごとにグループ化されたリーグデータを取得する関数
 export const getLeagueByGroup = cache(async () => {
-  const leagues = await getLeagues();
-
-  const groupedLeagues = groupLeagues(leagues);
-
-  Object.values(groupedLeagues).forEach((league) => {
-    league.matches = sortMatchesByDateTime(league.matches);
-  });
-
-  return groupedLeagues;
+  const { grouped } = await getLeaguesWithCache();
+  return grouped;
 });
 
-// リーグ関係なく、全ての試合を日付・時刻順に取得する関数
 export const getLeagueMatchesByTime = cache(
   async (selectedLeagues: string[] = []) => {
-    const leagues = await getLeagues();
-
-    // 選択されたリーグでフィルタリング
-    const filteredLeagues =
-      selectedLeagues.length > 0
-        ? leagues.filter((match) => selectedLeagues.includes(match.leagueName))
-        : leagues;
-
-    const sortedMatches = sortMatchesByDateTime(filteredLeagues);
-    return sortedMatches;
+    const { all } = await getLeaguesWithCache();
+    return selectedLeagues.length > 0
+      ? all.filter((match) => selectedLeagues.includes(match.leagueName))
+      : all;
   }
 );
+
+export default getLeagueByGroup;

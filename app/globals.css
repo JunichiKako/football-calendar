@@ -75,10 +75,18 @@
   }
 }
 
+/* 追加のCSS */
+
 .dark .premier-league-logo {
   filter: brightness(0) invert(1);
 }
 
 .dark .Juventus-logo {
   filter: invert(1);
+}
+
+@media not print {
+  aside[data-calendar-hide] {
+    display: var(--sidebar-display, block);
+  }
 }
