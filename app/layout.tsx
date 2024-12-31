@@ -6,6 +6,7 @@ import { Noto_Sans_JP } from 'next/font/google';
 import { ThemeProvider } from '../components/theme-provider';
 import './globals.css';
 import { APP_NAME } from '@/config';
+import { Toaster } from '@/components/ui/toaster';
 
 const notoSansJP = Noto_Sans_JP({ subsets: ['latin'] });
 
@@ -36,6 +37,7 @@ export default async function RootLayout({
           >
             {children}
           </ThemeProvider>
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>
