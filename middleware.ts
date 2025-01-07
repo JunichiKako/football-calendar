@@ -1,10 +1,9 @@
+import { type NextRequest } from 'next/server';
 import { updateSession } from '@/lib/supabase/middleware';
 
-import { clerkMiddleware } from '@clerk/nextjs/server';
-
-export default clerkMiddleware(async (auth, request) => {
+export async function middleware(request: NextRequest) {
   return await updateSession(request);
-});
+}
 
 export const config = {
   matcher: [
@@ -17,7 +16,7 @@ export const config = {
      */
     {
       source:
-        '/((?!api|webhook|zoom|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|mp3)$).*)',
+        '/((?!webhook|zoom|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|mp3)$).*)',
       missing: [
         { type: 'header', key: 'next-router-prefetch' },
         { type: 'header', key: 'purpose', value: 'prefetch' },

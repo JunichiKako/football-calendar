@@ -3,8 +3,9 @@ import LeagueList from '@/components/main/league-list';
 import TimeScheduleList from '@/components/main/time-schedule-list';
 import { getLeagueByGroup } from '@/data/league';
 import CalendarView from '@/components/main/calendar-view';
-import { currentUser } from '@clerk/nextjs/server';
-import { createClerkSupabaseClient } from '@/lib/supabase/clerk';
+import { createClient } from '@/lib/supabase/server';
+import { currentUser } from '@/data/auth';
+import { redirect } from 'next/navigation';
 
 type HomeProps = {
   searchParams: {
@@ -14,16 +15,20 @@ type HomeProps = {
   };
 };
 
-// app/(main)/(withSidebar)/page.tsx
 export default async function Home({ searchParams }: HomeProps) {
   const groupedLeagues = await getLeagueByGroup();
   const selectedLeagues = searchParams.leagues?.split(',') || [];
   const currentView = searchParams.view || 'league';
   const selectedMatches = searchParams.selectedMatches?.split(',') || [];
 
+  const supabase = await createClient();
+
   if (currentView === 'calendar') {
-    const supabase = await createClerkSupabaseClient();
     const user = await currentUser();
+
+    if (!user) {
+      redirect('/');
+    }
 
     let allSelectedMatches = selectedMatches;
 
@@ -31,11 +36,10 @@ export default async function Home({ searchParams }: HomeProps) {
       const { data: savedMatches } = await supabase
         .from('match_selections')
         .select('match_ids')
-        .eq('clerk_id', user.id)
+        .eq('user_id', user.id)
         .single();
 
-      if (savedMatches) {
-        // 重複を除去した配列を作成
+      if (savedMatches?.match_ids) {
         allSelectedMatches = [
           ...selectedMatches,
           ...savedMatches.match_ids.filter(
@@ -57,7 +61,6 @@ export default async function Home({ searchParams }: HomeProps) {
     );
   }
 
-  // 他のビューの処理は変更なし
   return (
     <div data-view={currentView}>
       {currentView === 'league' ? (

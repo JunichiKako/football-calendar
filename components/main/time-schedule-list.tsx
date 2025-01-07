@@ -1,14 +1,14 @@
 import { getLeagueMatchesByTime } from '@/data/league';
 import { Match } from '@/types/match';
 import getDateRange, { formatDateForDisplay } from '@/utils/getDate';
-import { currentUser } from '@clerk/nextjs/server';
 import { Calendar } from 'lucide-react';
 import SelectedTimeMatchCard from './selected-time-match-card';
 import TimeMatchGroup from './time-match-group';
+import { currentUser } from '@/data/auth';
 
 type TimeScheduleListProps = {
   selectedLeagues: string[];
-  selectedMatches: string[]; // 追加
+  selectedMatches: string[]; 
 };
 
 export default async function TimeScheduleList({

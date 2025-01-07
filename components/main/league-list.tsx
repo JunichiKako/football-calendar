@@ -2,16 +2,16 @@
 import { getLeagueByGroup } from '@/data/league';
 import { cn } from '@/lib/utils';
 import getDateRange, { formatDateForDisplay } from '@/utils/getDate';
-import { currentUser } from '@clerk/nextjs/server';
 import { Calendar } from 'lucide-react';
 import Image from 'next/image';
 import MatchCard from './match-card';
 import SelectedMatchCard from './selected-match-card';
+import { createClient } from '@/lib/supabase/server';
 
 type LeagueListProps = {
   selectedLeagues: string[];
   selectedMatches: string[];
-}
+};
 
 export default async function LeagueList({
   selectedLeagues,
@@ -19,7 +19,11 @@ export default async function LeagueList({
 }: LeagueListProps) {
   // ここで一括してリーグでグループ化されたリーグデータを取得する
   const leagueGroup = await getLeagueByGroup();
-  const user = await currentUser();
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   // 選択されたリーグのみをクライアントでフィルタリングして表示する（APIの呼び出しを減らすため）
   const filteredLeagues =
