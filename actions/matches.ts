@@ -1,11 +1,12 @@
 'use server';
 
-import { createClerkSupabaseClient } from '@/lib/supabase/clerk';
-import { currentUser } from '@clerk/nextjs/server';
+import { currentUser } from '@/data/auth';
+import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 
 export async function saveMatchSelections(newMatchIds: string[]) {
-  const supabase = await createClerkSupabaseClient();
+  const supabase = await createClient();
+
   const user = await currentUser();
 
   if (!user) {
@@ -16,7 +17,7 @@ export async function saveMatchSelections(newMatchIds: string[]) {
     const { data: existing } = await supabase
       .from('match_selections')
       .select()
-      .eq('clerk_id', user.id)
+      .eq('user_id', user.id)
       .maybeSingle();
 
     // filterメソッドの中で使用されるパラメータの型を明示的に定義
@@ -33,10 +34,10 @@ export async function saveMatchSelections(newMatchIds: string[]) {
       await supabase
         .from('match_selections')
         .update({ match_ids: allMatchIds })
-        .eq('clerk_id', user.id);
+        .eq('user_id', user.id);
     } else {
       await supabase.from('match_selections').insert({
-        clerk_id: user.id,
+        user_id: user.id,
         match_ids: allMatchIds,
       });
     }
@@ -48,8 +49,11 @@ export async function saveMatchSelections(newMatchIds: string[]) {
 }
 
 export async function removeMatchSelections(matchIds: string) {
-  const supabase = await createClerkSupabaseClient();
-  const user = await currentUser();
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     throw new Error('ログインしてください');

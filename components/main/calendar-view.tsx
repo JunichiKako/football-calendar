@@ -1,4 +1,3 @@
-// app/calendar/components/calendar-view.tsx
 'use client';
 
 import {
@@ -14,10 +13,15 @@ import {
   CalendarYearView,
   type CalendarEvent,
 } from '@/components/ui/my-ui/calendar';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import {
+  ChevronLeft,
+  ChevronRight,
+  Calendar as CalendarIcon,
+} from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Match } from '@/types/match';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { CalendarSubmitBtn } from './calendar-subimit-btn';
 
 interface CalendarViewProps {
   groupedLeagues: {
@@ -50,7 +54,7 @@ export default function CalendarView({
       id: match.matchId.toString(),
       title: `${match.home} vs ${match.away}`,
       start: new Date(match.utcDate),
-      end: new Date(new Date(match.utcDate).getTime() + 120 * 60 * 1000), // 2時間の試合時間を設定
+      end: new Date(new Date(match.utcDate).getTime() + 120 * 60 * 1000),
       leagueName: match.leagueName,
     }));
   }, [groupedLeagues, selectedMatches]);
@@ -73,7 +77,7 @@ export default function CalendarView({
 
   return (
     <Calendar events={events}>
-      <div className='h-full p-14 flex flex-col'>
+      <div className='h-full p-14 flex flex-col relative'>
         <div className='flex px-6 items-center gap-2 mb-6'>
           <CalendarViewTrigger
             className='aria-[current=true]:bg-accent'
@@ -121,6 +125,11 @@ export default function CalendarView({
           <CalendarMonthView />
           <CalendarYearView />
         </div>
+        {/* Google calendarに追加するボタン */}
+        <CalendarSubmitBtn
+          events={events} // イベントデータを渡す
+          disabled={events.length === 0}
+        />
       </div>
     </Calendar>
   );
