@@ -20,15 +20,13 @@ export async function saveMatchSelections(newMatchIds: string[]) {
       .eq('user_id', user.id)
       .maybeSingle();
 
-    // filterメソッドの中で使用されるパラメータの型を明示的に定義
-    const allMatchIds = existing
-      ? existing.match_ids
-          .concat(newMatchIds)
-          .filter(
-            (id: string, index: number, self: string[]) =>
-              self.indexOf(id) === index
-          )
-      : newMatchIds;
+    // match_idsが存在することを確認し、なければ空配列を使用
+    const existingMatchIds = existing?.match_ids || [];
+
+    // 重複を除去して新しい配列を作成
+    const allMatchIds = [...existingMatchIds, ...newMatchIds].filter(
+      (id, index, self) => self.indexOf(id) === index
+    );
 
     if (existing) {
       await supabase
@@ -70,10 +68,13 @@ export async function removeMatchSelections(matchIds: string) {
       throw new Error('選択された試合が見つかりません');
     }
 
-    // 削除処理でのfilterメソッドでも型を明示的に定義
-    const updatedMatchIds = existing.match_ids.filter(
-      (id: string) => id !== matchIds
-    );
+    // 一つのif文にまとめる（matchIdsのチェックも含む）
+    if (!existing || !existing.match_ids) {
+      throw new Error('選択された試合が見つかりません');
+    }
+
+    // オプショナルチェーンは不要（上でチェック済み）
+    const updatedMatchIds = existing.match_ids.filter((id) => id !== matchIds);
 
     const { error } = await supabase
       .from('match_selections')
