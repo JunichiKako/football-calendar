@@ -4,14 +4,17 @@ import { leagueIds } from '@/data/leagueId';
 import { league } from '@/types/league';
 import { cache } from 'react';
 import { teamTranslations } from '@/data/translations';
+import getDateRange from '@/utils/getDate';
 
 // 基本となるリーグデータを取得
 const fetchLeagueData = cache(async () => {
+  const { dateFrom, dateTo } = getDateRange();
+
   const leagues = await Promise.all(
     leagueIds.map(async (id) => {
       try {
         const res = await fetch(
-          `https://api.football-data.org/v4/competitions/${id}/matches?season=2023&dateFrom=2024-05-12&dateTo=2024-05-19`,
+          `https://api.football-data.org/v4/competitions/${id}/matches?season=2024&dateFrom=${dateFrom}&dateTo=${dateTo}`,
           {
             method: 'GET',
             headers: {
@@ -134,4 +137,3 @@ export const getLeagueMatchesByTime = cache(
       : matches;
   }
 );
-
