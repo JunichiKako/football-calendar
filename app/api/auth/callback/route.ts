@@ -1,4 +1,3 @@
-// app/api/auth/callback/route.ts
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
@@ -10,37 +9,87 @@ export async function GET(request: Request) {
   const code = searchParams.get('code');
   const next = searchParams.get('next') ?? '/';
 
-  if (code) {
-    const supabase = createClient();
-    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+  if (!code) {
+    // コードがない場合はエラーリダイレクト
+    return NextResponse.redirect(`${origin}/auth/auth-code-error`);
+  }
 
-    if (!error && data.user) {
-      try {
-        // Stripe顧客を作成
-        const customer = await stripe.customers.create({
-          email: data.user.email,
-          metadata: {
-            supabase_uid: data.user.id,
-          },
-        });
+  // 1. Supabase のセッション取得
+  const supabase = createClient();
+  const { data: authData, error: authError } =
+    await supabase.auth.exchangeCodeForSession(code);
 
-        console.log('Stripe customer created:', customer.id);
-      } catch (stripeError) {
-        console.error('Stripe customer creation error:', stripeError);
+  // 2. ログイン or サインアップ処理の結果がエラーなら弾く
+  if (authError || !authData?.user) {
+    return NextResponse.redirect(`${origin}/auth/auth-code-error`);
+  }
+
+  const { user } = authData;
+  // user.id → Supabaseが発行するユーザUUID。これを参照して
+  // あなたの独自テーブル(users)の user_id と突き合わせる想定
+
+  // 3. usersテーブルから、該当ユーザの stripe_customer_id を探す
+  const { data: userRecord, error: findError } = await supabase
+    .from('users')
+    .select('stripe_customer_id, user_id')
+    .eq('user_id', user.id) // usersテーブルの主キー = user_id (AuthのUUIDと同じ値)
+    .single();
+
+  if (findError) {
+    // 初回ログイン時などでレコードがない可能性や、単純にエラーの場合もあり
+    console.error('Failed to fetch user record from Supabase:', findError);
+  }
+
+  // 4. stripe_customer_id が既にあれば重複作成をスキップ
+  if (userRecord?.stripe_customer_id) {
+    console.log(
+      'User already has a Stripe customer ID:',
+      userRecord.stripe_customer_id
+    );
+  } else {
+    // まだStripe顧客を作っていない場合のみ作成
+    try {
+      const customer = await stripe.customers.create({
+        email: user.email ?? undefined,
+        metadata: {
+          supabase_uid: user.id, // Auth側のUUIDをセット
+        },
+      });
+      console.log('Stripe customer created:', customer.id);
+
+      // ここで "すぐに" Supabase の users テーブルにも反映したいなら:
+      // ただし Webhook でやっているなら必須ではありません。
+      const { error: upsertError } = await supabase
+        .from('users')
+        .update({
+          stripe_customer_id: customer.id,
+          updated_at: new Date().toISOString(), // カラムがある場合
+        })
+        .eq('user_id', user.id);
+
+      if (upsertError) {
+        console.error(
+          'Failed to update user with stripe_customer_id:',
+          upsertError
+        );
       }
-
-      const forwardedHost = request.headers.get('x-forwarded-host');
-      const isLocalEnv = process.env.NODE_ENV === 'development';
-
-      if (isLocalEnv) {
-        return NextResponse.redirect(`${origin}${next}`);
-      } else if (forwardedHost) {
-        return NextResponse.redirect(`https://${forwardedHost}${next}`);
-      } else {
-        return NextResponse.redirect(`${origin}${next}`);
-      }
+    } catch (stripeError) {
+      console.error('Stripe customer creation error:', stripeError);
     }
   }
 
-  return NextResponse.redirect(`${origin}/auth/auth-code-error`);
+  // 5. リダイレクト先を振り分け (ローカル or 本番)
+  const forwardedHost = request.headers.get('x-forwarded-host');
+  const isLocalEnv = process.env.NODE_ENV === 'development';
+
+  if (isLocalEnv) {
+    // ローカル環境ならそのまま origin を使う
+    return NextResponse.redirect(`${origin}${next}`);
+  } else if (forwardedHost) {
+    // 例: Vercel などで x-forwarded-host が付いている場合
+    return NextResponse.redirect(`https://${forwardedHost}${next}`);
+  } else {
+    // その他のケース
+    return NextResponse.redirect(`${origin}${next}`);
+  }
 }
