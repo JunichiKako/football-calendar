@@ -1,13 +1,12 @@
-'use client';
-
 import { Check } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import SubscribeButton from '@/components/main/subscription-btn';
 
 export default function PlanPage() {
   const plans = [
     {
       name: 'Free',
+      id: 'free',
       price: '¥0',
       description: '個人での利用に最適',
       features: [
@@ -21,6 +20,7 @@ export default function PlanPage() {
     },
     {
       name: 'Pro',
+      id: 'pro',
       price: '¥350',
       period: '/月',
       description: 'サッカーファン向けの完全版',
@@ -69,7 +69,6 @@ export default function PlanPage() {
                   </span>
                 </div>
               )}
-
               <div className='text-center mb-6'>
                 <h2 className='text-2xl font-bold mb-2'>{plan.name}</h2>
                 <p className='text-gray-600 mb-3'>{plan.description}</p>
@@ -80,7 +79,6 @@ export default function PlanPage() {
                   )}
                 </div>
               </div>
-
               <ul className='space-y-3 flex-grow'>
                 {plan.features.map((feature) => (
                   <li key={feature} className='flex items-start gap-2'>
@@ -89,16 +87,7 @@ export default function PlanPage() {
                   </li>
                 ))}
               </ul>
-
-              <Button
-                className={`w-full mt-6 ${
-                  plan.popular
-                    ? 'bg-primary hover:bg-primary/90'
-                    : 'bg-secondary hover:bg-secondary/90 text-black'
-                }`}
-              >
-                {plan.buttonText}
-              </Button>
+              <SubscribeButton plan={plan.id} />
             </Card>
           ))}
         </div>
