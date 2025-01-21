@@ -14,7 +14,7 @@ export async function createCheckoutSession(priceId: string) {
     line_items: [{ price: priceId, quantity: 1 }],
     mode: 'subscription',
     success_url: `${APP_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${APP_BASE_URL}/pricing`,
+    cancel_url: `${APP_BASE_URL}/plan`,
   };
 
   return stripe.checkout.sessions.create(sessionParams);
