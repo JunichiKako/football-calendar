@@ -49,9 +49,7 @@ export async function saveMatchSelections(newMatchIds: string[]) {
 export async function removeMatchSelections(matchIds: string) {
   const supabase = await createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await currentUser();
 
   if (!user) {
     throw new Error('ログインしてください');
@@ -61,7 +59,7 @@ export async function removeMatchSelections(matchIds: string) {
     const { data: existing } = await supabase
       .from('match_selections')
       .select('match_ids')
-      .eq('clerk_id', user.id)
+      .eq('user_id', user.id)
       .single();
 
     if (!existing) {
@@ -79,13 +77,12 @@ export async function removeMatchSelections(matchIds: string) {
     const { error } = await supabase
       .from('match_selections')
       .update({ match_ids: updatedMatchIds })
-      .eq('clerk_id', user.id);
+      .eq('user_id', user.id);
 
     if (error) throw error;
 
     redirect(`/?view=calendar&selectedMatches=${updatedMatchIds.join(',')}`);
   } catch (error) {
-    console.error('Error removing match:', error);
     throw error;
   }
 }
