@@ -245,17 +245,13 @@ const EventGroup = ({
                 <div className='font-semibold truncate'>{event.title}</div>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button
-                      variant='ghost'
-                      size='icon'
-                      className='h-6 w-6 p-0 text-white/70 hover:text-white hover:bg-white/10'
-                    >
+                    <Button variant='ghost' size='icon' className='h-6 w-6 p-0'>
                       <X className='h-4 w-4' />
                     </Button>
                   </AlertDialogTrigger>
                   <AlertDialogPortal>
-                    <AlertDialogOverlay className='fixed inset-0 bg-black/50 z-50' />
-                    <AlertDialogContent className='fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] z-[51] max-w-md w-[90%] bg-white shadow-lg rounded-lg p-4'>
+                    <AlertDialogOverlay className='fixed inset-0  z-50' />
+                    <AlertDialogContent className='fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] z-[51] max-w-md w-[90%] bg-white dark:text-black shadow-lg rounded-lg p-4'>
                       <AlertDialogHeader className='mb-4'>
                         <AlertDialogTitle>イベントの削除</AlertDialogTitle>
                         <AlertDialogDescription>
@@ -264,7 +260,9 @@ const EventGroup = ({
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel asChild>
-                          <Button variant='outline'>キャンセル</Button>
+                          <Button variant='outline' className='text-white'>
+                            キャンセル
+                          </Button>
                         </AlertDialogCancel>
                         <AlertDialogAction asChild>
                           <Button
