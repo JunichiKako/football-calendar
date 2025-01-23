@@ -64,8 +64,8 @@ export default async function SelectedMatchCard({
                   />
                   <label
                     htmlFor={match.matchId.toString()}
-                    className='p-4 shadow-lg rounded-lg flex justify-between items-center border cursor-pointer
-                  transition-all duration-200 peer-checked:bg-gray-50 peer-checked:border-blue-500 dark:peer-checked:text-black hover:bg-gray-50 hover:text-black'
+                    className='group p-4 shadow-lg rounded-lg flex justify-between items-center border cursor-pointer
+                  transition-all duration-200 peer-checked:bg-gray-50 peer-checked:border-blue-500 dark:peer-checked:bg-accent dark:hover:bg-accent dark:hover:text-white hover:bg-gray-50 '
                   >
                     <div className='flex-1 space-y-3'>
                       <TeamLabel
@@ -77,7 +77,7 @@ export default async function SelectedMatchCard({
                         name={match.away}
                       />
                     </div>
-                    <div className='border-l-2 border-border h-10'></div>
+                    <div className='border-l-2 border-border dark:[.peer:checked+label_&]:border-white/20 dark:group-hover:border-white/20 dark:group-hover:[.peer:checked+label_&]:border-white/20 h-10'></div>
                     <div className='flex justify-center pl-4 flex-col items-center'>
                       <div className='text-sm font-semibold mb-0.5'>
                         {match.matchDate}
