@@ -21,7 +21,7 @@ import {
 import { useMemo, useState } from 'react';
 import { Match } from '@/types/match';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { CalendarSubmitBtn } from './calendar-subimit-btn';
+import { CalendarSubmitBtn } from './calendar-submit-btn';
 
 interface CalendarViewProps {
   groupedLeagues: {
