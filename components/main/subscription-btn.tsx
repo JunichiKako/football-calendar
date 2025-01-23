@@ -15,8 +15,8 @@ export default function SubscribeButton({ plan }: SubscribeButtonProps) {
         type='submit'
         className={`w-full mt-6 ${
           plan === 'pro'
-            ? 'bg-primary hover:bg-primary/90'
-            : 'bg-secondary hover:bg-secondary/90 text-black'
+            ? 'bg-foreground hover:bg-foreground/90'
+            : 'bg-foreground hover:bg-foreground/90 text-background'
         }`}
       >
         {plan === 'pro' ? 'Proを始める' : '無料で始める'}
