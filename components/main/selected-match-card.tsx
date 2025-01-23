@@ -22,7 +22,6 @@ export default async function SelectedMatchCard({
   leagues,
   selectedMatches,
 }: MatchCardProps) {
-  
   async function handleSubmit(formData: FormData) {
     'use server';
     const selectedMatches = formData.getAll('matches') as string[];
@@ -58,7 +57,7 @@ export default async function SelectedMatchCard({
                 <label
                   htmlFor={match.matchId.toString()}
                   className='p-4 shadow-lg rounded-lg flex justify-between items-center border cursor-pointer
-                  transition-all duration-200 peer-checked:bg-blue-50 peer-checked:border-blue-500 hover:bg-gray-50'
+                  transition-all duration-200 peer-checked:bg-gray-50 peer-checked:border-blue-500 dark:peer-checked:text-black hover:bg-gray-50 hover:text-black'
                 >
                   <div className='flex-1 space-y-3'>
                     <TeamLabel
