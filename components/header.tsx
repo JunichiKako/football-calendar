@@ -4,7 +4,6 @@ import Link from 'next/link';
 import GoogleSignIn from './main/google-sign-in';
 import MobileNav from './mobile-nav';
 import { ModeToggle } from './mode-toggle';
-import { Calendar } from 'lucide-react';
 
 export default async function Header() {
   const leagueByGroup = await getLeagueByGroup();
