@@ -15,6 +15,7 @@ export default function TimeMatchGroup({ matches }: TimeMatchCardProps) {
   // グループ内の最初の試合からリーグ名とリーグ画像を取得
   const { leagueName, leagueImg } = matches[0];
   const isPremierLeague = leagueName === 'Premier League';
+  const isChampionsLeague = leagueName === 'UEFA Champions League';
 
   return (
     <div className='mb-6'>
@@ -27,7 +28,8 @@ export default function TimeMatchGroup({ matches }: TimeMatchCardProps) {
               width={32}
               height={32}
               className={cn('mr-2', {
-                'premier-league-logo': isPremierLeague,
+                'dark:brightness-0 dark:invert':
+                  isPremierLeague || isChampionsLeague,
               })}
             />
             <h2 className='text-lg font-bold'>{leagueName}</h2>

@@ -6,7 +6,7 @@ import { Calendar } from 'lucide-react';
 import Image from 'next/image';
 import MatchCard from './match-card';
 import SelectedMatchCard from './selected-match-card';
-import { createClient } from '@/lib/supabase/server';
+import { currentUser } from '@/data/auth';
 
 type LeagueListProps = {
   selectedLeagues: string[];
@@ -20,10 +20,7 @@ export default async function LeagueList({
   // ここで一括してリーグでグループ化されたリーグデータを取得する
   const leagueGroup = await getLeagueByGroup();
 
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await currentUser();
 
   // 選択されたリーグのみをクライアントでフィルタリングして表示する（APIの呼び出しを減らすため）
   const filteredLeagues =
@@ -56,6 +53,7 @@ export default async function LeagueList({
         <div className='space-y-20'>
           {Object.entries(filteredLeagues).map(([leagueName, league]) => {
             const isPremierLeague = leagueName === 'Premier League';
+            const isChampionsLeague = leagueName === 'UEFA Champions League';
             return (
               <div key={leagueName}>
                 <div className='flex items-center justify-between mb-8'>
@@ -67,7 +65,8 @@ export default async function LeagueList({
                         width={32}
                         height={32}
                         className={cn('mr-2', {
-                          'premier-league-logo': isPremierLeague,
+                          'dark:brightness-0 dark:invert':
+                            isPremierLeague || isChampionsLeague,
                         })}
                       />
                       <h2 className='text-lg font-bold'>{league.leagueName}</h2>

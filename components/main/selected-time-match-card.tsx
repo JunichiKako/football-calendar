@@ -56,6 +56,7 @@ export default function SelectedTimeMatchCard({
       {groupedMatches.map((matchGroup, groupIndex) => {
         const { leagueName, leagueImg } = matchGroup[0];
         const isPremierLeague = leagueName === 'Premier League';
+        const isChampionsLeague = leagueName === 'UEFA Champions League';
 
         return (
           <div key={groupIndex} className='mb-6'>
@@ -68,7 +69,8 @@ export default function SelectedTimeMatchCard({
                     width={32}
                     height={32}
                     className={cn('mr-2', {
-                      'premier-league-logo': isPremierLeague,
+                      'dark:brightness-0 dark:invert':
+                        isPremierLeague || isChampionsLeague,
                     })}
                   />
                   <h2 className='text-lg font-bold'>{leagueName}</h2>
