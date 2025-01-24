@@ -39,7 +39,7 @@ export function CalendarSubmitBtn({
 
       if (sessionError || !session || !session.provider_token) {
         window.location.href = '/';
-        alert('ログインしてください');
+        alert('再度ログインしてください');
         return;
       }
 
@@ -61,7 +61,7 @@ export function CalendarSubmitBtn({
 
       toast({
         title: '追加完了',
-        description: `${result.addedEvents}件の試合をカレンダーに追加しました`,
+        description: `新規で追加された${result.addedEvents}件の試合をカレンダーに追加しました`,
       });
     } catch (error) {
       console.error('Error details:', error);

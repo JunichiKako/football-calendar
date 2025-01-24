@@ -1,6 +1,9 @@
 'use server';
 
 import { CalendarEvent } from '@/components/ui/my-ui/calendar';
+import { createClient } from '@/lib/supabase/server';
+
+const supabase = createClient();
 
 interface GoogleCalendarEvent {
   summary: string;
@@ -14,12 +17,21 @@ interface GoogleCalendarEvent {
   };
 }
 
+async function updateMatchSelection(matchId: string) {
+  await supabase
+    .from('match_selections')
+    .update({
+      updated_at: new Date().toISOString(),
+      synced_to_google: true,
+    })
+    .eq('match_ids', matchId);
+}
+
 export async function addGoogleCalendar(
   events: CalendarEvent[],
   providerToken: string
 ) {
   try {
-    // カレンダーリスト取得
     const calendarListResponse = await fetch(
       'https://www.googleapis.com/calendar/v3/users/me/calendarList',
       {
@@ -41,7 +53,6 @@ export async function addGoogleCalendar(
       (cal: { summary: string }) => cal.summary === 'Football Matches'
     )?.id;
 
-    // カレンダーがない場合は作成
     if (!calendarId) {
       const calendarResponse = await fetch(
         'https://www.googleapis.com/calendar/v3/calendars',
@@ -66,7 +77,6 @@ export async function addGoogleCalendar(
       calendarId = calendar.id;
     }
 
-    // イベント追加
     const promises = events.map(async (event) => {
       const existingEvents = await fetch(
         `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?q=${encodeURIComponent(
@@ -81,9 +91,15 @@ export async function addGoogleCalendar(
 
       const existingEventsData = await existingEvents.json();
       const isDuplicate = existingEventsData.items?.some(
-        (existingEvent: GoogleCalendarEvent) =>
-          existingEvent.summary === event.title &&
-          existingEvent.start.dateTime === new Date(event.start).toISOString()
+        (existingEvent: GoogleCalendarEvent) => {
+          const existingStart = new Date(existingEvent.start.dateTime);
+          const newStart = new Date(event.start);
+
+          return (
+            existingEvent.summary === event.title &&
+            existingStart.getTime() === newStart.getTime()
+          );
+        }
       );
 
       if (isDuplicate) {
@@ -116,6 +132,8 @@ export async function addGoogleCalendar(
       if (!response.ok) {
         throw new Error('Failed to add event');
       }
+
+      await updateMatchSelection(event.id);
 
       return response.json();
     });
