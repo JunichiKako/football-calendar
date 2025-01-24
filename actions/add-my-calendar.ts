@@ -10,7 +10,7 @@ export async function saveMatchSelections(newMatchIds: string[]) {
   const user = await currentUser();
 
   if (!user) {
-    throw new Error('ログインしてください');
+    throw new Error('再度ログインしてください');
   }
 
   try {
@@ -52,7 +52,7 @@ export async function removeMatchSelections(matchIds: string) {
   const user = await currentUser();
 
   if (!user) {
-    throw new Error('ログインしてください');
+    throw new Error('再度ログインしてください');
   }
 
   try {
