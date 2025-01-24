@@ -5,9 +5,11 @@ import { Calendar as CalendarIcon } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { useState } from 'react';
 import { createClientClient } from '@/lib/supabase/client';
+import { addGoogleCalendar } from '@/actions/add-google-calendar';
 
 type CalendarSubmitBtnProps = {
   events: Array<{
+    id: string;
     title: string;
     start: Date;
     end: Date;
@@ -15,6 +17,8 @@ type CalendarSubmitBtnProps = {
   }>;
   disabled: boolean;
 };
+
+// CalendarSubmitBtn.tsx
 
 export function CalendarSubmitBtn({
   events,
@@ -34,70 +38,30 @@ export function CalendarSubmitBtn({
       } = await supabase.auth.getSession();
 
       if (sessionError || !session || !session.provider_token) {
-        // セッションがない場合は、認証フローを開始
-        const { data: authData, error: authError } =
-          await supabase.auth.signInWithOAuth({
-            provider: 'google',
-            options: {
-              scopes: 'https://www.googleapis.com/auth/calendar.app.created',
-              redirectTo: `${window.location.origin}/calendar-callback`,
-            },
-          });
-
-        if (authError) {
-          throw new Error('認証に失敗しました');
-        }
+        window.location.href = '/';
+        alert('ログインしてください');
         return;
       }
 
-      const serializedEvents = events.map((event) => ({
-        title: event.title,
-        leagueName: event.leagueName,
-        start: event.start.toISOString(),
-        end: event.end.toISOString(),
-      }));
+      const result = await addGoogleCalendar(
+        events.map((event) => ({
+          ...event,
+          id: event.id.toString(),
+        })),
+        session.provider_token
+      );
 
-      const response = await fetch('/api/calendar', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${session.access_token}`,
-          'Provider-Token': session.provider_token,
-        },
-        body: JSON.stringify({ events: serializedEvents }),
-      });
-
-      const data = await response.json();
-
-      // 認証切れの場合
-      if (response.status === 401) {
-        toast({
-          title: '認証の再確認が必要です',
-          description: 'もう一度認証を行います',
-        });
-
-        // 再認証フローを開始
-        const { error: reAuthError } = await supabase.auth.signInWithOAuth({
-          provider: 'google',
-          options: {
-            scopes: 'https://www.googleapis.com/auth/calendar.app.created',
-            redirectTo: `${window.location.origin}/calendar-callback`,
-          },
-        });
-
-        if (reAuthError) {
-          throw new Error('再認証に失敗しました');
+      if ('error' in result) {
+        if (result.error === 'auth_required') {
+          window.location.href = '/';
+          return;
         }
-        return;
-      }
-
-      if (!response.ok) {
-        throw new Error(data.message || 'カレンダーへの追加に失敗しました');
+        throw new Error(result.error);
       }
 
       toast({
         title: '追加完了',
-        description: `${events.length}件の試合をカレンダーに追加しました`,
+        description: `${result.addedEvents}件の試合をカレンダーに追加しました`,
       });
     } catch (error) {
       console.error('Error details:', error);

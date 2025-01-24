@@ -2,7 +2,7 @@
 import { Match } from '@/types/match';
 import Image from 'next/image';
 import { TeamLabel } from '@/utils/team-label';
-import { saveMatchSelections } from '@/actions/matches';
+import { saveMatchSelections } from '@/actions/add-my-calendar';
 import { SelectedMatchSubmitBtn } from './selected-match-submit-btn';
 import MatchCheckbox from './match-check-box';
 import { cn } from '@/lib/utils';
