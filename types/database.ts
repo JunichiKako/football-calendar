@@ -28,25 +28,39 @@ export type Database = {
           updated_at?: string | null
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "fk_user_id"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
       users: {
         Row: {
-          created_at: string
+          calendar_api_calls_count: number | null
+          calendar_api_calls_limit: number | null
+          created_at: string | null
           stripe_customer_id: string | null
           subscription_plan: string | null
           updated_at: string | null
           user_id: string
         }
         Insert: {
-          created_at?: string
+          calendar_api_calls_count?: number | null
+          calendar_api_calls_limit?: number | null
+          created_at?: string | null
           stripe_customer_id?: string | null
           subscription_plan?: string | null
           updated_at?: string | null
           user_id?: string
         }
         Update: {
-          created_at?: string
+          calendar_api_calls_count?: number | null
+          calendar_api_calls_limit?: number | null
+          created_at?: string | null
           stripe_customer_id?: string | null
           subscription_plan?: string | null
           updated_at?: string | null
@@ -59,7 +73,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      reset_calendar_api_counts: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
