@@ -1,5 +1,5 @@
 export const teamTranslations: Record<string, string> = {
-  // 23/24シーズンのプレミアリーグのチーム名を翻訳
+  // 25/26シーズンのプレミアリーグのチーム名を翻訳
   // A-Z順
 
   'Arsenal FC': 'アーセナル',
@@ -22,8 +22,11 @@ export const teamTranslations: Record<string, string> = {
   'Tottenham Hotspur FC': 'トッテナム',
   'West Ham United FC': 'ウェストハム',
   'Wolverhampton Wanderers FC': 'ウルブス',
+  'Ipswich Town FC': 'イプスウィッチ',
+  'Leicester City FC': 'レスター',
+  'Southampton FC': 'サウサンプトン',
 
-  // 23/24シーズンのブンデスリーガのチーム名を翻訳
+  // 25/26シーズンのブンデスリーガのチーム名を翻訳
 
   'FC Augsburg': 'アウクスブルク',
   'FC Bayern München': 'バイエルン',
@@ -43,8 +46,10 @@ export const teamTranslations: Record<string, string> = {
   'VfB Stuttgart': 'シュトゥットガルト',
   'SV Werder Bremen': 'ブレーメン',
   'VfL Wolfsburg': 'ヴォルフスブルク',
+  'FC St. Pauli 1910': 'ザンクトパウリ',
+  'Holstein Kiel': 'キール',
 
-  // 23/24シーズンのラ・リーガのチーム名を翻訳
+  // 25/26シーズンのラ・リーガのチーム名を翻訳
 
   'Athletic Club': 'アスレティック・ビルバオ',
   'CA Osasuna': 'オサスナ',
@@ -66,8 +71,11 @@ export const teamTranslations: Record<string, string> = {
   'UD Las Palmas': 'ラス・パルマス',
   'Valencia CF': 'バレンシア',
   'Villarreal CF': 'ビジャレアル',
+  'RCD Espanyol de Barcelona': 'エスパニョール',
+  'Real Valladolid CF': 'バジャドリ-ド',
+  'CD Leganés': 'レガネス',
 
-  // 23/24シーズンのセリエAのチーム名を翻訳
+  // 25/26シーズンのセリエAのチーム名を翻訳
 
   'AC Milan': 'ACミラン',
   'AC Monza': 'モンツァ',
@@ -89,8 +97,11 @@ export const teamTranslations: Record<string, string> = {
   'US Lecce': 'レッチェ',
   'US Salernitana 1919': 'サレルニターナ',
   'US Sassuolo Calcio': 'サッスオーロ',
+  'Como 1907': 'コモ',
+  'Venezia FC': 'ヴェネツィア',
+  'Parma Calcio 1913': 'パルマ',
 
-  // 23/24シーズンのリーグ1のチーム名を翻訳
+  // 25/26シーズンのリーグ1のチーム名を翻訳
   'Paris Saint-Germain FC': 'パリ・サンジェルマン',
   'AS Monaco FC': 'モナコ',
   'Stade Brestois 29': 'ブレスト',
@@ -109,4 +120,22 @@ export const teamTranslations: Record<string, string> = {
   'FC Metz': 'メス',
   'FC Lorient': 'ロリアン',
   'Clermont Foot 63': 'クレルモン',
+  'Angers SCO': 'アンジェ',
+  'AJ Auxerre': 'オセール',
+  'AS Saint-Étienne': 'サンテティエンヌ',
+
+  // チャンピオンズリーグのチーム名を翻訳
+  'Sporting Clube de Portugal': 'スポルティング',
+  'BSC Young Boys': 'ヤングボーイズ',
+  'FK Crvena Zvezda': 'レッドスター',
+  'Celtic FC': 'セルティック',
+  'SK Sturm Graz': 'シュトゥルム・グラーツ',
+  'ŠK Slovan Bratislava': 'スロヴァン・ブラチスラヴァ',
+  'FK Shakhtar Donetsk': 'シャフタール',
+  'Club Brugge KV': 'クラブ・ブルージュ',
+  'AC Sparta Praha': 'スパルタ・プラハ',
+  'Sport Lisboa e Benfica': 'ベンフィカ',
+  'GNK Dinamo Zagreb': 'ディナモ・ザグレブ',
+  'Feyenoord Rotterdam': 'フェイエノールト',
+  'FC Red Bull Salzburg': 'ザルツブルク',
 };
