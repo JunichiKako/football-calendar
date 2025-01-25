@@ -20,6 +20,11 @@ export default async function GoogleSignIn() {
       {user ? (
         <div className='flex items-center gap-4'>
           <Button variant='ghost' className='text-white' asChild>
+            <Link href='/plan' className='flex items-center gap-2'>
+              プラン
+            </Link>
+          </Button>
+          <Button variant='ghost' className='text-white' asChild>
             <Link href='/?view=calendar' className='flex items-center gap-2'>
               <Calendar className='h-4 w-4' />
               カレンダーを見る
@@ -56,11 +61,18 @@ export default async function GoogleSignIn() {
           </DropdownMenu>
         </div>
       ) : (
-        <form action={signInWithGoogle}>
-          <Button variant='ghost' className='text-white'>
-            Googleでログイン
-          </Button>
-        </form>
+        <div className='flex'>
+          <form action={signInWithGoogle}>
+            <Button variant='ghost' className='text-white'>
+              Googleでログイン
+            </Button>
+          </form>
+          <Link href='plan'>
+            <Button variant='ghost' className='text-white' asChild>
+              プラン
+            </Button>
+          </Link>
+        </div>
       )}
     </div>
   );
