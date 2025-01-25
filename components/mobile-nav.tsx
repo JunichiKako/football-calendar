@@ -64,7 +64,7 @@ export default function MobileNav({
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button size='icon' className='lg:hidden' variant='outline'>
+        <Button size='icon' className='xl:hidden' variant='outline'>
           <Menu size={20} />
         </Button>
       </SheetTrigger>

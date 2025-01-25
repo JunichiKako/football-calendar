@@ -1,7 +1,7 @@
 import { signInWithGoogle, signOut } from '@/actions/auth';
 import { Button } from '../ui/button';
 import Link from 'next/link';
-import { Calendar, CreditCard } from 'lucide-react';
+import { Calendar, CreditCard, Sun, Moon } from 'lucide-react';
 import { createPortalSession } from '@/actions/stripe';
 import {
   DropdownMenu,
@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { currentUser } from '@/data/auth';
+import { ModeToggle } from '../mode-toggle';
 
 export default async function GoogleSignIn() {
   const user = await currentUser();
@@ -19,17 +20,20 @@ export default async function GoogleSignIn() {
     <div className='flex items-center gap-4'>
       {user ? (
         <div className='flex items-center gap-4'>
-          <Button variant='ghost' className='text-white' asChild>
-            <Link href='/plan' className='flex items-center gap-2'>
-              プラン
-            </Link>
-          </Button>
-          <Button variant='ghost' className='text-white' asChild>
-            <Link href='/?view=calendar' className='flex items-center gap-2'>
-              <Calendar className='h-4 w-4' />
-              カレンダーを見る
-            </Link>
-          </Button>
+          {/* lg以上の画面幅でプランとカレンダーリンクを表示 */}
+          <div className='hidden lg:block'>
+            <Button variant='ghost' className='text-white' asChild>
+              <Link href='/plan' className='flex items-center gap-2'>
+                プラン
+              </Link>
+            </Button>
+            <Button variant='ghost' className='text-white' asChild>
+              <Link href='/?view=calendar' className='flex items-center gap-2'>
+                <Calendar className='h-4 w-4' />
+                カレンダーを見る
+              </Link>
+            </Button>
+          </div>
 
           <DropdownMenu>
             <DropdownMenuTrigger>
@@ -44,6 +48,21 @@ export default async function GoogleSignIn() {
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end'>
+              {/* lg未満の画面幅でプランとカレンダーリンクをドロップダウンに表示 */}
+              <div className='lg:hidden'>
+                <DropdownMenuItem asChild>
+                  <Link href='/plan'>プラン</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link
+                    href='/?view=calendar'
+                    className='flex items-center gap-2'
+                  >
+                    <Calendar className='h-4 w-4' />
+                    カレンダーを見る
+                  </Link>
+                </DropdownMenuItem>
+              </div>
               <DropdownMenuItem>
                 <form action={createPortalSession} className='w-full'>
                   <button className='w-full text-left flex items-center gap-2'>
@@ -52,6 +71,12 @@ export default async function GoogleSignIn() {
                   </button>
                 </form>
               </DropdownMenuItem>
+              {/* lg以上の画面幅でモードトグルをドロップダウンに表示 */}
+              <div className='hidden lg:block'>
+                <DropdownMenuItem>
+                  <ModeToggle />
+                </DropdownMenuItem>
+              </div>
               <DropdownMenuItem>
                 <form action={signOut} className='w-full'>
                   <button className='w-full text-left'>ログアウト</button>
