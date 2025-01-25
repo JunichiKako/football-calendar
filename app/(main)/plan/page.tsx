@@ -27,8 +27,8 @@ export default function PlanPage() {
       features: [
         '主要リーグの試合スケジュール',
         '基本的なカレンダー閲覧',
-        '月に8回のカレンダー追加',
-        '月に8回のGoogleカレンダー追加',
+        '月に10回のカレンダー追加',
+        '月に10回のGoogleカレンダー追加',
       ],
       buttonText: 'Proを始める',
       popular: true,
