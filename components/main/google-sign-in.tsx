@@ -71,12 +71,6 @@ export default async function GoogleSignIn() {
                   </button>
                 </form>
               </DropdownMenuItem>
-              {/* lg以上の画面幅でモードトグルをドロップダウンに表示 */}
-              <div className='hidden lg:block'>
-                <DropdownMenuItem>
-                  <ModeToggle />
-                </DropdownMenuItem>
-              </div>
               <DropdownMenuItem>
                 <form action={signOut} className='w-full'>
                   <button className='w-full text-left'>ログアウト</button>
