@@ -42,23 +42,65 @@ export async function POST(request: Request) {
         }
         break;
 
-      case 'customer.subscription.created':
       case 'customer.subscription.updated':
-        const subscription = event.data.object as Stripe.Subscription;
-        console.log('Webhook: Processing subscription event', subscription);
+        const updatedSubscription = event.data.object as Stripe.Subscription;
+        console.log(
+          'Webhook: Processing subscription update',
+          updatedSubscription
+        );
 
-        const { error: updateError } = await adminClient
+        // サブスクリプションのステータスをチェック
+        if (
+          updatedSubscription.canceled_at ||
+          updatedSubscription.cancel_at_period_end
+        ) {
+          const { error: cancelError } = await adminClient
+            .from('users')
+            .update({
+              subscription_plan: 'free',
+              updated_at: new Date().toISOString(),
+            })
+            .eq('stripe_customer_id', updatedSubscription.customer);
+
+          if (cancelError) {
+            console.error('Supabase update error:', cancelError);
+            throw cancelError;
+          }
+        } else {
+          const { error: updateError } = await adminClient
+            .from('users')
+            .update({
+              subscription_plan:
+                updatedSubscription.items.data[0].price.lookup_key || 'pro',
+              updated_at: new Date().toISOString(),
+            })
+            .eq('stripe_customer_id', updatedSubscription.customer);
+
+          if (updateError) {
+            console.error('Supabase update error:', updateError);
+            throw updateError;
+          }
+        }
+        break;
+
+      case 'customer.subscription.deleted':
+        const cancelledSubscription = event.data.object as Stripe.Subscription;
+        console.log(
+          'Webhook: Processing subscription cancellation',
+          cancelledSubscription
+        );
+
+        const { error: cancelError } = await adminClient
           .from('users')
           .update({
-            subscription_plan:
-              subscription.items.data[0].price.lookup_key || 'pro',
+            subscription_plan: 'free',
             updated_at: new Date().toISOString(),
           })
-          .eq('stripe_customer_id', subscription.customer);
+          .eq('stripe_customer_id', cancelledSubscription.customer);
 
-        if (updateError) {
-          console.error('Supabase update error:', updateError);
-          throw updateError;
+        if (cancelError) {
+          console.error('Supabase update error:', cancelError);
+          throw cancelError;
         }
         break;
     }
