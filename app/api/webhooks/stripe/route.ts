@@ -20,7 +20,6 @@ export async function POST(request: Request) {
     switch (event.type) {
       case 'customer.created':
         const customer = event.data.object as Stripe.Customer;
-        console.log('Webhook: Processing customer.created event', customer);
 
         const { error } = await adminClient.from('users').upsert(
           {
