@@ -50,10 +50,7 @@ export async function POST(request: Request) {
         );
 
         // サブスクリプションのステータスをチェック
-        if (
-          updatedSubscription.canceled_at ||
-          updatedSubscription.cancel_at_period_end
-        ) {
+        if (updatedSubscription.status === 'canceled') {
           const { error: cancelError } = await adminClient
             .from('users')
             .update({
