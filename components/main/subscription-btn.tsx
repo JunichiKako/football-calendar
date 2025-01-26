@@ -1,4 +1,3 @@
-'use client';
 
 import { handleSubscribe } from '@/actions/stripe';
 import { Button } from '@/components/ui/button';
