@@ -1,4 +1,5 @@
 'use client';
+
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -13,6 +14,7 @@ import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import LeagueToggle from './sidebar/league-toggle';
 
 type leagueByGroupProps = {
   [key: string]: {
@@ -22,6 +24,7 @@ type leagueByGroupProps = {
     matches: Match[];
   };
 };
+
 type FormValues = {
   leagues: string[];
 };
@@ -62,48 +65,53 @@ export default function MobileNav({
   };
 
   return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button size='icon' className='xl:hidden' variant='outline'>
-          <Menu size={20} />
-        </Button>
-      </SheetTrigger>
-      <SheetContent side='left'>
-        <SheetHeader>
-          <SheetTitle>リーグを選ぶ</SheetTitle>
-        </SheetHeader>
-        <div className='mt-2 overflow-auto'>
-          <div>
-            {Object.keys(leagueByGroup).map((leagueName) => {
-              const league = leagueByGroup[leagueName];
-              return (
-                <div
-                  key={league.leagueId}
-                  className='hover:bg-gray-100 p-2 rounded-lg cursor-pointer'
-                >
-                  <label className='flex gap-4 items-center'>
-                    <input
-                      type='checkbox'
-                      value={leagueName}
-                      {...register('leagues')}
-                      checked={selectedLeagues.includes(leagueName)}
-                      onChange={() => handleLeagueToggle(leagueName)}
-                      className='form-checkbox h-4 w-4'
-                    />
-                    <Image
-                      src={league.leagueImg}
-                      alt={league.leagueName}
-                      width={32}
-                      height={32}
-                    />
-                    <span className=''>{league.leagueName}</span>
-                  </label>
-                </div>
-              );
-            })}
+    <>
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button size='icon' className='xl:hidden' variant='outline'>
+            <Menu size={20} />
+          </Button>
+        </SheetTrigger>
+        <SheetContent side='left' className='w-[280px] sm:w-[350px]'>
+          <SheetHeader>
+            <SheetTitle className='text-lg font-bold'>リーグを選ぶ</SheetTitle>
+          </SheetHeader>
+          <div className='mt-4 h-[calc(90vh-100px)] overflow-y-auto'>
+            <div className='space-y-1'>
+              {Object.keys(leagueByGroup).map((leagueName) => {
+                const league = leagueByGroup[leagueName];
+                return (
+                  <div
+                    key={league.leagueId}
+                    className='p-2 rounded-lg cursor-pointer'
+                  >
+                    <label className='cursor-pointer transition hover:bg-gray-200 dark:hover:bg-accent p-2 rounded-lg opacity-50 border border-transparent has-[:checked]:border-[#005C69] has-[:checked]:bg-[#005C69] dark:has-[:checked]:border-[#445E93] dark:has-[:checked]:bg-[#445E93] has-[:checked]:text-white has-[:checked]:opacity-100 flex items-center gap-3'>
+                      <input
+                        type='checkbox'
+                        value={leagueName}
+                        {...register('leagues')}
+                        onChange={() => handleLeagueToggle(leagueName)}
+                        className='hidden'
+                      />
+                      <div className='size-10 bg-white rounded-lg grid place-items-center'>
+                        <Image
+                          src={league.leagueImg}
+                          alt={league.leagueName}
+                          width={32}
+                          height={32}
+                        />
+                      </div>
+                      <p>{league.leagueName}</p>
+                    </label>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      </SheetContent>
-    </Sheet>
+
+          <LeagueToggle />
+        </SheetContent>
+      </Sheet>
+    </>
   );
 }
