@@ -11,7 +11,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { currentUser } from '@/data/auth';
-import { ModeToggle } from '../mode-toggle';
 
 export default async function GoogleSignIn() {
   const user = await currentUser();
