@@ -77,13 +77,11 @@
 
 /* 追加のCSS */
 
-
 .dark .Juventus-logo {
   filter: invert(1);
 }
 
-@media not print {
-  aside[data-calendar-hide] {
-    display: var(--sidebar-display, block);
-  }
+aside[data-calendar-hide],
+footer[data-calendar-hide] {
+  display: var(--sidebar-display, block);
 }
