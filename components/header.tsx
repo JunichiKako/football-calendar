@@ -1,11 +1,13 @@
 import { Button } from '@/components/ui/button';
 import { getLeagueByGroup } from '@/data/league';
 import Link from 'next/link';
-import GoogleSignIn from './main/google-sign-in';
 import MobileNav from './mobile-nav';
 import { ModeToggle } from './mode-toggle';
+import UserMenu from './main/user-menu';
+
 
 export default async function Header() {
+  // モバイル用のナビゲーションメニューを表示するために、取得
   const leagueByGroup = await getLeagueByGroup();
 
   return (
@@ -17,7 +19,7 @@ export default async function Header() {
         </Link>
       </Button>
       <span className='flex-1'></span>
-      <GoogleSignIn />
+      <UserMenu />
       <ModeToggle />
     </header>
   );

@@ -1,7 +1,7 @@
 import { signInWithGoogle, signOut } from '@/actions/auth';
 import { Button } from '../ui/button';
 import Link from 'next/link';
-import { Calendar, CreditCard, Sun, Moon } from 'lucide-react';
+import { Calendar, CreditCard } from 'lucide-react';
 import { createPortalSession } from '@/actions/stripe';
 import {
   DropdownMenu,
@@ -12,7 +12,8 @@ import {
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { currentUser } from '@/data/auth';
 
-export default async function GoogleSignIn() {
+export default async function UserMenu() {
+
   const user = await currentUser();
 
   return (
@@ -39,7 +40,6 @@ export default async function GoogleSignIn() {
               <Avatar>
                 <AvatarImage
                   src={user.user_metadata.avatar_url}
-                  alt={user.user_metadata.full_name}
                 />
                 <AvatarFallback>
                   {user.user_metadata.full_name?.charAt(0) || 'U'}
