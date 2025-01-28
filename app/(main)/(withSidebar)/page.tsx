@@ -7,7 +7,7 @@ import { createClient } from '@/lib/supabase/server';
 import { currentUser } from '@/data/auth';
 import { redirect } from 'next/navigation';
 
-type HomeProps = {
+type HomeParamsProps = {
   searchParams: {
     leagues?: string;
     view?: string;
@@ -15,14 +15,20 @@ type HomeProps = {
   };
 };
 
-export default async function Home({ searchParams }: HomeProps) {
+// キャッシュのためこの/でviewを切り替えて表示する
+export default async function Home({ searchParams }: HomeParamsProps) {
+  // リーグ情報の取得
   const groupedLeagues = await getLeagueByGroup();
-  const selectedLeagues = searchParams.leagues?.split(',') || [];
+  // パラメーターから現在のviewを取得
   const currentView = searchParams.view || 'league';
+
+  // リーグと試合の選択状態をパラメーターに,ごとに区切って取得
+  const selectedLeagues = searchParams.leagues?.split(',') || [];
   const selectedMatches = searchParams.selectedMatches?.split(',') || [];
 
   const supabase = await createClient();
 
+  // カレンダーの場合の処理
   if (currentView === 'calendar') {
     const user = await currentUser();
 
@@ -30,8 +36,10 @@ export default async function Home({ searchParams }: HomeProps) {
       redirect('/');
     }
 
+    // ユーザーが選択した試合を取得
     let allSelectedMatches = selectedMatches;
 
+    // ユーザーが選択した試合をDBから取得
     if (user) {
       const { data: savedMatches } = await supabase
         .from('match_selections')
@@ -39,6 +47,8 @@ export default async function Home({ searchParams }: HomeProps) {
         .eq('user_id', user.id)
         .single();
 
+      // DBから保存された試合IDを取得し、URLパラメータの選択と結合
+      // 重複を避けるため、URLパラメータに含まれていない試合のみを追加
       if (savedMatches?.match_ids) {
         allSelectedMatches = [
           ...selectedMatches,
@@ -48,9 +58,9 @@ export default async function Home({ searchParams }: HomeProps) {
         ];
       }
     }
-
+    // カレンダービューはクライアントコンポーネントのため、Suspenseで非同期で読み込む
     return (
-      <div data-view={currentView} className='h-full'>
+      <div className='h-full'>
         <Suspense fallback={<div>Loading calendar...</div>}>
           <CalendarView
             groupedLeagues={groupedLeagues}
@@ -60,9 +70,9 @@ export default async function Home({ searchParams }: HomeProps) {
       </div>
     );
   }
-
+  // viewによって表示するコンポーネントを切り替え
   return (
-    <div data-view={currentView}>
+    <>
       {currentView === 'league' ? (
         <LeagueList
           selectedLeagues={selectedLeagues}
@@ -74,8 +84,8 @@ export default async function Home({ searchParams }: HomeProps) {
           selectedMatches={selectedMatches}
         />
       ) : (
-        <div>Invalid view parameter</div>
+        <div>表示方法が正しく指定されていません</div>
       )}
-    </div>
+    </>
   );
 }
