@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className='max-xl:hidden'>
           <Sidebar />
         </div>
-        <main className='py-8 px-1 md:px-4 lg:px-10 flex-1 overflow-auto'>
+        <main className='py-8 px-4  lg:px-10 flex-1 overflow-auto'>
           {children}
           <Footer />
         </main>
