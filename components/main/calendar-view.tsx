@@ -11,13 +11,8 @@ import {
   CalendarViewTrigger,
   CalendarWeekView,
   CalendarYearView,
-  type CalendarEvent,
 } from '@/components/ui/my-ui/calendar';
-import {
-  ChevronLeft,
-  ChevronRight,
-  Calendar as CalendarIcon,
-} from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Match } from '@/types/match';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -59,26 +54,10 @@ export default function CalendarView({
     }));
   }, [groupedLeagues, selectedMatches]);
 
-  const handleMatchToggle = (matchId: string) => {
-    const newSelectedMatches = selectedMatches.includes(matchId)
-      ? selectedMatches.filter((id) => id !== matchId)
-      : [...selectedMatches, matchId];
-
-    setSelectedMatches(newSelectedMatches);
-
-    const params = new URLSearchParams(searchParams);
-    if (newSelectedMatches.length > 0) {
-      params.set('selectedMatches', newSelectedMatches.join(','));
-    } else {
-      params.delete('selectedMatches');
-    }
-    router.replace(`?${params.toString()}`);
-  };
-
   return (
     <Calendar events={events}>
-      <div className='h-full p-14 flex flex-col relative'>
-        <div className='flex px-6 items-center gap-2 mb-6'>
+      <div className='h-full xl:p-14 flex flex-col relative'>
+        <div className='flex px-2 lg:px-6 items-center gap-2 mb-6'>
           <CalendarViewTrigger
             className='aria-[current=true]:bg-accent'
             view='day'
@@ -88,7 +67,7 @@ export default function CalendarView({
 
           <CalendarViewTrigger
             view='week'
-            className='aria-[current=true]:bg-accent'
+            className='aria-[current=true]:bg-accent max-lg:hidden'
           >
             Week
           </CalendarViewTrigger>
@@ -102,7 +81,7 @@ export default function CalendarView({
 
           <CalendarViewTrigger
             view='year'
-            className='aria-[current=true]:bg-accent'
+            className='aria-[current=true]:bg-accent max-lg:hidden'
           >
             Year
           </CalendarViewTrigger>
@@ -119,7 +98,7 @@ export default function CalendarView({
             <span className='sr-only'>Next</span>
           </CalendarNextTrigger>
         </div>
-        <div className='flex-1 px-6 overflow-hidden'>
+        <div className='flex-1 px-2 md:px-6 overflow-hidden'>
           <CalendarDayView />
           <CalendarWeekView />
           <CalendarMonthView />

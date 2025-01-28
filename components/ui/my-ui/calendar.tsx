@@ -60,7 +60,6 @@ type ContextType = {
   setDate: (date: Date) => void;
   events: CalendarEvent[];
   locale: Locale;
-  // ここを修正
   setEvents: (
     events: CalendarEvent[] | ((prev: CalendarEvent[]) => CalendarEvent[])
   ) => void;
@@ -77,7 +76,7 @@ export type CalendarEvent = {
   start: Date;
   end: Date;
   title: string;
-  leagueName: string; // リーグ名を追加
+  leagueName: string; 
 };
 
 type CalendarProps = {
@@ -656,7 +655,7 @@ const CalendarCurrentDate = () => {
   const { date, view } = useCalendar();
 
   return (
-    <time dateTime={date.toISOString()} className='tabular-nums'>
+    <time dateTime={date.toISOString()} className='tabular-nums text-sm'>
       {format(date, view === 'day' ? 'dd MMMM yyyy' : 'MMMM yyyy')}
     </time>
   );
