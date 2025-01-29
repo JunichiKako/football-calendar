@@ -5,21 +5,24 @@ import { currentUser } from '@/data/auth';
 import { stripe } from '@/lib/stripe/stripe';
 import { createClient } from '@/lib/supabase/server';
 
-// カスタマーポータルセッションを作成
+// headerのサブスク管理からカスタマーポータルセッションを作成
 export async function createPortalSession() {
   const supabase = createClient();
   const user = await currentUser();
 
+  // Userがいない場合はGoogle認証画面へリダイレクト
   if (!user) {
     redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/callback`);
   }
 
+  // UserがStripeの顧客IDを持っているか確認
   const { data: userData, error: userError } = await supabase
     .from('users')
     .select('stripe_customer_id')
     .eq('user_id', user.id)
     .single();
 
+  // Userが見つからないか、stripe_customer_idがない場合はエラー画面へリダイレクト
   if (userError || !userData?.stripe_customer_id) {
     console.error(
       'User not found or stripe_customer_id is missing:',
@@ -28,11 +31,13 @@ export async function createPortalSession() {
     redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/error`);
   }
 
+  // カスタマーポータルセッションを作成
   const portalSession = await stripe.billingPortal.sessions.create({
     customer: userData.stripe_customer_id,
     return_url: `${process.env.NEXT_PUBLIC_SITE_URL}`,
   });
 
+  // セッションURLへリダイレクト
   redirect(portalSession.url);
 }
 
