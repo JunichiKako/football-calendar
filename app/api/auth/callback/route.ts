@@ -47,18 +47,15 @@ export async function GET(request: Request) {
       userRecord.stripe_customer_id
     );
   } else {
-    // まだStripe顧客を作っていない場合のみ作成
+    // まだStripe顧客を作っていない場合のみStripeの顧客を作成
     try {
       const customer = await stripe.customers.create({
         email: user.email ?? undefined,
         metadata: {
-          supabase_uid: user.id, // Auth側のUUIDをセット
+          supabase_uid: user.id, 
         },
       });
-      console.log('Stripe customer created:', customer.id);
-
-      // ここで "すぐに" Supabase の users テーブルにも反映したいなら:
-      // ただし Webhook でやっているなら必須ではありません。
+      // 作成した顧客IDを users テーブルに保存
       const { error: upsertError } = await supabase
         .from('users')
         .update({
@@ -78,18 +75,24 @@ export async function GET(request: Request) {
     }
   }
 
+  // クリーンなURLへのリダイレクト用の関数
+  const cleanRedirect = (baseUrl: string) => {
+    // nextパラメータのみを使用し、codeパラメータは除外
+    return NextResponse.redirect(`${baseUrl}${next}`);
+  };
+
   // 5. リダイレクト先を振り分け (ローカル or 本番)
   const forwardedHost = request.headers.get('x-forwarded-host');
   const isLocalEnv = process.env.NODE_ENV === 'development';
 
   if (isLocalEnv) {
     // ローカル環境ならそのまま origin を使う
-    return NextResponse.redirect(`${origin}${next}`);
+    return cleanRedirect(origin);
   } else if (forwardedHost) {
     // 例: Vercel などで x-forwarded-host が付いている場合
-    return NextResponse.redirect(`https://${forwardedHost}${next}`);
+    return cleanRedirect(`https://${forwardedHost}`);
   } else {
     // その他のケース
-    return NextResponse.redirect(`${origin}${next}`);
+    return cleanRedirect(origin);
   }
 }
