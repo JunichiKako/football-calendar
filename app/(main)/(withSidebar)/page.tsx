@@ -74,15 +74,19 @@ export default async function Home({ searchParams }: HomeParamsProps) {
   return (
     <>
       {currentView === 'league' ? (
-        <LeagueList
-          selectedLeagues={selectedLeagues}
-          selectedMatches={selectedMatches}
-        />
+        <Suspense fallback={<div>Loading league...</div>}>
+          <LeagueList
+            selectedLeagues={selectedLeagues}
+            selectedMatches={selectedMatches}
+          />
+        </Suspense>
       ) : currentView === 'time' ? (
-        <TimeScheduleList
-          selectedLeagues={selectedLeagues}
-          selectedMatches={selectedMatches}
-        />
+        <Suspense fallback={<div>Loading time...</div>}>
+          <TimeScheduleList
+            selectedLeagues={selectedLeagues}
+            selectedMatches={selectedMatches}
+          />
+        </Suspense>
       ) : (
         <div>表示方法が正しく指定されていません</div>
       )}

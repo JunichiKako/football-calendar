@@ -6,6 +6,7 @@ import { saveMatchSelections } from '@/actions/add-my-calendar';
 import { SelectedMatchSubmitBtn } from './selected-match-submit-btn';
 import { cn } from '@/lib/utils';
 import MatchCheckbox from './match-check-box';
+import { Suspense } from 'react';
 
 type SelectedTimeMatchCardProps = {
   matches: Match[];
@@ -80,12 +81,14 @@ export default function SelectedTimeMatchCard({
             <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6'>
               {matchGroup.map((match) => (
                 <div key={match.matchId} className='relative'>
-                  <MatchCheckbox
-                    matchId={match.matchId}
-                    isSelected={selectedMatches.includes(
-                      match.matchId.toString()
-                    )}
-                  />
+                  <Suspense>
+                    <MatchCheckbox
+                      matchId={match.matchId}
+                      isSelected={selectedMatches.includes(
+                        match.matchId.toString()
+                      )}
+                    />
+                  </Suspense>
                   <label
                     htmlFor={match.matchId.toString()}
                     className='p-4 shadow-lg rounded-lg flex justify-between items-center border cursor-pointer

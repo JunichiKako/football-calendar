@@ -1,11 +1,14 @@
-import Footer from '@/components/footer';
+import Footer from '@/components/legal-menu';
 import ViewController from '@/components/main/view-controller';
 import Sidebar from '@/components/sidebar/sidebar';
+import { Suspense } from 'react';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <ViewController />
+      <Suspense>
+        <ViewController />
+      </Suspense>
       <div className='flex h-full'>
         <div className='max-xl:hidden'>
           <Sidebar />
