@@ -48,7 +48,7 @@ import {
   useState,
 } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { AlertDialogFooter, AlertDialogHeader } from '../alert-dialog';
+import { AlertDialogFooter, AlertDialogHeader } from './alert-dialog';
 import { removeMatchSelections } from '@/actions/add-my-calendar';
 
 type View = 'day' | 'week' | 'month' | 'year';
@@ -76,7 +76,7 @@ export type CalendarEvent = {
   start: Date;
   end: Date;
   title: string;
-  leagueName: string; 
+  leagueName: string;
 };
 
 type CalendarProps = {

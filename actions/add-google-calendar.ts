@@ -1,6 +1,6 @@
 'use server';
 
-import { CalendarEvent } from '@/components/ui/my-ui/calendar';
+import { CalendarEvent } from '@/components/ui/calendar';
 import { createClient } from '@/lib/supabase/server';
 
 const supabase = createClient();

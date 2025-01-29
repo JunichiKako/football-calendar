@@ -11,7 +11,7 @@ import {
   CalendarViewTrigger,
   CalendarWeekView,
   CalendarYearView,
-} from '@/components/ui/my-ui/calendar';
+} from '@/components/ui/calendar';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Match } from '@/types/match';

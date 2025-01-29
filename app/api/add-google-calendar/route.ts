@@ -1,4 +1,4 @@
-import { CalendarEvent } from '@/components/ui/my-ui/calendar';
+import { CalendarEvent } from '@/components/ui/calendar';
 import { NextResponse, NextRequest } from 'next/server';
 
 interface GoogleCalendarEvent {
