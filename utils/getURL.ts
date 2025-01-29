@@ -1,4 +1,4 @@
-// TODO: デプロイする時にチェック
+// 本番とローカルでURLを変更するための関数
 export const getURL = () => {
   const url = process.env.VERCEL_PROJECT_PRODUCTION_URL;
 

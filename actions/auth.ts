@@ -1,19 +1,18 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
+import { getURL } from '@/utils/getURL';
 import { redirect } from 'next/navigation';
 
-const host =
-  process.env.NODE_ENV === 'production'
-    ? 'https://example.com' // 本番環境のURL
-    : 'http://localhost:3000';
-
+// Googleアカウントでサインインする処理
 export const signInWithGoogle = async () => {
   const supabase = createClient();
+  const baseURL = getURL();
+  
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `${host}/api/auth/callback`,
+      redirectTo: `${baseURL}/api/auth/callback`,
       scopes: [
         'email',
         'profile',
@@ -37,11 +36,12 @@ export const signInWithGoogle = async () => {
   }
 };
 
-export const signOut = async () => {
+// サインアウト処理
+export const signOutWithGoogle = async () => {
   const supabase = createClient();
   const { error } = await supabase.auth.signOut();
 
   if (error) {
-    console.error('Error signing out:', error);
+    redirect('/');
   }
 };
