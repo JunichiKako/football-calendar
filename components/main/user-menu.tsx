@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { currentUser } from '@/data/auth';
+import { ThemeMenu } from '../theme-menu';
 
 export default async function UserMenu() {
   // ユーザー情報を取得
@@ -69,6 +70,9 @@ export default async function UserMenu() {
                   </button>
                 </form>
               </DropdownMenuItem>
+              <div className='lg:hidden'>
+                <ThemeMenu />
+              </div>
               <DropdownMenuItem>
                 <form action={signOutWithGoogle} className='w-full'>
                   <button className='w-full text-left'>ログアウト</button>
