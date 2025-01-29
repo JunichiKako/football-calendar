@@ -1,6 +1,5 @@
 import { cn } from '@/lib/utils';
 import { getURL } from '@/utils/getURL';
-import { ClerkProvider } from '@clerk/nextjs';
 import type { Metadata } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
 import { ThemeProvider } from '../components/theme-provider';
@@ -26,7 +25,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+
       <html lang='ja' suppressHydrationWarning>
         <body className={cn(notoSansJP.className)}>
           <ThemeProvider
@@ -40,6 +39,5 @@ export default async function RootLayout({
           <Toaster />
         </body>
       </html>
-    </ClerkProvider>
   );
 }
