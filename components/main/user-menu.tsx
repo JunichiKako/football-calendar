@@ -1,4 +1,4 @@
-import { signInWithGoogle, signOut } from '@/actions/auth';
+import { signInWithGoogle, signOutWithGoogle } from '@/actions/auth';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import { Calendar, CreditCard } from 'lucide-react';
@@ -13,13 +13,13 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { currentUser } from '@/data/auth';
 
 export default async function UserMenu() {
-
+  // ユーザー情報を取得
   const user = await currentUser();
 
   return (
     <div className='flex items-center gap-4'>
       {user ? (
-        <div className='flex items-center gap-4'>
+        <div className='flex items-center gap-3'>
           {/* lg以上の画面幅でプランとカレンダーリンクを表示 */}
           <div className='hidden lg:block'>
             <Button variant='ghost' className='text-white' asChild>
@@ -38,9 +38,8 @@ export default async function UserMenu() {
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar>
-                <AvatarImage
-                  src={user.user_metadata.avatar_url}
-                />
+                <AvatarImage src={user.user_metadata.avatar_url} />
+                {/* イメージがない場合に頭文字を画像の代わりにする */}
                 <AvatarFallback>
                   {user.user_metadata.full_name?.charAt(0) || 'U'}
                 </AvatarFallback>
@@ -71,7 +70,7 @@ export default async function UserMenu() {
                 </form>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <form action={signOut} className='w-full'>
+                <form action={signOutWithGoogle} className='w-full'>
                   <button className='w-full text-left'>ログアウト</button>
                 </form>
               </DropdownMenuItem>
@@ -79,6 +78,7 @@ export default async function UserMenu() {
           </DropdownMenu>
         </div>
       ) : (
+        // ログインしてない場合
         <div className='flex'>
           <form action={signInWithGoogle}>
             <Button variant='ghost' className='text-white'>
