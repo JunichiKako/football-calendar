@@ -1,7 +1,7 @@
 import { ArrowLeft, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 
-export default function successPage() {
+export default function SuccessPage() {
   return (
     <div className='h-[calc(100vh-3.5rem)] bg-gradient-to-b flex items-center justify-center p-4'>
       <div className='max-w-md w-full  rounded-2xl shadow-lg p-8 border border-gray-200'>
