@@ -4,7 +4,7 @@ import Link from 'next/link';
 import MobileNav from './mobile-nav';
 import { ModeToggle } from './mode-toggle';
 import UserMenu from './main/user-menu';
-
+import LegalMenu from './footer';
 
 export default async function Header() {
   // モバイル用のナビゲーションメニューを表示するために、取得
@@ -21,6 +21,7 @@ export default async function Header() {
       <span className='flex-1'></span>
       <UserMenu />
       <ModeToggle />
+      <LegalMenu />
     </header>
   );
 }

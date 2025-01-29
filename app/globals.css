@@ -81,7 +81,6 @@
   filter: invert(1);
 }
 
-aside[data-calendar-hide],
-footer[data-calendar-hide] {
+aside[data-calendar-hide] {
   display: var(--sidebar-display, block);
 }
