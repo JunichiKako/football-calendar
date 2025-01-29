@@ -1,18 +1,16 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
-import { getURL } from '@/utils/getURL';
 import { redirect } from 'next/navigation';
 
 // Googleアカウントでサインインする処理
 export const signInWithGoogle = async () => {
   const supabase = createClient();
-  const baseURL = getURL();
-  
+
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `${baseURL}/api/auth/callback`,
+      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/callback`,
       scopes: [
         'email',
         'profile',
