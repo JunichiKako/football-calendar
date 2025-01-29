@@ -52,10 +52,10 @@ export async function GET(request: Request) {
       const customer = await stripe.customers.create({
         email: user.email ?? undefined,
         metadata: {
-          supabase_uid: user.id, 
+          supabase_uid: user.id,
         },
       });
-      // 作成した顧客IDを users テーブルに保存
+      // TODO：作成した顧客IDを users テーブルに保存をSupabaseで行うのかWebhookかは検討
       const { error: upsertError } = await supabase
         .from('users')
         .update({
