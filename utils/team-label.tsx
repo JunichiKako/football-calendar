@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
-interface TeamLabelProps {
+type TeamLabelProps = {
   imageURL: string;
   name: string;
-}
+};
 
 export const TeamLabel: React.FC<TeamLabelProps> = ({ imageURL, name }) => {
   const isJuventus = name === 'ユベントス';

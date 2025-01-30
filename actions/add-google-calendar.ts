@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 
 const supabase = createClient();
 
-interface DbUser {
+type DbUser = {
   user_id: string;
   stripe_customer_id: string | null;
   subscription_plan: 'free' | 'pro';
@@ -13,9 +13,9 @@ interface DbUser {
   calendar_api_calls_limit: number;
   created_at: string;
   updated_at: string | null;
-}
+};
 
-interface GoogleCalendarEvent {
+type GoogleCalendarEvent = {
   summary: string;
   start: {
     dateTime: string;
@@ -25,7 +25,7 @@ interface GoogleCalendarEvent {
     dateTime: string;
     timeZone?: string;
   };
-}
+};
 
 async function updateMatchSelection(matchId: string) {
   await supabase

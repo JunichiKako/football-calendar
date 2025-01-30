@@ -18,7 +18,7 @@ import { Match } from '@/types/match';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { CalendarSubmitBtn } from './calendar-submit-btn';
 
-interface CalendarViewProps {
+type CalendarViewProps = {
   groupedLeagues: {
     [key: string]: {
       leagueId: number;
@@ -28,7 +28,7 @@ interface CalendarViewProps {
     };
   };
   initialSelectedMatches: string[];
-}
+};
 
 export default function CalendarView({
   groupedLeagues,

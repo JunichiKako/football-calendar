@@ -1,7 +1,7 @@
 import { CalendarEvent } from '@/components/ui/calendar';
 import { NextResponse, NextRequest } from 'next/server';
 
-interface GoogleCalendarEvent {
+type GoogleCalendarEvent = {
   summary: string;
   start: {
     dateTime: string;
@@ -11,7 +11,7 @@ interface GoogleCalendarEvent {
     dateTime: string;
     timeZone?: string;
   };
-}
+};
 
 export async function POST(request: NextRequest) {
   try {

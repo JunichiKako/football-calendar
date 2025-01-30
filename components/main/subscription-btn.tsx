@@ -1,10 +1,9 @@
-
 import { handleSubscribe } from '@/actions/stripe';
 import { Button } from '@/components/ui/button';
 
-interface SubscribeButtonProps {
+type SubscribeButtonProps = {
   plan: string;
-}
+};
 
 export default function SubscribeButton({ plan }: SubscribeButtonProps) {
   return (
