@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 import { Suspense } from 'react';
 
 type MatchCardProps = {
-  leagues: {
+  filteredLeagues: {
     [leagueName: string]: {
       leagueId: number;
       leagueName: string;
@@ -21,21 +21,22 @@ type MatchCardProps = {
 };
 
 export default async function SelectedMatchCard({
-  leagues,
+  filteredLeagues,
   selectedMatches,
 }: MatchCardProps) {
+
+  // 選択した試合を送信かつ保存する関数
   async function handleSubmit(formData: FormData) {
-    'use server';
-    const selectedMatches = formData.getAll('matches') as string[];
-    if (selectedMatches.length === 0) {
+    const submittedMatches = formData.getAll('matches') as string[]; // 新しい名前
+    if (submittedMatches.length === 0) {
       return { error: '少なくとも1つのマッチを選択してください。' };
     }
-    await saveMatchSelections(selectedMatches);
+    await saveMatchSelections(submittedMatches);
   }
 
   return (
     <form action={handleSubmit} className='relative pb-20'>
-      {Object.entries(leagues).map(([leagueName, league]) => {
+      {Object.entries(filteredLeagues).map(([leagueName, league]) => {
         const isPremierLeague = leagueName === 'Premier League';
         const isChampionsLeague = leagueName === 'UEFA Champions League';
 

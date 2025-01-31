@@ -19,10 +19,10 @@ export default async function LeagueList({
 }: LeagueListProps) {
   // ここで一括してリーグでグループ化されたリーグデータを取得する
   const leagueGroup = await getLeagueByGroup();
-
+  // userの有無で表示を変える
   const user = await currentUser();
 
-  // 選択されたリーグのみをクライアントでフィルタリングして表示する（APIの呼び出しを減らすため）
+  // サイドバーで選択されたリーグがあれば、選択されたリーグだけを表示する関数。なければ全てのリーグを表示
   const filteredLeagues =
     selectedLeagues.length > 0
       ? Object.fromEntries(
@@ -32,9 +32,12 @@ export default async function LeagueList({
         )
       : leagueGroup;
 
+  //表示されている日付を取得するために呼び出し
   const { dateFrom, dateTo } = getDateRange();
+  // 表示用に日付を整形
   const { displayFrom, displayTo } = formatDateForDisplay(dateFrom, dateTo);
 
+  // ユーザーがいれば選択できる試合のコンポーネント/なければ試合情報だけを見れるコンポーネントを表示
   return (
     <>
       <div className='border-b pb-4 pt-4 mb-8 flex justify-between'>
@@ -46,7 +49,7 @@ export default async function LeagueList({
       </div>
       {user ? (
         <SelectedMatchCard
-          leagues={filteredLeagues}
+          filteredLeagues={filteredLeagues}
           selectedMatches={selectedMatches}
         />
       ) : (
