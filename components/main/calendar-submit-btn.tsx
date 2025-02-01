@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Calendar as CalendarIcon } from 'lucide-react';
@@ -25,6 +27,7 @@ export function CalendarSubmitBtn({
   const { toast } = useToast();
   const supabase = createClientClient();
 
+  // Client側でGoogleの再認証とカレンダーへの追加を行う
   const handleAddToCalendar = async () => {
     try {
       setLoading(true);

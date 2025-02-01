@@ -27,6 +27,7 @@ type GoogleCalendarEvent = {
   };
 };
 
+// マッチIDに紐づくマッチ選択情報を更新するヘルパー関数
 async function updateMatchSelection(matchId: string) {
   await supabase
     .from('match_selections')
@@ -42,12 +43,15 @@ export async function addGoogleCalendar(
   providerToken: string
 ) {
   try {
+    // Userがログインしているか確認
     const {
       data: { user },
       error: userError,
     } = await supabase.auth.getUser();
     if (userError || !user) throw new Error('認証が必要です');
 
+    // Usersテーブルからユーザー情報を取得
+    // Freeプランの場合、カレンダーAPIの制限
     const { data: userData, error: limitError } = await supabase
       .from('users')
       .select(
@@ -58,6 +62,7 @@ export async function addGoogleCalendar(
 
     if (limitError) throw new Error('ユーザー情報の取得に失敗しました');
 
+    // カレンダーAPIの制限に達した場合、/planにリダイレクト
     if (
       userData.calendar_api_calls_count >= userData.calendar_api_calls_limit
     ) {
@@ -69,7 +74,7 @@ export async function addGoogleCalendar(
       }
       throw new Error('今月のカレンダーAPI利用制限に達しました');
     }
-
+    // API利用回数を更新
     const { error: updateError } = await supabase
       .from('users')
       .update({
@@ -79,6 +84,7 @@ export async function addGoogleCalendar(
 
     if (updateError) throw new Error('API利用回数の更新に失敗しました');
 
+    // Googleカレンダーのリストを取得
     const calendarListResponse = await fetch(
       'https://www.googleapis.com/calendar/v3/users/me/calendarList',
       {
@@ -87,19 +93,21 @@ export async function addGoogleCalendar(
         },
       }
     );
-
+    // カレンダーリストの取得に失敗した場合、エラーを返す
     if (!calendarListResponse.ok) {
       if (calendarListResponse.status === 401) {
-        return { error: 'auth_required' };
+        return { error: '認証が必要です' };
       }
-      throw new Error('Failed to fetch calendar list');
+      throw new Error('カレンダーの作成ができませんでした');
     }
 
+    // Football Tableという名前のカレンダーが存在するか確認
     const calendarList = await calendarListResponse.json();
     let calendarId = calendarList.items?.find(
-      (cal: { summary: string }) => cal.summary === 'Football Matches'
+      (cal: { summary: string }) => cal.summary === 'Football Table'
     )?.id;
 
+    // カレンダーが存在しない場合、新規作成
     if (!calendarId) {
       const calendarResponse = await fetch(
         'https://www.googleapis.com/calendar/v3/calendars',
@@ -110,20 +118,22 @@ export async function addGoogleCalendar(
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            summary: 'Football Matches',
-            description: 'Calendar for football match schedules',
+            summary: 'Football Table',
+            description: '海外サッカーの試合スケジュール',
           }),
         }
       );
 
+      // カレンダーの作成に失敗した場合、エラーを返す
       if (!calendarResponse.ok) {
-        throw new Error('Failed to create calendar');
+        throw new Error('カレンダーの作成ができませんでした');
       }
 
+      // カレンダーIDを取得
       const calendar = await calendarResponse.json();
       calendarId = calendar.id;
     }
-
+    // カレンダーIDをもとにイベントを追加
     const promises = events.map(async (event) => {
       const existingEvents = await fetch(
         `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?q=${encodeURIComponent(
@@ -135,7 +145,7 @@ export async function addGoogleCalendar(
           },
         }
       );
-
+      // 既存のイベントとタイトルと開始時間が一致するものがあるか確認
       const existingEventsData = await existingEvents.json();
       const isDuplicate = existingEventsData.items?.some(
         (existingEvent: GoogleCalendarEvent) => {
@@ -149,10 +159,12 @@ export async function addGoogleCalendar(
         }
       );
 
+      // 重複がある場合、スキップ
       if (isDuplicate) {
         return null;
       }
 
+      // イベントを追加
       const response = await fetch(
         `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events`,
         {
@@ -177,14 +189,14 @@ export async function addGoogleCalendar(
       );
 
       if (!response.ok) {
-        throw new Error('Failed to add event');
+        throw new Error('イベントの追加に失敗しました');
       }
-
+      // マッチIDに紐づくマッチ選択情報を更新
       await updateMatchSelection(event.id);
 
       return response.json();
     });
-
+    // イベントの追加結果を取得
     const results = (await Promise.all(promises)).filter(
       (result) => result !== null
     );
@@ -199,7 +211,7 @@ export async function addGoogleCalendar(
       error:
         error instanceof Error
           ? error.message
-          : 'Failed to add events to calendar',
+          : 'カレンダーへの追加に失敗しました',
       details: error instanceof Error ? error.message : 'Unknown error',
     };
   }
