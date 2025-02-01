@@ -1,15 +1,16 @@
 import { Match } from '@/types/match';
 import Image from 'next/image';
-import MatchCard from '@/components/main/match-card'; // MatchCardコンポーネントをインポート
+import MatchCard from '@/components/main/match-card'; 
 import { cn } from '@/lib/utils';
 
 type TimeMatchCardProps = {
-  matches: Match[]; // `matches` を受け取るように修正
+  matches: Match[]; 
 };
-
+// ２次元配列になっている試合情報をグループごとに表示する
 export default function TimeMatchGroup({ matches }: TimeMatchCardProps) {
+  
   if (matches.length === 0) {
-    return null; // 試合がない場合は何も表示しない
+    return null; 
   }
 
   // グループ内の最初の試合からリーグ名とリーグ画像を取得

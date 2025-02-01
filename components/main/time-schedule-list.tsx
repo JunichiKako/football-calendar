@@ -26,7 +26,7 @@ export default async function TimeScheduleList({
       ? allMatches.filter((match) => selectedLeagues.includes(match.leagueName))
       : allMatches;
 
-  // リーグごとにグループ化するための関数
+  // 時間順かつリーグごとにグループ化するための関数
   const groupedMatches = groupMatchesByLeague(filteredMatches);
 
   // 日付の範囲を取得と表示用のフォーマット
