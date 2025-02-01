@@ -1,5 +1,3 @@
-'use client';
-
 import {
   Calendar,
   CalendarCurrentDate,
@@ -13,9 +11,7 @@ import {
   CalendarYearView,
 } from '@/components/ui/calendar';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useMemo, useState } from 'react';
 import { Match } from '@/types/match';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { CalendarSubmitBtn } from './calendar-submit-btn';
 
 type CalendarViewProps = {
@@ -27,32 +23,26 @@ type CalendarViewProps = {
       matches: Match[];
     };
   };
-  initialSelectedMatches: string[];
+  allSubmitMatches: string[];
 };
 
 export default function CalendarView({
   groupedLeagues,
-  initialSelectedMatches,
+  allSubmitMatches,
 }: CalendarViewProps) {
-  const [selectedMatches, setSelectedMatches] = useState(
-    initialSelectedMatches
-  );
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  
+  // 全てのデータを含むgroupedLeaguesから、allSubmitMatchesに含まれる試合のみを抽出してイベントに合うように整形
+  const selectedMatchData = Object.values(groupedLeagues)
+    .flatMap((league) => league.matches)
+    .filter((match) => allSubmitMatches.includes(match.matchId.toString()));
 
-  const events = useMemo(() => {
-    const selectedMatchData = Object.values(groupedLeagues)
-      .flatMap((league) => league.matches)
-      .filter((match) => selectedMatches.includes(match.matchId.toString()));
-
-    return selectedMatchData.map((match) => ({
-      id: match.matchId.toString(),
-      title: `${match.home} vs ${match.away}`,
-      start: new Date(match.utcDate),
-      end: new Date(new Date(match.utcDate).getTime() + 120 * 60 * 1000),
-      leagueName: match.leagueName,
-    }));
-  }, [groupedLeagues, selectedMatches]);
+  const events = selectedMatchData.map((match) => ({
+    id: match.matchId.toString(),
+    title: `${match.home} vs ${match.away}`,
+    start: new Date(match.utcDate),
+    end: new Date(new Date(match.utcDate).getTime() + 120 * 60 * 1000),
+    leagueName: match.leagueName,
+  }));
 
   return (
     <Calendar events={events}>
@@ -106,7 +96,7 @@ export default function CalendarView({
         </div>
         {/* Google calendarに追加するボタン */}
         <CalendarSubmitBtn
-          events={events} // イベントデータを渡す
+          events={events} 
           disabled={events.length === 0}
         />
       </div>
