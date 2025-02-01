@@ -37,7 +37,7 @@ export default async function Home({ searchParams }: HomeParamsProps) {
     }
 
     // ユーザーが選択した試合を取得
-    let allSelectedMatches = selectedMatches;
+    let allSubmitMatches = selectedMatches;
 
     // ユーザーが選択した試合をDBから取得
     if (user) {
@@ -50,7 +50,7 @@ export default async function Home({ searchParams }: HomeParamsProps) {
       // DBから保存された試合IDを取得し、URLパラメータの選択と結合
       // 重複を避けるため、URLパラメータに含まれていない試合のみを追加
       if (savedMatches?.match_ids) {
-        allSelectedMatches = [
+        allSubmitMatches = [
           ...selectedMatches,
           ...savedMatches.match_ids.filter(
             (id: string) => !selectedMatches.includes(id)
@@ -64,7 +64,7 @@ export default async function Home({ searchParams }: HomeParamsProps) {
         <Suspense fallback={<div>Loading calendar...</div>}>
           <CalendarView
             groupedLeagues={groupedLeagues}
-            initialSelectedMatches={allSelectedMatches}
+            allSubmitMatches={allSubmitMatches}
           />
         </Suspense>
       </div>
