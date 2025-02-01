@@ -4,7 +4,7 @@ import LeagueToggle from './league-toggle';
 import { Suspense } from 'react';
 
 export default async function Sidebar() {
-  // すべてのリーグデータを取得
+  // サイドバーに表示するためのリーグデータを取得
   const allLeaguesByGroup = await getLeagueByGroup();
 
   return (

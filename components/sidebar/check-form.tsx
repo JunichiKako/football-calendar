@@ -34,7 +34,7 @@ export function CheckForm({
   const { register, watch, setValue, reset } = useForm<FormValues>({
     defaultValues: { leagues: searchParams.get('leagues')?.split(',') || [] },
   });
-
+  // leaguesの値が変更されたらフォームの値を更新
   useEffect(() => {
     reset({
       leagues: paramsLeagues ? paramsLeagues.split(',') : [],
@@ -43,6 +43,7 @@ export function CheckForm({
 
   const selectedLeagues = watch('leagues');
 
+  // チェックボックスの選択状態をトグルする
   const handleLeagueToggle = (leagueName: string) => {
     const newSelectedLeagues = toggleLeagueSelection(
       selectedLeagues,
@@ -55,6 +56,7 @@ export function CheckForm({
     updateQueryParams(newSelectedLeagues);
   };
 
+  // チェックで選択されているものかどうかを判定
   const toggleLeagueSelection = (
     selectedLeagues: string[],
     leagueName: string
@@ -64,6 +66,7 @@ export function CheckForm({
       : [...selectedLeagues, leagueName];
   };
 
+  // クエリパラメータを更新
   const updateQueryParams = (newSelectedLeagues: string[]) => {
     const params = new URLSearchParams(window.location.search);
 

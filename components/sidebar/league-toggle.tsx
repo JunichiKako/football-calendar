@@ -7,7 +7,6 @@ import { cn } from '@/lib/utils';
 
 export default function LeagueToggle() {
   const searchParams = useSearchParams();
-  const currentLeagues = searchParams.get('leagues') || '';
   const currentView = searchParams.get('view') || 'league';
 
   const createUrlWithView = (view: string) => {
