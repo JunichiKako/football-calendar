@@ -45,9 +45,9 @@ export default function MatchCheckbox({
     }
 
     // スクロール位置を維持するオプションを追加 
-    // router.replace(`${pathname}?${params.toString()}`, {
-    //   scroll: false,
-    // });
+    router.replace(`${pathname}?${params.toString()}`, {
+      scroll: false,
+    });
   };
 
   return (
