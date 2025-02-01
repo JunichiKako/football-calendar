@@ -1,4 +1,3 @@
-// components/selected-time-match-card.tsx
 import { Match } from '@/types/match';
 import Image from 'next/image';
 import { TeamLabel } from '@/utils/team-label';
@@ -7,53 +6,23 @@ import { SelectedMatchSubmitBtn } from './selected-match-submit-btn';
 import { cn } from '@/lib/utils';
 import MatchCheckbox from './match-check-box';
 import { Suspense } from 'react';
+import { groupMatchesByLeague } from '@/utils/group-matches';
 
 type SelectedTimeMatchCardProps = {
   matches: Match[];
-  selectedMatches: string[]; // 追加
+  selectedMatches: string[];
 };
 
 export default function SelectedTimeMatchCard({
   matches,
   selectedMatches,
 }: SelectedTimeMatchCardProps) {
-  // 試合をリーグごとにグループ化
-  const groupedMatches: Match[][] = [];
-  let currentGroup: Match[] = [];
-
-  matches.forEach((match, index) => {
-    if (currentGroup.length === 0) {
-      currentGroup.push(match);
-    } else {
-      const lastMatch = currentGroup[currentGroup.length - 1];
-
-      if (match.leagueName === lastMatch.leagueName) {
-        currentGroup.push(match);
-      } else {
-        groupedMatches.push(currentGroup);
-        currentGroup = [match];
-      }
-    }
-
-    if (index === matches.length - 1) {
-      groupedMatches.push(currentGroup);
-    }
-  });
-
-  async function handleSubmit(formData: FormData) {
-    'use server';
-
-    const selectedMatches = formData.getAll('matches') as string[];
-
-    if (selectedMatches.length === 0) {
-      return { error: '少なくとも1つのマッチを選択してください。' };
-    }
-
-    await saveMatchSelections(selectedMatches);
-  }
+  // 時間順かつリーグごとにグループ化
+  const groupedMatches = groupMatchesByLeague(matches);
 
   return (
-    <form action={handleSubmit} className='relative pb-20'>
+    <form action={saveMatchSelections} className='relative pb-20'>
+      
       {groupedMatches.map((matchGroup, groupIndex) => {
         const { leagueName, leagueImg } = matchGroup[0];
         const isPremierLeague = leagueName === 'Premier League';
