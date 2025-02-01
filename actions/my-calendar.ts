@@ -4,9 +4,13 @@ import { currentUser } from '@/data/auth';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 
-export async function saveMatchSelections(newMatchIds: string[]) {
+export async function saveMatchSelections(FormData: FormData) {
+  // FormDataから選択されたマッチを取得
+  const submittedMatches = FormData.getAll('matches') as string[];
+  if (submittedMatches.length === 0) {
+    return { error: '少なくとも1つのマッチを選択してください。' };
+  }
   const supabase = await createClient();
-
   const user = await currentUser();
 
   if (!user) {
@@ -14,6 +18,7 @@ export async function saveMatchSelections(newMatchIds: string[]) {
   }
 
   try {
+    // ユーザーが以前選択したマッチを取得
     const { data: existing } = await supabase
       .from('match_selections')
       .select()
@@ -23,11 +28,12 @@ export async function saveMatchSelections(newMatchIds: string[]) {
     // match_idsが存在することを確認し、なければ空配列を使用
     const existingMatchIds = existing?.match_ids || [];
 
-    // 重複を除去して新しい配列を作成
-    const allMatchIds = [...existingMatchIds, ...newMatchIds].filter(
+    //DBにある配列と新しく選択されたマッチを結合し、重複を削除
+    const allMatchIds = [...existingMatchIds, ...submittedMatches].filter(
       (id, index, self) => self.indexOf(id) === index
     );
 
+    // 以前の選択があれば更新、なければ新規追加
     if (existing) {
       await supabase
         .from('match_selections')
@@ -39,8 +45,8 @@ export async function saveMatchSelections(newMatchIds: string[]) {
         match_ids: allMatchIds,
       });
     }
-
-    redirect(`/?view=calendar&selectedMatches=${newMatchIds.join(',')}`);
+    // カレンダーviewにリダイレクト
+    redirect(`/?view=calendar&selectedMatches=${submittedMatches.join(',')}`);
   } catch (error) {
     throw error;
   }

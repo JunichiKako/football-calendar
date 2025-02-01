@@ -49,7 +49,7 @@ import {
 } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { AlertDialogFooter, AlertDialogHeader } from './alert-dialog';
-import { removeMatchSelections } from '@/actions/add-my-calendar';
+import { removeMatchSelections } from '@/actions/my-calendar';
 
 type View = 'day' | 'week' | 'month' | 'year';
 

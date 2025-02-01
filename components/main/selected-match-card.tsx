@@ -1,8 +1,7 @@
-// app/components/match-card.tsx
 import { Match } from '@/types/match';
 import Image from 'next/image';
 import { TeamLabel } from '@/utils/team-label';
-import { saveMatchSelections } from '@/actions/add-my-calendar';
+import { saveMatchSelections } from '@/actions/my-calendar';
 import { SelectedMatchSubmitBtn } from './selected-match-submit-btn';
 import MatchCheckbox from './match-check-box';
 import { cn } from '@/lib/utils';
@@ -24,18 +23,8 @@ export default async function SelectedMatchCard({
   filteredLeagues,
   selectedMatches,
 }: MatchCardProps) {
-
-  // 選択した試合を送信かつ保存する関数
-  async function handleSubmit(formData: FormData) {
-    const submittedMatches = formData.getAll('matches') as string[]; // 新しい名前
-    if (submittedMatches.length === 0) {
-      return { error: '少なくとも1つのマッチを選択してください。' };
-    }
-    await saveMatchSelections(submittedMatches);
-  }
-
   return (
-    <form action={handleSubmit} className='relative pb-20'>
+    <form action={saveMatchSelections} className='relative pb-20'>
       {Object.entries(filteredLeagues).map(([leagueName, league]) => {
         const isPremierLeague = leagueName === 'Premier League';
         const isChampionsLeague = leagueName === 'UEFA Champions League';
