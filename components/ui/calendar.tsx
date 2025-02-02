@@ -16,6 +16,7 @@ import {
 import { VariantProps, cva } from 'class-variance-authority';
 import {
   Locale,
+  addHours,
   addDays,
   addMonths,
   addWeeks,
@@ -31,6 +32,7 @@ import {
   setMonth,
   startOfMonth,
   startOfWeek,
+  startOfHour,
   subDays,
   subMonths,
   subWeeks,
@@ -174,30 +176,40 @@ const CalendarViewTrigger = forwardRef<
 });
 CalendarViewTrigger.displayName = 'CalendarViewTrigger';
 
-const EventGroup = ({
-  events,
-  hour,
-}: {
+interface EventGroupProps {
   events: CalendarEvent[];
   hour: Date;
-}) => {
-  const { setEvents } = useCalendar();
-  const hourEvents = events.filter((event) => isSameHour(event.start, hour));
+}
+
+const EventGroup = ({ events, hour }: EventGroupProps) => {
+  const { setEvents, view } = useCalendar();
+
+  // 同じ開始時間のイベントをグループ化
+  const groupedEvents = events
+    .filter((event) => isSameHour(event.start, hour))
+    .reduce((groups, event) => {
+      const timeKey = format(event.start, 'HH:mm');
+      if (!groups[timeKey]) {
+        groups[timeKey] = [];
+      }
+      groups[timeKey].push(event);
+      return groups;
+    }, {} as Record<string, CalendarEvent[]>);
 
   const getEventStyle = (leagueName: string): string => {
     switch (leagueName) {
       case 'Premier League':
-        return 'bg-[#3D195B] text-white border border-white/20';
+        return 'bg-[#3D195B]/70 text-white border border-white/20';
       case 'Bundesliga':
-        return 'bg-[#D3010C] text-white border border-white/20';
+        return 'bg-[#D3010C]/70 text-white border border-white/20';
       case 'Primera Division':
-        return 'bg-[#EE8707] text-white border border-white/20';
+        return 'bg-[#EE8707]/70 text-white border border-white/20';
       case 'Serie A':
-        return 'bg-[#18305B] text-white border border-white/20';
+        return 'bg-[#18305B]/70 text-white border border-white/20';
       case 'Ligue 1':
-        return 'bg-[#091C3E] text-white border border-white/20';
+        return 'bg-[#091C3E]/70 text-white border border-white/20';
       default:
-        return 'bg-gray-500/80 text-white border border-white/20';
+        return 'bg-gray-500/70 text-white border border-white/20';
     }
   };
 
@@ -214,71 +226,132 @@ const EventGroup = ({
 
   return (
     <div className='relative h-20'>
-      <div className='absolute inset-0' style={{ zIndex: 0 }}>
-        <div className='w-full h-full border-t' />
-      </div>
+      {(view !== 'day' ||
+        !events.some((event) => {
+          // 異なる日付のイベントは考慮しない
+          if (!isSameDay(event.start, hour)) return false;
 
-      {hourEvents.map((event, index) => {
+          const currentHour = hour.getHours();
+          const eventStartHour = event.start.getHours();
+          const eventEndHour = event.end.getHours();
+
+          // 同じ日付で、その時間がイベントの時間範囲内かをチェック
+          return currentHour > eventStartHour && currentHour <= eventEndHour;
+        })) && (
+        <div className='absolute inset-0'>
+          <div className='w-full h-full border-t' />
+        </div>
+      )}
+
+      {Object.entries(groupedEvents).map(([timeKey, timeEvents]) => {
+        const startPosition =
+          differenceInMinutes(
+            timeEvents[0].start,
+            startOfHour(timeEvents[0].start)
+          ) / 60;
         const hoursDifference =
-          differenceInMinutes(event.end, event.start) / 60;
-        const startPosition = event.start.getMinutes() / 60;
+          differenceInMinutes(timeEvents[0].end, timeEvents[0].start) / 60;
 
         return (
           <div
-            key={event.id}
-            className={cn(
-              'absolute hover:z-10',
-              'p-2 rounded-md shadow-sm',
-              getEventStyle(event.leagueName)
-            )}
+            key={timeKey}
+            className='absolute w-full'
             style={{
               top: `${startPosition * 100}%`,
               height: `${hoursDifference * 100}%`,
-              width: '25%',
-              left: `${index * 25}%`,
-              zIndex: index,
+              zIndex: 2,
             }}
           >
-            <div className='flex flex-col gap-1 overflow-hidden'>
-              <div className='flex items-start justify-between'>
-                <div className='font-semibold truncate'>{event.title}</div>
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button variant='ghost' size='icon' className='h-6 w-6 p-0'>
-                      <X className='h-4 w-4' />
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogPortal>
-                    <AlertDialogOverlay className='fixed inset-0  z-50' />
-                    <AlertDialogContent className='fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] z-[51] max-w-md w-[90%] bg-white dark:text-black shadow-lg rounded-lg p-4'>
-                      <AlertDialogHeader className='mb-4'>
-                        <AlertDialogTitle>イベントの削除</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          本当にこのイベントを削除しますか？
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel asChild>
-                          <Button variant='outline' className='text-white'>
-                            キャンセル
-                          </Button>
-                        </AlertDialogCancel>
-                        <AlertDialogAction asChild>
-                          <Button
-                            variant='destructive'
-                            onClick={() => handleDelete(event.id)}
-                          >
-                            削除
-                          </Button>
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialogPortal>
-                </AlertDialog>
-              </div>
-              <div className='text-xs whitespace-nowrap opacity-90'>
-                {format(event.start, 'HH:mm')} - {format(event.end, 'HH:mm')}
-              </div>
+            <div
+              className={cn(
+                'h-full gap-1 relative',
+                view === 'week' && 'flex flex-col',
+                view === 'day' && 'grid grid-cols-2'
+              )}
+            >
+              {timeEvents.map((event, index) => (
+                <div
+                  key={event.id}
+                  className={cn(
+                    'hover:z-20',
+                    view === 'week' && ['p-0.5 sm:p-1', 'min-h-[24px]'],
+                    view === 'day' && 'p-1 sm:p-2',
+                    'rounded-md shadow-sm',
+                    getEventStyle(event.leagueName)
+                  )}
+                  style={{ zIndex: index }}
+                >
+                  <div
+                    className={cn(
+                      'flex flex-col overflow-hidden',
+                      view === 'week' ? 'gap-0' : 'gap-0.5 sm:gap-1'
+                    )}
+                  >
+                    <div className='flex items-start justify-between'>
+                      <div
+                        className={cn(
+                          'font-semibold line-clamp-2',
+                          view === 'week'
+                            ? 'text-[10px] sm:text-xs'
+                            : 'text-xs sm:text-sm md:text-base'
+                        )}
+                      >
+                        {event.title}
+                      </div>
+                      {view === 'day' && (
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              variant='ghost'
+                              size='icon'
+                              className='h-4 w-4 sm:h-6 sm:w-6 p-0'
+                            >
+                              <X className='h-3 w-3 sm:h-4 sm:w-4' />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogPortal>
+                            <AlertDialogOverlay className='fixed inset-0 z-50' />
+                            <AlertDialogContent className='fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] z-[51] max-w-md w-[90%] bg-white border dark:text-black shadow-lg rounded-lg p-4'>
+                              <AlertDialogHeader className='mb-4'>
+                                <AlertDialogTitle>
+                                  イベントの削除
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  本当にこのイベントを削除しますか？
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel asChild>
+                                  <Button
+                                    variant='outline'
+                                    className='text-primary'
+                                  >
+                                    キャンセル
+                                  </Button>
+                                </AlertDialogCancel>
+                                <AlertDialogAction asChild>
+                                  <Button
+                                    variant='destructive'
+                                    onClick={() => handleDelete(event.id)}
+                                  >
+                                    削除
+                                  </Button>
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialogPortal>
+                        </AlertDialog>
+                      )}
+                    </div>
+                    {view === 'day' && (
+                      <div className='text-[10px] sm:text-xs whitespace-nowrap opacity-90'>
+                        {format(event.start, 'HH:mm')} -{' '}
+                        {format(event.end, 'HH:mm')}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         );
@@ -286,6 +359,9 @@ const EventGroup = ({
     </div>
   );
 };
+
+export default EventGroup;
+
 const CalendarDayView = () => {
   const { view, events, date } = useCalendar();
 
