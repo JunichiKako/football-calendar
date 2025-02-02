@@ -91,7 +91,6 @@ export function CalendarSubmitBtn({
     <Button
       onClick={handleAddToCalendar}
       variant='default'
-      size='lg'
       className='fixed bottom-4 right-4 z-10'
       disabled={disabled || loading}
     >

@@ -77,7 +77,6 @@ export async function removeMatchSelections(matchIds: string) {
       throw new Error('選択された試合が見つかりません');
     }
 
-    // オプショナルチェーンは不要（上でチェック済み）
     const updatedMatchIds = existing.match_ids.filter((id) => id !== matchIds);
 
     const { error } = await supabase
