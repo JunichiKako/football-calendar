@@ -43,7 +43,6 @@ export async function createPortalSession() {
 
 export async function handleSubscribe(formData: FormData) {
   const planId = formData.get('planId');
-  console.log('planId:', planId);
 
   if (planId === 'free') {
     redirect('/');
