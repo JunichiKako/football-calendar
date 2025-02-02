@@ -12,7 +12,7 @@ export default async function Header() {
   const leagueByGroup = await getLeagueByGroup();
 
   return (
-    <header className='sticky gap-2 md:gap-4 top-0 z-50 h-14 flex items-center px-4 border-b bg-[#4BCBEE] dark:bg-[#050401]'>
+    <header className='sticky gap-2 md:gap-4 top-0 z-50 h-14 flex items-center px-2 md:px-4 border-b bg-[#4BCBEE] dark:bg-[#050401]'>
       <Suspense>
         <MobileNav leagueByGroup={leagueByGroup} />
       </Suspense>

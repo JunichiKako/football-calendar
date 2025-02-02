@@ -85,8 +85,8 @@ export default async function UserMenu() {
         // ログインしてない場合
         <div className='flex'>
           <form action={signInWithGoogle}>
-            <Button variant='ghost' className='text-white'>
-              Googleでログイン
+            <Button variant='ghost' className='text-white '>
+              ログイン
             </Button>
           </form>
           <Link href='plan'>
