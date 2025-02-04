@@ -1,4 +1,4 @@
-// app/api/webhooks/stripe/route.ts
+// Userがログインした時にこのWebhookでSupabaseのusersテーブルにStripeのCustomer IDを保存します。
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
@@ -17,9 +17,19 @@ export async function POST(request: Request) {
       process.env.STRIPE_WEBHOOK_SECRET!
     );
 
+    console.log('Event verified:', event.type); // デバッグログ追加
+
     switch (event.type) {
       case 'customer.created':
         const customer = event.data.object as Stripe.Customer;
+
+        if (!customer.metadata.supabase_uid) {
+          console.error('No supabase_uid in metadata');
+          return NextResponse.json(
+            { error: 'Missing supabase_uid in metadata' },
+            { status: 400 }
+          );
+        }
 
         const { error } = await adminClient.from('users').upsert(
           {
@@ -36,7 +46,11 @@ export async function POST(request: Request) {
         );
 
         if (error) {
-          console.error('Supabase upsert error:', error);
+          console.error('Supabase upsert error:', {
+            error,
+            customer_id: customer.id,
+            supabase_uid: customer.metadata.supabase_uid,
+          });
           throw error;
         }
         break;
