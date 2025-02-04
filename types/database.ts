@@ -38,10 +38,28 @@ export type Database = {
           },
         ]
       }
+      user_matches: {
+        Row: {
+          created_at: string | null
+          match_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          match_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          match_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       users: {
         Row: {
           calendar_api_calls_count: number | null
-          calendar_api_calls_limit: number | null
+          calendar_api_calls_limit: number
           created_at: string | null
           stripe_customer_id: string | null
           subscription_plan: string | null
@@ -50,7 +68,7 @@ export type Database = {
         }
         Insert: {
           calendar_api_calls_count?: number | null
-          calendar_api_calls_limit?: number | null
+          calendar_api_calls_limit?: number
           created_at?: string | null
           stripe_customer_id?: string | null
           subscription_plan?: string | null
@@ -59,7 +77,7 @@ export type Database = {
         }
         Update: {
           calendar_api_calls_count?: number | null
-          calendar_api_calls_limit?: number | null
+          calendar_api_calls_limit?: number
           created_at?: string | null
           stripe_customer_id?: string | null
           subscription_plan?: string | null
