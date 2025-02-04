@@ -6,6 +6,7 @@ import CalendarView from '@/components/main/calendar-view';
 import { createClient } from '@/lib/supabase/server';
 import { currentUser } from '@/data/auth';
 import { redirect } from 'next/navigation';
+import { log } from 'console';
 
 type HomeParamsProps = {
   searchParams: {
@@ -40,21 +41,20 @@ export default async function Home({ searchParams }: HomeParamsProps) {
     let allSubmitMatches = selectedMatches;
 
     // ユーザーが選択した試合をDBから取得
-    if (user) {
-      const { data: savedMatches } = await supabase
-        .from('match_selections')
-        .select('match_ids')
-        .eq('user_id', user.id)
-        .single();
 
-      // DBから保存された試合IDを取得し、URLパラメータの選択と結合
-      // 重複を避けるため、URLパラメータに含まれていない試合のみを追加
-      if (savedMatches?.match_ids) {
+    if (user) {
+      // user_matchesテーブルから選択された試合を取得
+      const { data: savedMatches } = await supabase
+        .from('user_matches')
+        .select('match_id')
+        .eq('user_id', user.id);
+
+      // DBから取得した試合IDと現在選択されている試合IDを結合
+      if (savedMatches) {
+        const savedMatchIds = savedMatches.map((match) => match.match_id);
         allSubmitMatches = [
           ...selectedMatches,
-          ...savedMatches.match_ids.filter(
-            (id: string) => !selectedMatches.includes(id)
-          ),
+          ...savedMatchIds.filter((id) => !selectedMatches.includes(id)),
         ];
       }
     }

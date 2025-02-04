@@ -27,16 +27,7 @@ type GoogleCalendarEvent = {
   };
 };
 
-// マッチIDに紐づくマッチ選択情報を更新するヘルパー関数
-async function updateMatchSelection(matchId: string) {
-  await supabase
-    .from('match_selections')
-    .update({
-      updated_at: new Date().toISOString(),
-      synced_to_google: true,
-    })
-    .eq('match_ids', matchId);
-}
+
 
 export async function addGoogleCalendar(
   events: CalendarEvent[],
@@ -191,8 +182,6 @@ export async function addGoogleCalendar(
       if (!response.ok) {
         throw new Error('イベントの追加に失敗しました');
       }
-      // マッチIDに紐づくマッチ選択情報を更新
-      await updateMatchSelection(event.id);
 
       return response.json();
     });

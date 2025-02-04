@@ -4,12 +4,12 @@ import { currentUser } from '@/data/auth';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 
-export async function saveMatchSelections(FormData: FormData) {
-  // FormDataから選択されたマッチを取得
-  const submittedMatches = FormData.getAll('matches') as string[];
+export async function saveMatchSelections(formData: FormData) {
+  const submittedMatches = formData.getAll('matches') as string[];
   if (submittedMatches.length === 0) {
     return { error: '少なくとも1つのマッチを選択してください。' };
   }
+
   const supabase = await createClient();
   const user = await currentUser();
 
@@ -19,42 +19,41 @@ export async function saveMatchSelections(FormData: FormData) {
 
   try {
     // ユーザーが以前選択したマッチを取得
-    const { data: existing } = await supabase
-      .from('match_selections')
-      .select()
-      .eq('user_id', user.id)
-      .maybeSingle();
+    const { data: existingMatches } = await supabase
+      .from('user_matches')
+      .select('match_id')
+      .eq('user_id', user.id);
 
-    // match_idsが存在することを確認し、なければ空配列を使用
-    const existingMatchIds = existing?.match_ids || [];
-
-    //DBにある配列と新しく選択されたマッチを結合し、重複を削除
+    // 既存の選択と新しい選択を結合（重複を除去）
+    const existingMatchIds =
+      existingMatches?.map((match) => match.match_id) || [];
     const allMatchIds = [...existingMatchIds, ...submittedMatches].filter(
       (id, index, self) => self.indexOf(id) === index
     );
 
-    // 以前の選択があれば更新、なければ新規追加
-    if (existing) {
-      await supabase
-        .from('match_selections')
-        .update({ match_ids: allMatchIds })
-        .eq('user_id', user.id);
-    } else {
-      await supabase.from('match_selections').insert({
-        user_id: user.id,
-        match_ids: allMatchIds,
+    // 新しい選択を挿入（UPSERTで重複を処理）
+    const matchesToInsert = allMatchIds.map((matchId) => ({
+      user_id: user.id,
+      match_id: matchId,
+    }));
+
+    const { error: insertError } = await supabase
+      .from('user_matches')
+      .upsert(matchesToInsert, {
+        onConflict: 'user_id,match_id',
+        ignoreDuplicates: true,
       });
-    }
-    // カレンダーviewにリダイレクト
+
+    if (insertError) throw insertError;
+
     redirect(`/?view=calendar&selectedMatches=${submittedMatches.join(',')}`);
   } catch (error) {
     throw error;
   }
 }
 
-export async function removeMatchSelections(matchIds: string) {
+export async function removeMatchSelections(matchId: string) {
   const supabase = await createClient();
-
   const user = await currentUser();
 
   if (!user) {
@@ -62,31 +61,25 @@ export async function removeMatchSelections(matchIds: string) {
   }
 
   try {
-    const { data: existing } = await supabase
-      .from('match_selections')
-      .select('match_ids')
+    // 特定のマッチを削除
+    const { error: deleteError } = await supabase
+      .from('user_matches')
+      .delete()
       .eq('user_id', user.id)
-      .single();
+      .eq('match_id', matchId);
 
-    if (!existing) {
-      throw new Error('選択された試合が見つかりません');
-    }
+    if (deleteError) throw deleteError;
 
-    // 一つのif文にまとめる（matchIdsのチェックも含む）
-    if (!existing || !existing.match_ids) {
-      throw new Error('選択された試合が見つかりません');
-    }
-
-    const updatedMatchIds = existing.match_ids.filter((id) => id !== matchIds);
-
-    const { error } = await supabase
-      .from('match_selections')
-      .update({ match_ids: updatedMatchIds })
+    // 残りの選択を取得
+    const { data: remainingMatches } = await supabase
+      .from('user_matches')
+      .select('match_id')
       .eq('user_id', user.id);
 
-    if (error) throw error;
+    const remainingMatchIds =
+      remainingMatches?.map((match) => match.match_id) || [];
 
-    redirect(`/?view=calendar&selectedMatches=${updatedMatchIds.join(',')}`);
+    redirect(`/?view=calendar&selectedMatches=${remainingMatchIds.join(',')}`);
   } catch (error) {
     throw error;
   }
