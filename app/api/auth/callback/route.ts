@@ -24,17 +24,29 @@ export async function GET(request: NextRequest) {
   }
 
   // Stripe Customer作成のみ行い、DBへの保存はWebhookに任せる
+  // Stripe Customer作成前に既存の顧客をチェック
   try {
-    const customer = await stripe.customers.create({
-      email: authData.user.email ?? undefined,
-      metadata: {
-        supabase_uid: authData.user.id,
-      },
+    // 既存の顧客を検索
+    const existingCustomers = await stripe.customers.list({
+      email: authData.user.email,
+      limit: 1,
     });
 
+    if (existingCustomers.data.length > 0) {
+      console.log('Existing customer found:', existingCustomers.data[0].id);
+      // 既存の顧客が見つかった場合は新規作成をスキップ
+    } else {
+      // 新規顧客を作成
+      const customer = await stripe.customers.create({
+        email: authData.user.email ?? undefined,
+        metadata: {
+          supabase_uid: authData.user.id,
+        },
+      });
+      console.log('New customer created:', customer.id);
+    }
   } catch (error) {
-    console.error('Stripe customer creation error:', error);
-    // エラーの詳細をログに残す
+    console.error('Stripe customer operation error:', error);
     if (error instanceof Stripe.errors.StripeError) {
       console.error('Stripe error details:', {
         type: error.type,

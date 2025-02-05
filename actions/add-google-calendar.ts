@@ -27,13 +27,29 @@ type GoogleCalendarEvent = {
   };
 };
 
-
-
 export async function addGoogleCalendar(
   events: CalendarEvent[],
   providerToken: string
 ) {
   try {
+    // Googleカレンダーのリストを取得して認証をチェック
+    const calendarListResponse = await fetch(
+      'https://www.googleapis.com/calendar/v3/users/me/calendarList',
+      {
+        headers: {
+          Authorization: `Bearer ${providerToken}`,
+        },
+      }
+    );
+
+    // カレンダーリストの取得に失敗した場合、エラーを返す
+    if (!calendarListResponse.ok) {
+      if (calendarListResponse.status === 401) {
+        return { error: '認証が必要です' };
+      }
+      throw new Error('カレンダーリストの取得に失敗しました');
+    }
+
     // Userがログインしているか確認
     const {
       data: { user },
@@ -65,32 +81,6 @@ export async function addGoogleCalendar(
       }
       throw new Error('今月のカレンダーAPI利用制限に達しました');
     }
-    // API利用回数を更新
-    const { error: updateError } = await supabase
-      .from('users')
-      .update({
-        calendar_api_calls_count: userData.calendar_api_calls_count + 1,
-      })
-      .eq('user_id', user.id);
-
-    if (updateError) throw new Error('API利用回数の更新に失敗しました');
-
-    // Googleカレンダーのリストを取得
-    const calendarListResponse = await fetch(
-      'https://www.googleapis.com/calendar/v3/users/me/calendarList',
-      {
-        headers: {
-          Authorization: `Bearer ${providerToken}`,
-        },
-      }
-    );
-    // カレンダーリストの取得に失敗した場合、エラーを返す
-    if (!calendarListResponse.ok) {
-      if (calendarListResponse.status === 401) {
-        return { error: '認証が必要です' };
-      }
-      throw new Error('カレンダーの作成ができませんでした');
-    }
 
     // Football Tableという名前のカレンダーが存在するか確認
     const calendarList = await calendarListResponse.json();
@@ -117,6 +107,9 @@ export async function addGoogleCalendar(
 
       // カレンダーの作成に失敗した場合、エラーを返す
       if (!calendarResponse.ok) {
+        if (calendarResponse.status === 401) {
+          return { error: '認証が必要です' };
+        }
         throw new Error('カレンダーの作成ができませんでした');
       }
 
@@ -124,8 +117,10 @@ export async function addGoogleCalendar(
       const calendar = await calendarResponse.json();
       calendarId = calendar.id;
     }
-    // カレンダーIDをもとにイベントを追加
+
+    // イベントを追加
     const promises = events.map(async (event) => {
+      // 既存のイベントをチェック
       const existingEvents = await fetch(
         `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?q=${encodeURIComponent(
           event.title
@@ -136,8 +131,9 @@ export async function addGoogleCalendar(
           },
         }
       );
-      // 既存のイベントとタイトルと開始時間が一致するものがあるか確認
+
       const existingEventsData = await existingEvents.json();
+      // 既存のイベントとタイトルと開始時間が一致するものがあるか確認
       const isDuplicate = existingEventsData.items?.some(
         (existingEvent: GoogleCalendarEvent) => {
           const existingStart = new Date(existingEvent.start.dateTime);
@@ -152,7 +148,7 @@ export async function addGoogleCalendar(
 
       // 重複がある場合、スキップ
       if (isDuplicate) {
-        return null;
+        return { success: true, added: false };
       }
 
       // イベントを追加
@@ -183,16 +179,28 @@ export async function addGoogleCalendar(
         throw new Error('イベントの追加に失敗しました');
       }
 
-      return response.json();
+      return { success: true, added: true };
     });
-    // イベントの追加結果を取得
-    const results = (await Promise.all(promises)).filter(
-      (result) => result !== null
-    );
+
+    // 全てのイベント追加を実行
+    const results = await Promise.all(promises);
+
+    // 実際に追加されたイベントの数をカウント
+    const addedEvents = results.filter((result) => result.added).length;
+
+    // 全ての処理が成功した後にAPI利用回数を更新
+    const { error: updateError } = await supabase
+      .from('users')
+      .update({
+        calendar_api_calls_count: userData.calendar_api_calls_count + 1,
+      })
+      .eq('user_id', user.id);
+
+    if (updateError) throw new Error('API利用回数の更新に失敗しました');
 
     return {
       success: true,
-      addedEvents: results.length,
+      addedEvents,
       totalEvents: events.length,
     };
   } catch (error) {

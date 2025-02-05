@@ -7,6 +7,11 @@ import { redirect } from 'next/navigation';
 export const signInWithGoogle = async () => {
   const supabase = createClient();
 
+  // 既存のユーザーセッションをチェック
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
@@ -19,7 +24,8 @@ export const signInWithGoogle = async () => {
       ].join(' '),
       queryParams: {
         access_type: 'offline',
-        prompt: 'consent',
+        prompt: session ? 'select_account' : 'consent', // セッションがある場合は明示的にアカウント選択を要求
+        // login_hint: session?.user?.email // 必要に応じて現在のメールアドレスをヒントとして提供
       },
     },
   });
