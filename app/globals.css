@@ -84,3 +84,16 @@
 aside[data-calendar-hide] {
   display: var(--sidebar-display, block);
 }
+
+/* 通常のpx-4は維持されたまま、calendar viewの時だけ上書きする */
+main[data-calendar-view='true'] {
+  padding-left: var(--main-padding, 1rem);
+  padding-right: var(--main-padding, 1rem);
+}
+
+@media (max-width: 768px) {
+  main[data-calendar-view='true'] {
+    padding-left: var(--main-padding-md, 0.25rem);
+    padding-right: var(--main-padding-md, 0.25rem);
+  }
+}
