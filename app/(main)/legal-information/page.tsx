@@ -1,3 +1,5 @@
+
+
 import Link from 'next/link';
 
 export default function LegalPage() {
@@ -24,7 +26,12 @@ export default function LegalPage() {
 
           <div className='border-b pb-4'>
             <h2 className='font-bold mb-2'>連絡先</h2>
-            <p>http://localhost:3000/contact</p>
+              <Link
+                href='/contact'
+                className='text-blue-600 hover:text-blue-800 hover:underline'
+              >
+                お問い合わせフォームはこちら
+              </Link>
             <p className='text-sm text-gray-600 mt-2'>
               ※個人情報保護の観点から、お問い合わせはフォームよりお願いいたします。
             </p>
@@ -34,7 +41,7 @@ export default function LegalPage() {
             <h2 className='font-bold mb-2'>サービス価格</h2>
             <ul className='list-disc ml-6 space-y-2'>
               <li>フリープラン：0円</li>
-              <li>プレミアムプラン：350円/月（税込）</li>
+              <li>プロプラン：350円/月（税込）</li>
             </ul>
           </div>
 
