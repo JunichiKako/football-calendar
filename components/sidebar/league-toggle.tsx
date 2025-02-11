@@ -18,7 +18,7 @@ export default function LeagueToggle() {
   };
 
   return (
-    <div className='grid grid-cols-2 gap-2'>
+    <div className='grid grid-cols-2 gap-2 pt-4'>
       <Button
         variant={currentView !== 'league' ? 'outline' : 'default'}
         asChild
