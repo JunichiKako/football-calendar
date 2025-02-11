@@ -97,3 +97,10 @@ main[data-calendar-view='true'] {
     padding-right: var(--main-padding-md, 0.25rem);
   }
 }
+
+@media (max-width: 768px) {
+  .event-title {
+    font-size: 9.5px;
+    line-height: 1.2;
+  }
+}

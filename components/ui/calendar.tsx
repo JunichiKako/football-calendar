@@ -520,7 +520,7 @@ const CalendarMonthView = () => {
             <div
               onClick={() => handleDateClick(_date)} // クリックハンドラーを追加
               className={cn(
-                'ring-1 p-2 text-sm text-muted-foreground ring-border overflow-auto cursor-pointer hover:bg-accent/50', // スタイルを追加
+                'ring-1 p-1 md:p-2 text-sm text-muted-foreground ring-border overflow-auto cursor-pointer hover:bg-accent/50', // スタイルを追加
                 !isSameMonth(date, _date) && 'text-muted-foreground/50'
               )}
               key={_date.toString()}
@@ -538,11 +538,15 @@ const CalendarMonthView = () => {
                 return (
                   <div
                     key={event.id}
-                    className='px-1 rounded text-xs flex items-center gap-1'
+                    className='md:px-1 rounded md:text-xs flex items-center md:gap-1'
                   >
                     <div className={cn('shrink-0')}></div>
-                    <span className='flex-1 truncate'>{event.title}</span>
-                    <time className='tabular-nums text-muted-foreground/50 text-xs'>
+                    <span
+                      className='truncate event-title'
+                    >
+                      {event.title}
+                    </span>
+                    <time className='hidden md:block tabular-nums text-muted-foreground/50 text-xs ml-auto'>
                       {format(event.start, 'HH:mm')}
                     </time>
                   </div>
