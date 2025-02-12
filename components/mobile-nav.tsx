@@ -76,7 +76,7 @@ export default function MobileNav({
           <SheetHeader>
             <SheetTitle className='text-lg font-bold'>リーグを選ぶ</SheetTitle>
           </SheetHeader>
-          <div className='mt-4 h-[calc(90vh-100px)] overflow-y-auto'>
+          <div className='mt-4 h-[calc(90dvh-100px)] overflow-y-auto'>
             <div className='space-y-1'>
               {Object.keys(leagueByGroup).map((leagueName) => {
                 const league = leagueByGroup[leagueName];
