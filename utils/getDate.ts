@@ -1,19 +1,24 @@
-// 本日から1週間後の日付を取得する関数
+/**
+ * 日付範囲を取得する関数
+ * @returns {Object} dateFrom: 開始日, dateTo: 終了日
+ */
 export default function getDateRange() {
-  const today = new Date();
-  const oneWeekLater = new Date(today);
-  oneWeekLater.setDate(today.getDate() + 7);
+  // 日本時間で現在の日付を取得
+  const now = new Date(
+    new Date().toLocaleString('en-US', { timeZone: 'Asia/Tokyo' })
+  );
 
-  const formatDate = (date: Date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
+  // 日本時間で7日後の日付を取得
+  const oneWeekLater = new Date(now);
+  oneWeekLater.setDate(now.getDate() + 7);
+
+  // YYYY-MM-DD形式に変換
+  const dateFrom = now.toISOString().split('T')[0];
+  const dateTo = oneWeekLater.toISOString().split('T')[0];
 
   return {
-    dateFrom: formatDate(today),
-    dateTo: formatDate(oneWeekLater),
+    dateFrom,
+    dateTo,
   };
 }
 

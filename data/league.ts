@@ -6,27 +6,6 @@ import { teamTranslations } from '@/data/translations';
 import getDateRange from '@/utils/getDate';
 import { unstable_cache } from 'next/cache';
 
-// 日付フォーマット用のヘルパー関数
-const formatMatchDateTime = (utcDate: string) => {
-  const matchDateTime = new Date(utcDate);
-
-  // UTCで固定の文字列フォーマットを使用
-  const matchDate = new Intl.DateTimeFormat('ja-JP', {
-    month: 'numeric',
-    day: 'numeric',
-    weekday: 'short',
-    timeZone: 'UTC',
-  }).format(matchDateTime);
-
-  const matchTime = new Intl.DateTimeFormat('ja-JP', {
-    hour: '2-digit',
-    minute: '2-digit',
-    timeZone: 'UTC',
-  }).format(matchDateTime);
-
-  return { matchDate, matchTime };
-};
-
 // 基本となるリーグデータを取得
 const fetchLeagueData = unstable_cache(
   async () => {
@@ -78,15 +57,29 @@ const fetchLeagueData = unstable_cache(
           );
 
           return data.matches.map((match) => {
-            const { matchDate, matchTime } = formatMatchDateTime(match.utcDate);
+            // 日付と時間の最適化処理
+            const matchDateTime = new Date(match.utcDate);
+            // 日本時間に変換
+            const jpDateTime = new Date(
+              matchDateTime.toLocaleString('en-US', { timeZone: 'Asia/Tokyo' })
+            );
 
-            // シーズンの日付も同様に処理
+            const matchDate = jpDateTime.toLocaleDateString('ja-JP', {
+              month: 'numeric',
+              day: 'numeric',
+              weekday: 'short',
+            });
+
+            const matchTime = jpDateTime.toLocaleTimeString('ja-JP', {
+              hour: '2-digit',
+              minute: '2-digit',
+            });
+
+            // シーズンの開始年と終了年を取得
             const seasonStartYear = new Date(
               match.season.startDate
-            ).getUTCFullYear();
-            const seasonEndYear = new Date(
-              match.season.endDate
-            ).getUTCFullYear();
+            ).getFullYear();
+            const seasonEndYear = new Date(match.season.endDate).getFullYear();
 
             // チーム名の翻訳処理
             const homeTeam =
@@ -132,8 +125,14 @@ const fetchLeagueData = unstable_cache(
 // 日時順に試合をソートするための関数
 const sortMatchesByDateTime = (matches: Match[]): Match[] => {
   return matches.sort((a, b) => {
-    // UTCタイムスタンプを使用して比較
-    return Date.parse(a.utcDate) - Date.parse(b.utcDate);
+    // UTCの日時を日本時間に変換して比較
+    const dateTimeA = new Date(
+      new Date(a.utcDate).toLocaleString('en-US', { timeZone: 'Asia/Tokyo' })
+    );
+    const dateTimeB = new Date(
+      new Date(b.utcDate).toLocaleString('en-US', { timeZone: 'Asia/Tokyo' })
+    );
+    return dateTimeA.getTime() - dateTimeB.getTime();
   });
 };
 
@@ -170,6 +169,7 @@ export const getLeagueByGroup = unstable_cache(
     });
 
     console.log('✅ getLeagueByGroup completed');
+    console.log(orderedGrouped['Premier League'].matches[0]);
     return orderedGrouped;
   },
   ['league-groups'],
