@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 
 // Googleアカウントでサインインする処理
 export const signInWithGoogle = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // 既存のユーザーセッションをチェック
   const {
@@ -42,7 +42,7 @@ export const signInWithGoogle = async () => {
 
 // サインアウト処理
 export const signOutWithGoogle = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { error } = await supabase.auth.signOut();
 
   if (error) {

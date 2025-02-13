@@ -3,8 +3,6 @@
 import { CalendarEvent } from '@/components/ui/calendar';
 import { createClient } from '@/lib/supabase/server';
 
-const supabase = createClient();
-
 type DbUser = {
   user_id: string;
   stripe_customer_id: string | null;
@@ -31,6 +29,8 @@ export async function addGoogleCalendar(
   events: CalendarEvent[],
   providerToken: string
 ) {
+  const supabase = await createClient();
+
   try {
     // Googleカレンダーのリストを取得して認証をチェック
     const calendarListResponse = await fetch(

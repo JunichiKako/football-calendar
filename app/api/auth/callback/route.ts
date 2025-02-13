@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
   }
 
   // 1. Supabase のセッション取得のみ
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: authData, error: authError } =
     await supabase.auth.exchangeCodeForSession(code);
 

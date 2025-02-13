@@ -6,7 +6,7 @@ import CalendarView from '@/components/main/calendar-view';
 import { createClient } from '@/lib/supabase/server';
 import { currentUser } from '@/data/auth';
 import { redirect } from 'next/navigation';
-import { log } from 'console';
+import { cache } from 'react';
 
 type HomeParamsProps = {
   searchParams: {
@@ -16,80 +16,103 @@ type HomeParamsProps = {
   };
 };
 
+async function getPageParams(searchParams: HomeParamsProps['searchParams']) {
+  return {
+    currentView: (await searchParams).view || 'league',
+    selectedLeagues: (await searchParams).leagues?.split(',') || [],
+    selectedMatches: (await searchParams).selectedMatches?.split(',') || [],
+  };
+}
+
 // キャッシュのためこの/でviewを切り替えて表示する
 export default async function Home({ searchParams }: HomeParamsProps) {
-  // リーグ情報の取得
-  const groupedLeagues = await getLeagueByGroup();
-  // パラメーターから現在のviewを取得
-  const currentView = searchParams.view || 'league';
-
-  // リーグと試合の選択状態をパラメーターに,ごとに区切って取得
-  const selectedLeagues = searchParams.leagues?.split(',') || [];
-  const selectedMatches = searchParams.selectedMatches?.split(',') || [];
-
-  const supabase = await createClient();
-
-  // カレンダーの場合の処理
-  if (currentView === 'calendar') {
+  try {
+    const supabase = await createClient();
     const user = await currentUser();
 
-    if (!user) {
-      redirect('/');
-    }
+    // パラメータの取得を1回にまとめる
+    const { currentView, selectedLeagues, selectedMatches } =
+      await getPageParams(searchParams);
 
-    // ユーザーが選択した試合を取得
-    let allSubmitMatches = selectedMatches;
+    // リーグ情報の取得（既にキャッシュされている）
+    const groupedLeagues = await getLeagueByGroup();
 
-    // ユーザーが選択した試合をDBから取得
+    console.log('Debug: Data received', {
+      currentView,
+      groupedLeagues: !!groupedLeagues,
+      user: !!user,
+    });
 
-    if (user) {
-      // user_matchesテーブルから選択された試合を取得
-      const { data: savedMatches } = await supabase
-        .from('user_matches')
-        .select('match_id')
-        .eq('user_id', user.id);
-
-      // DBから取得した試合IDと現在選択されている試合IDを結合
-      if (savedMatches) {
-        const savedMatchIds = savedMatches.map((match) => match.match_id);
-        allSubmitMatches = [
-          ...selectedMatches,
-          ...savedMatchIds.filter((id) => !selectedMatches.includes(id)),
-        ];
+    // カレンダーの場合の処理
+    if (currentView === 'calendar') {
+      if (!user) {
+        redirect('/');
       }
+
+      // ユーザーが選択した試合を取得
+      let allSubmitMatches = selectedMatches;
+
+      // ユーザーが選択した試合をDBから取得（これもキャッシュできる）
+      if (user) {
+        const { data: savedMatches } = await supabase
+          .from('user_matches')
+          .select('match_id')
+          .eq('user_id', user.id);
+
+        if (savedMatches) {
+          const savedMatchIds = savedMatches.map((match) => match.match_id);
+          allSubmitMatches = [
+            ...selectedMatches,
+            ...savedMatchIds.filter((id) => !selectedMatches.includes(id)),
+          ];
+        }
+      }
+
+      console.log('Debug: Calendar data', {
+        allSubmitMatches,
+        groupedLeaguesExists: !!groupedLeagues,
+      });
+
+      return (
+        <div className='h-full'>
+          <Suspense fallback={<div>Loading calendar...</div>}>
+            {groupedLeagues ? (
+              <CalendarView
+                groupedLeagues={groupedLeagues}
+                allSubmitMatches={allSubmitMatches}
+              />
+            ) : (
+              <div>Loading league data...</div>
+            )}
+          </Suspense>
+        </div>
+      );
     }
-    // カレンダービューはクライアントコンポーネントのため、Suspenseで非同期で読み込む
+
+    // viewによって表示するコンポーネントを切り替え
     return (
-      <div className='h-full'>
-        <Suspense fallback={<div>Loading calendar...</div>}>
-          <CalendarView
-            groupedLeagues={groupedLeagues}
-            allSubmitMatches={allSubmitMatches}
-          />
-        </Suspense>
-      </div>
+      <>
+        {currentView === 'league' ? (
+          <Suspense fallback={<div>Loading league...</div>}>
+            <LeagueList
+              selectedLeagues={selectedLeagues}
+              selectedMatches={selectedMatches}
+            />
+          </Suspense>
+        ) : currentView === 'time' ? (
+          <Suspense fallback={<div>Loading time...</div>}>
+            <TimeScheduleList
+              selectedLeagues={selectedLeagues}
+              selectedMatches={selectedMatches}
+            />
+          </Suspense>
+        ) : (
+          <div>表示方法が正しく指定されていません</div>
+        )}
+      </>
     );
+  } catch (error) {
+    console.error('Error in Home component:', error);
+    return <div>エラーが発生しました。ページを更新してください。</div>;
   }
-  // viewによって表示するコンポーネントを切り替え
-  return (
-    <>
-      {currentView === 'league' ? (
-        <Suspense fallback={<div>Loading league...</div>}>
-          <LeagueList
-            selectedLeagues={selectedLeagues}
-            selectedMatches={selectedMatches}
-          />
-        </Suspense>
-      ) : currentView === 'time' ? (
-        <Suspense fallback={<div>Loading time...</div>}>
-          <TimeScheduleList
-            selectedLeagues={selectedLeagues}
-            selectedMatches={selectedMatches}
-          />
-        </Suspense>
-      ) : (
-        <div>表示方法が正しく指定されていません</div>
-      )}
-    </>
-  );
 }

@@ -7,7 +7,7 @@ import { createClient } from '@/lib/supabase/server';
 
 // headerのサブスク管理からカスタマーポータルセッションを作成
 export async function createPortalSession() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const user = await currentUser();
 
   // Userがいない場合はGoogle認証画面へリダイレクト
@@ -48,7 +48,7 @@ export async function handleSubscribe(formData: FormData) {
     redirect('/');
   }
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const user = await currentUser();
   if (!user) {
     redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/callback`);

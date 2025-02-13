@@ -9,35 +9,6 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      match_selections: {
-        Row: {
-          created_at: string | null
-          match_ids: string[] | null
-          updated_at: string | null
-          user_id: string
-        }
-        Insert: {
-          created_at?: string | null
-          match_ids?: string[] | null
-          updated_at?: string | null
-          user_id: string
-        }
-        Update: {
-          created_at?: string | null
-          match_ids?: string[] | null
-          updated_at?: string | null
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "fk_user_id"
-            columns: ["user_id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["user_id"]
-          },
-        ]
-      }
       user_matches: {
         Row: {
           created_at: string | null
@@ -61,6 +32,7 @@ export type Database = {
           calendar_api_calls_count: number | null
           calendar_api_calls_limit: number
           created_at: string | null
+          onboarding_completed: boolean | null
           stripe_customer_id: string | null
           subscription_plan: string | null
           updated_at: string | null
@@ -70,6 +42,7 @@ export type Database = {
           calendar_api_calls_count?: number | null
           calendar_api_calls_limit?: number
           created_at?: string | null
+          onboarding_completed?: boolean | null
           stripe_customer_id?: string | null
           subscription_plan?: string | null
           updated_at?: string | null
@@ -79,6 +52,7 @@ export type Database = {
           calendar_api_calls_count?: number | null
           calendar_api_calls_limit?: number
           created_at?: string | null
+          onboarding_completed?: boolean | null
           stripe_customer_id?: string | null
           subscription_plan?: string | null
           updated_at?: string | null

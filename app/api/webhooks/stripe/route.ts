@@ -8,7 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(request: Request) {
   const body = await request.text();
-  const signature = headers().get('stripe-signature')!;
+  const signature = (await headers()).get('stripe-signature')!;
 
   try {
     const event = stripe.webhooks.constructEvent(
