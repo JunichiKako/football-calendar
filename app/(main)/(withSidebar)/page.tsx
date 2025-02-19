@@ -6,7 +6,7 @@ import CalendarView from '@/components/main/calendar-view';
 import { createClient } from '@/lib/supabase/server';
 import { currentUser } from '@/data/auth';
 import { redirect } from 'next/navigation';
-import { cache } from 'react';
+import { OnboardingModal } from '@/components/onboarding/onboarding-modal';
 
 type HomeParamsProps = {
   searchParams: {
@@ -17,102 +17,99 @@ type HomeParamsProps = {
 };
 
 async function getPageParams(searchParams: HomeParamsProps['searchParams']) {
+  const view = (await searchParams).view || 'league';
+  const leagues = (await searchParams).leagues?.split(',') || [];
+  const selectedMatches =
+    (await searchParams).selectedMatches?.split(',') || [];
+
   return {
-    currentView: (await searchParams).view || 'league',
-    selectedLeagues: (await searchParams).leagues?.split(',') || [],
-    selectedMatches: (await searchParams).selectedMatches?.split(',') || [],
+    currentView: view,
+    selectedLeagues: leagues,
+    selectedMatches: selectedMatches,
   };
 }
 
 // キャッシュのためこの/でviewを切り替えて表示する
 export default async function Home({ searchParams }: HomeParamsProps) {
-  try {
-    const supabase = await createClient();
-    const user = await currentUser();
+  const supabase = await createClient();
+  const user = await currentUser();
 
-    // パラメータの取得を1回にまとめる
-    const { currentView, selectedLeagues, selectedMatches } =
-      await getPageParams(searchParams);
+  // オンボーディング状態をチェックする関数
+  async function checkOnboarding() {
+    const { data: userData } = await supabase
+      .from('users')
+      .select('onboarding_completed')
+      .eq('user_id', user!.id)
+      .single();
 
-    // リーグ情報の取得（既にキャッシュされている）
-    const groupedLeagues = await getLeagueByGroup();
+    return !userData?.onboarding_completed;
+  }
 
-    console.log('Debug: Data received', {
-      currentView,
-      groupedLeagues: !!groupedLeagues,
-      user: !!user,
-    });
+  // 他のデータフェッチ処理（認証不要）
+  const { currentView, selectedLeagues, selectedMatches } = await getPageParams(
+    searchParams
+  );
+  const groupedLeagues = await getLeagueByGroup();
 
-    // カレンダーの場合の処理
-    if (currentView === 'calendar') {
-      if (!user) {
-        redirect('/');
-      }
-
-      // ユーザーが選択した試合を取得
-      let allSubmitMatches = selectedMatches;
-
-      // ユーザーが選択した試合をDBから取得（これもキャッシュできる）
-      if (user) {
-        const { data: savedMatches } = await supabase
-          .from('user_matches')
-          .select('match_id')
-          .eq('user_id', user.id);
-
-        if (savedMatches) {
-          const savedMatchIds = savedMatches.map((match) => match.match_id);
-          allSubmitMatches = [
-            ...selectedMatches,
-            ...savedMatchIds.filter((id) => !selectedMatches.includes(id)),
-          ];
-        }
-      }
-
-      console.log('Debug: Calendar data', {
-        allSubmitMatches,
-        groupedLeaguesExists: !!groupedLeagues,
-      });
-
-      return (
-        <div className='h-full'>
-          <Suspense fallback={<div>Loading calendar...</div>}>
-            {groupedLeagues ? (
-              <CalendarView
-                groupedLeagues={groupedLeagues}
-                allSubmitMatches={allSubmitMatches}
-              />
-            ) : (
-              <div>Loading league data...</div>
-            )}
-          </Suspense>
-        </div>
-      );
+  // カレンダー表示の場合はユーザー認証が必要
+  if (currentView === 'calendar') {
+    if (!user) {
+      redirect('/');
     }
 
-    // viewによって表示するコンポーネントを切り替え
+    // カレンダー用の処理（認証必要）
+    let allSubmitMatches = selectedMatches;
+    if (user) {
+      const { data: savedMatches } = await supabase
+        .from('user_matches')
+        .select('match_id')
+        .eq('user_id', user.id);
+
+      if (savedMatches) {
+        const savedMatchIds = savedMatches.map((match) => match.match_id);
+        allSubmitMatches = [
+          ...selectedMatches,
+          ...savedMatchIds.filter((id) => !selectedMatches.includes(id)),
+        ];
+      }
+    }
+
     return (
-      <>
-        {currentView === 'league' ? (
-          <Suspense fallback={<div>Loading league...</div>}>
-            <LeagueList
-              selectedLeagues={selectedLeagues}
-              selectedMatches={selectedMatches}
-            />
-          </Suspense>
-        ) : currentView === 'time' ? (
-          <Suspense fallback={<div>Loading time...</div>}>
-            <TimeScheduleList
-              selectedLeagues={selectedLeagues}
-              selectedMatches={selectedMatches}
-            />
-          </Suspense>
-        ) : (
-          <div>表示方法が正しく指定されていません</div>
-        )}
-      </>
+      <div className='h-full'>
+        <Suspense fallback={<div>Loading calendar...</div>}>
+          <CalendarView
+            groupedLeagues={groupedLeagues}
+            allSubmitMatches={allSubmitMatches}
+          />
+        </Suspense>
+      </div>
     );
-  } catch (error) {
-    console.error('Error in Home component:', error);
-    return <div>エラーが発生しました。ページを更新してください。</div>;
   }
+
+  // オンボーディングの表示（認証済みユーザーのみ）
+  const showOnboarding = user && user.id ? await checkOnboarding() : false;
+
+  // リーグ一覧と時間別スケジュール（認証不要）
+  return (
+    <>
+      {showOnboarding && <OnboardingModal isOpen={showOnboarding} />}
+      {currentView === 'league' ? (
+        <Suspense fallback={<div>Loading league...</div>}>
+          <LeagueList
+            selectedLeagues={selectedLeagues}
+            selectedMatches={selectedMatches}
+          />
+        </Suspense>
+      ) : currentView === 'time' ? (
+        <Suspense fallback={<div>Loading time...</div>}>
+          <TimeScheduleList
+            selectedLeagues={selectedLeagues}
+            selectedMatches={selectedMatches}
+          />
+        </Suspense>
+      ) : (
+        <div>表示方法が正しく指定されていません</div>
+      )}
+    </>
+  );
 }
