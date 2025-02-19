@@ -5,6 +5,7 @@ import { league } from '@/types/league';
 import { teamTranslations } from '@/data/translations';
 import getDateRange from '@/utils/getDate';
 import { unstable_cache } from 'next/cache';
+import { formatDateTime } from '@/utils/getDate';
 
 // 基本となるリーグデータを取得
 const fetchLeagueData = unstable_cache(
@@ -57,23 +58,9 @@ const fetchLeagueData = unstable_cache(
           );
 
           return data.matches.map((match) => {
-            // 日付と時間の最適化処理
-            const matchDateTime = new Date(match.utcDate);
-            // 日本時間に変換
-            const jpDateTime = new Date(
-              matchDateTime.toLocaleString('en-US', { timeZone: 'Asia/Tokyo' })
+            const { date: matchDate, time: matchTime } = formatDateTime(
+              match.utcDate
             );
-
-            const matchDate = jpDateTime.toLocaleDateString('ja-JP', {
-              month: 'numeric',
-              day: 'numeric',
-              weekday: 'short',
-            });
-
-            const matchTime = jpDateTime.toLocaleTimeString('ja-JP', {
-              hour: '2-digit',
-              minute: '2-digit',
-            });
 
             // シーズンの開始年と終了年を取得
             const seasonStartYear = new Date(
