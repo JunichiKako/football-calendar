@@ -9,18 +9,18 @@ import { redirect } from 'next/navigation';
 import { OnboardingModal } from '@/components/onboarding/onboarding-modal';
 
 type HomeParamsProps = {
-  searchParams: {
+  searchParams: Promise<{
     leagues?: string;
     view?: string;
     selectedMatches?: string;
-  };
+  }>;
 };
 
 async function getPageParams(searchParams: HomeParamsProps['searchParams']) {
-  const view = (await searchParams).view || 'league';
-  const leagues = (await searchParams).leagues?.split(',') || [];
-  const selectedMatches =
-    (await searchParams).selectedMatches?.split(',') || [];
+  const params = await searchParams;
+  const view = params.view || 'league';
+  const leagues = params.leagues?.split(',') || [];
+  const selectedMatches = params.selectedMatches?.split(',') || [];
 
   return {
     currentView: view,
