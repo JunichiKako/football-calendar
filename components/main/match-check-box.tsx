@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useOptimistic } from 'react';
+import { useOptimistic, useTransition, useRef } from 'react';
 
 type MatchCheckboxProps = {
   matchId: number;
@@ -15,23 +15,21 @@ export default function MatchCheckbox({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
+  
+  // 最新の選択状態を追跡
+  const pendingStateRef = useRef<boolean | null>(null);
 
-  // 楽観的な更新のための状態管理
   const [optimisticChecked, addOptimisticCheck] = useOptimistic(
     isSelected,
     (state, newValue: boolean) => newValue
   );
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // 楽観的に更新
-    addOptimisticCheck(e.target.checked);
-
-    // URLパラメータの更新
+  const updateSearchParams = (isChecked: boolean) => {
     const params = new URLSearchParams(searchParams);
-    const currentSelected =
-      params.get('selectedMatches')?.split(',').filter(Boolean) || [];
+    const currentSelected = params.get('selectedMatches')?.split(',').filter(Boolean) || [];
 
-    if (e.target.checked) {
+    if (isChecked) {
       if (!currentSelected.includes(matchId.toString())) {
         currentSelected.push(matchId.toString());
       }
@@ -48,8 +46,30 @@ export default function MatchCheckbox({
       params.delete('selectedMatches');
     }
 
-    router.replace(`${pathname}?${params.toString()}`, {
-      scroll: false,
+    return params;
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.target.checked;
+    
+    // 最新の状態を保存
+    pendingStateRef.current = isChecked;
+    
+    // 楽観的に更新
+    addOptimisticCheck(isChecked);
+
+    // URLの更新を非同期で実行
+    startTransition(() => {
+      // トランジション内で最新の状態を確認
+      const finalState = pendingStateRef.current;
+      if (finalState !== null) {
+        const newParams = updateSearchParams(finalState);
+        router.replace(`${pathname}?${newParams.toString()}`, {
+          scroll: false,
+        });
+        // 処理完了後にリセット
+        pendingStateRef.current = null;
+      }
     });
   };
 
@@ -62,6 +82,7 @@ export default function MatchCheckbox({
       className='peer hidden'
       checked={optimisticChecked}
       onChange={handleChange}
+      disabled={isPending}
     />
   );
 }
