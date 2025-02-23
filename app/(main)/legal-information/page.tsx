@@ -1,5 +1,3 @@
-
-
 import Link from 'next/link';
 
 export default function LegalPage() {
@@ -7,33 +5,37 @@ export default function LegalPage() {
     <div className='min-h-screen'>
       <div className='max-w-4xl mx-auto p-8'>
         <h1 className='text-3xl font-bold mb-8'>特定商取引法に基づく表記</h1>
-
+        
         <div className='space-y-6'>
           <div className='border-b pb-4'>
             <h2 className='font-bold mb-2'>事業者の名称</h2>
-            <p>Football Table</p>
+            <p>加古純一</p>
           </div>
 
           <div className='border-b pb-4'>
             <h2 className='font-bold mb-2'>運営責任者</h2>
-            <p>サービス担当者</p>
+            <p>加古純一</p>
           </div>
 
           <div className='border-b pb-4'>
             <h2 className='font-bold mb-2'>所在地</h2>
-            <p>非公開（お問い合わせはメールにてご連絡ください）</p>
+            <p>請求があったら遅滞なく開示します</p>
           </div>
 
           <div className='border-b pb-4'>
             <h2 className='font-bold mb-2'>連絡先</h2>
-              <Link
-                href='/contact'
-                className='text-blue-600 hover:text-blue-800 hover:underline'
-              >
-                お問い合わせフォームはこちら
-              </Link>
+            <p>メール：footballtable.info@gmail.com</p>
+            <Link
+              href='/contact'
+              className='text-blue-600 hover:text-blue-800 hover:underline'
+            >
+              お問い合わせフォームはこちら
+            </Link>
             <p className='text-sm text-gray-600 mt-2'>
               ※個人情報保護の観点から、お問い合わせはフォームよりお願いいたします。
+            </p>
+            <p className='text-sm text-gray-600 mt-2'>
+              対応時間：平日10:00-18:00（土日祝日を除く）
             </p>
           </div>
 
@@ -48,6 +50,11 @@ export default function LegalPage() {
           <div className='border-b pb-4'>
             <h2 className='font-bold mb-2'>支払方法</h2>
             <p>クレジットカード（Stripe決済）</p>
+          </div>
+
+          <div className='border-b pb-4'>
+            <h2 className='font-bold mb-2'>決済期間</h2>
+            <p>請求があったら遅滞なく開示します</p>
           </div>
 
           <div className='border-b pb-4'>
@@ -66,7 +73,7 @@ export default function LegalPage() {
 
           <div className='border-b pb-4'>
             <h2 className='font-bold mb-2'>返金</h2>
-            <p>課金開始から7日以内の場合に限り返金対応可能</p>
+            <p>契約成立後のキャンセル・返金は承っておりません</p>
           </div>
 
           <div className='border-b pb-4'>
