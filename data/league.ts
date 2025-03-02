@@ -110,7 +110,7 @@ const fetchLeagueData = unstable_cache(
 );
 
 // 日時順に試合をソートするための関数
-const sortMatchesByDateTime = (matches: Match[]): Match[] => {
+export const sortMatchesByDateTime = (matches: Match[]): Match[] => {
   return matches.sort((a, b) => {
     // UTCの日時を日本時間に変換して比較
     const dateTimeA = new Date(
