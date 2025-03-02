@@ -1,14 +1,10 @@
 // /lib/supabase/middleware.js
-
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
 export async function updateSession(request: NextRequest) {
-  let response = NextResponse.next({
-    request: {
-      headers: request.headers,
-    },
-  });
+  // リクエストURLを保持するために、完全なリクエストを使用
+  let response = NextResponse.next();
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -19,16 +15,7 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.get(name)?.value;
         },
         set(name: string, value: string, options: CookieOptions) {
-          request.cookies.set({
-            name,
-            value,
-            ...options,
-          });
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          });
+          // Cookieを設定しつつも、元のURLを維持
           response.cookies.set({
             name,
             value,
@@ -36,16 +23,7 @@ export async function updateSession(request: NextRequest) {
           });
         },
         remove(name: string, options: CookieOptions) {
-          request.cookies.set({
-            name,
-            value: '',
-            ...options,
-          });
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          });
+          // Cookieを削除しつつも、元のURLを維持
           response.cookies.set({
             name,
             value: '',
@@ -57,6 +35,12 @@ export async function updateSession(request: NextRequest) {
   );
 
   await supabase.auth.getUser();
+
+  // URLパラメータが保持されていることを確認するためのデバッグログ
+  console.log(
+    'Supabase auth middleware completed:',
+    request.nextUrl.toString()
+  );
 
   return response;
 }

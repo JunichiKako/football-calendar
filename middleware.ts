@@ -3,34 +3,23 @@ import { NextResponse } from 'next/server';
 import { updateSession } from '@/lib/supabase/middleware';
 
 export async function middleware(request: NextRequest) {
-  // Basic認証チェック（本番環境のみ）
-  // if (process.env.VERCEL_ENV === 'production') {
-  //   const basicAuth = request.headers.get('authorization');
-  //   if (basicAuth) {
-  //     const authValue = basicAuth.split(' ')[1];
-  //     const [user, pwd] = atob(authValue).split(':');
+  // リクエストURLの確認（デバッグ用）
+  console.log('Middleware入口URL:', request.nextUrl.toString());
+  console.log(
+    'クエリパラメータ:',
+    Object.fromEntries(request.nextUrl.searchParams)
+  );
 
-  //     if (
-  //       user === process.env.BASIC_AUTH_USER &&
-  //       pwd === process.env.BASIC_AUTH_PASSWORD
-  //     ) {
-  //       return await updateSession(request);
-  //     }
-  //   }
+  // 認証処理を実行しつつ、URLパラメータを保持
+  const response = await updateSession(request);
 
-  //   return new NextResponse(null, {
-  //     status: 401,
-  //     headers: {
-  //       'WWW-Authenticate': 'Basic realm="Secure Area"',
-  //     },
-  //   });
-  // }
+  // 処理後のレスポンスを確認（デバッグ用）
+  console.log('Middleware出口処理完了');
 
-  // 開発環境はBasic認証スキップ
-  return await updateSession(request);
+  return response;
 }
 
-// 既存のconfig設定は変更なし
+// マッチャーを簡略化
 export const config = {
   matcher: [
     {
