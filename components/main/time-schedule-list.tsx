@@ -1,4 +1,8 @@
-import { getLeagueByGroup, getLeagueMatchesByTime, sortMatchesByDateTime } from '@/data/league';
+import {
+  getLeagueByGroup,
+  getLeagueMatchesByTime,
+  sortMatchesByDateTime,
+} from '@/data/league';
 import { Match } from '@/types/match';
 import getDateRange, { formatDateForDisplay } from '@/utils/getDate';
 import { Calendar } from 'lucide-react';
@@ -12,12 +16,14 @@ type TimeScheduleListProps = {
   selectedMatches: string[];
 };
 
-// TimeScheduleList.tsx
 export default async function TimeScheduleList({
   selectedLeagues,
   selectedMatches,
 }: TimeScheduleListProps) {
-  console.log('TimeScheduleList実行開始:', { selectedLeagues });
+  console.log('TimeScheduleList実行開始:', {
+    selectedLeagues,
+    selectedLeaguesLength: selectedLeagues.length,
+  });
 
   try {
     // まずはリーグ別データを取得（これは動作している）

@@ -170,15 +170,27 @@ export const getLeagueByGroup = unstable_cache(
 export const getLeagueMatchesByTime = unstable_cache(
   async (selectedLeagues: string[] = []) => {
     console.log('📥 Starting getLeagueMatchesByTime', { selectedLeagues });
-    const matches = await fetchLeagueData();
+
+    // 既に取得済みのリーグデータを使用する
+    const groupedData = await getLeagueByGroup();
+
+    // グループ化されたデータから全マッチを抽出
+    const allMatches = Object.values(groupedData).flatMap(
+      (league) => league.matches
+    );
+
+    // 選択されたリーグでフィルタリング
     const filteredMatches =
       selectedLeagues.length > 0
-        ? matches.filter((match) => selectedLeagues.includes(match.leagueName))
-        : matches;
+        ? allMatches.filter((match) =>
+            selectedLeagues.includes(match.leagueName)
+          )
+        : allMatches;
 
     console.log(
-      `✅ getLeagueMatchesByTime completed - Filtered ${filteredMatches.length} matches`
+      `✅ getLeagueMatchesByTime completed - Filtered ${filteredMatches.length} matches from ${allMatches.length} total`
     );
+
     return filteredMatches;
   },
   ['league-matches-time'],

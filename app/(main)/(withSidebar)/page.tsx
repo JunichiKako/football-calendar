@@ -19,7 +19,15 @@ type HomeParamsProps = {
 async function getPageParams(searchParams: HomeParamsProps['searchParams']) {
   const params = await searchParams;
   const view = params.view || 'league';
-  const leagues = params.leagues?.split(',') || [];
+
+  // デコードを明示的に行う
+  const leaguesParam = params.leagues || '';
+  const leagues = leaguesParam
+    ? decodeURIComponent(leaguesParam).split(',')
+    : [];
+
+  console.log('パース後のリーグパラメータ:', leagues);
+
   const selectedMatches = params.selectedMatches?.split(',') || [];
 
   return {
