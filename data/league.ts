@@ -104,7 +104,7 @@ const fetchLeagueData = unstable_cache(
   },
   ['league-data'],
   {
-    revalidate: 3600,
+    revalidate: 86400,
     tags: ['leagues'],
   }
 );
@@ -161,8 +161,8 @@ export const getLeagueByGroup = unstable_cache(
   },
   ['league-groups'],
   {
-    revalidate: 3600,
-    tags: ['leagues'],
+    revalidate: 86400,
+    tags: ['group-leagues'],
   }
 );
 
@@ -188,7 +188,7 @@ export const getLeagueMatchesByTime = unstable_cache(
   },
   ['league-matches-time'],
   {
-    revalidate: 3600,
-    tags: ['leagues'],
+    revalidate: 86400,
+    tags: ['time-leagues'],
   }
 );
