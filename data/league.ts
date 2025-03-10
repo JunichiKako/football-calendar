@@ -168,23 +168,13 @@ export const getLeagueByGroup = unstable_cache(
 
 // 時間順に試合を取得する関数
 export const getLeagueMatchesByTime = unstable_cache(
-  async (selectedLeagues: string[] = []) => {
-    console.log('📥 Starting getLeagueMatchesByTime', { selectedLeagues });
+  async () => {
+    console.log('📥 Starting getLeagueMatchesByTime');
 
     // 元のデータを直接取得（すでにソート済み）
     const matches = await fetchLeagueData();
 
-    // 選択されたリーグでフィルタリング
-    const filteredMatches =
-      selectedLeagues.length > 0
-        ? matches.filter((match) => selectedLeagues.includes(match.leagueName))
-        : matches;
-
-    console.log(
-      `✅ getLeagueMatchesByTime completed - Filtered ${filteredMatches.length} matches from ${matches.length} total`
-    );
-
-    return filteredMatches;
+    return matches;
   },
   ['league-matches-time'],
   {
