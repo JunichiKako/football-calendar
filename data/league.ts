@@ -156,7 +156,6 @@ export const getLeagueByGroup = unstable_cache(
     });
 
     console.log('✅ getLeagueByGroup completed');
-    console.log(orderedGrouped['Premier League'].matches[0]);
     return orderedGrouped;
   },
   ['league-groups'],
@@ -173,7 +172,6 @@ export const getLeagueMatchesByTime = unstable_cache(
 
     // 元のデータを直接取得（すでにソート済み）
     const matches = await fetchLeagueData();
-
     return matches;
   },
   ['league-matches-time'],
