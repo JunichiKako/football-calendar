@@ -10,13 +10,11 @@ import { groupMatchesByLeague } from '@/utils/group-matches';
 type TimeScheduleListProps = {
   selectedLeagues: string[];
   selectedMatches: string[];
-  hasMatches?: boolean; // 試合があるかどうかのフラグ
 };
 
 export default async function TimeScheduleList({
   selectedLeagues,
   selectedMatches,
-  hasMatches = true,
 }: TimeScheduleListProps) {
   // 全てのリーグを時間順並べた試合を取得
   const allMatches: Match[] = await getLeagueMatchesByTime();
@@ -28,6 +26,9 @@ export default async function TimeScheduleList({
       ? allMatches.filter((match) => selectedLeagues.includes(match.leagueName))
       : allMatches;
 
+  // 実際に表示する試合データがあるかどうかをチェック
+  const hasAnyMatches = filteredMatches.length > 0;
+
   // 時間順かつリーグごとにグループ化するための関数
   const groupedMatches = groupMatchesByLeague(filteredMatches);
 
@@ -38,10 +39,10 @@ export default async function TimeScheduleList({
   // 試合がない場合のメッセージコンポーネント
   const NoMatchesMessage = () => (
     <div className='py-8 px-4 text-center'>
-      <h2 className='text-xl font-semibold mb-2'>この期間のスケジュールでは試合情報がありません。</h2>
-      <p className='text-gray-600'>
-        リーグが再開するのをお待ちください。
-      </p>
+      <h2 className='text-xl font-semibold mb-2'>
+        この期間のスケジュールでは試合情報がありません。
+      </h2>
+      <p className='text-gray-600'>リーグが再開するのをお待ちください。</p>
     </div>
   );
 
@@ -55,7 +56,7 @@ export default async function TimeScheduleList({
         </p>
       </div>
 
-      {!hasMatches ? (
+      {!hasAnyMatches ? (
         <NoMatchesMessage />
       ) : user ? (
         <SelectedTimeMatchCard

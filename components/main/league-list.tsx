@@ -10,13 +10,11 @@ import { currentUser } from '@/data/auth';
 type LeagueListProps = {
   selectedLeagues: string[];
   selectedMatches: string[];
-  hasMatches?: boolean; // 試合があるかどうかのフラグ
 };
 
 export default async function LeagueList({
   selectedLeagues,
   selectedMatches,
-  hasMatches = true,
 }: LeagueListProps) {
   // ここで一括してリーグでグループ化されたリーグデータを取得する
   const leagueGroup = await getLeagueByGroup();
@@ -32,6 +30,11 @@ export default async function LeagueList({
           )
         )
       : leagueGroup;
+
+  // 実際に表示する試合データがあるかどうかをチェック
+  const hasAnyMatches = Object.values(filteredLeagues).some(
+    (league) => league.matches.length > 0
+  );
 
   //表示されている日付を取得するために呼び出し
   const { dateFrom, dateTo } = getDateRange();
@@ -59,7 +62,7 @@ export default async function LeagueList({
         </p>
       </div>
 
-      {!hasMatches ? (
+      {!hasAnyMatches ? (
         <NoMatchesMessage />
       ) : user ? (
         <SelectedMatchCard

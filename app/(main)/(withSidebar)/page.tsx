@@ -108,7 +108,6 @@ export default async function Home({ searchParams }: HomeParamsProps) {
           <LeagueList
             selectedLeagues={selectedLeagues}
             selectedMatches={selectedMatches}
-            hasMatches={selectedMatches.length > 0}
           />
         </Suspense>
       ) : currentView === 'time' ? (
@@ -116,7 +115,6 @@ export default async function Home({ searchParams }: HomeParamsProps) {
           <TimeScheduleList
             selectedLeagues={selectedLeagues}
             selectedMatches={selectedMatches}
-            hasMatches={selectedMatches.length > 0}
           />
         </Suspense>
       ) : (
