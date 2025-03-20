@@ -60,7 +60,7 @@ export default function SelectedTimeMatchCard({
                   <label
                     htmlFor={match.matchId.toString()}
                     className='group p-4 shadow-lg rounded-lg flex justify-between items-center border cursor-pointer
-                  transition-all duration-200 peer-checked:bg-gray-50 peer-checked:border-blue-500 dark:peer-checked:bg-accent dark:hover:bg-accent dark:hover:text-white hover:bg-gray-50 '
+                  transition-all duration-200 peer-checked:bg-gray-50 peer-checked:border-blue-500 dark:peer-checked:bg-accent dark:hover:bg-accent dark:hover:text-white hover:bg-gray-100 '
                   >
                     <div className='flex-1 space-y-3'>
                       <TeamLabel
