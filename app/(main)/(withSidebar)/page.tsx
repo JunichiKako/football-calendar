@@ -82,6 +82,8 @@ export default async function Home({ searchParams }: HomeParamsProps) {
       }
     }
 
+    // カレンダーの場合はCalendarViewコンポーネントにそのまま渡す
+    // （マッチがない場合のメッセージはCalendarViewコンポーネント内で処理）
     return (
       <div className='h-full'>
         <Suspense fallback={<div>Loading calendar...</div>}>
@@ -106,6 +108,7 @@ export default async function Home({ searchParams }: HomeParamsProps) {
           <LeagueList
             selectedLeagues={selectedLeagues}
             selectedMatches={selectedMatches}
+            hasMatches={selectedMatches.length > 0}
           />
         </Suspense>
       ) : currentView === 'time' ? (
@@ -113,6 +116,7 @@ export default async function Home({ searchParams }: HomeParamsProps) {
           <TimeScheduleList
             selectedLeagues={selectedLeagues}
             selectedMatches={selectedMatches}
+            hasMatches={selectedMatches.length > 0}
           />
         </Suspense>
       ) : (

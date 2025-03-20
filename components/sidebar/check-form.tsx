@@ -90,6 +90,7 @@ export function CheckForm({
     <div className='space-y-1'>
       {Object.keys(leagueByGroup).map((leagueName) => {
         const league = leagueByGroup[leagueName];
+
         return (
           <div key={league.leagueId} className='p-2 rounded-lg cursor-pointer'>
             <label className='cursor-pointer transition hover:bg-gray-200 dark:hover:bg-accent p-2 rounded-lg opacity-50 border border-transparent has-[:checked]:border-[#005C69] has-[:checked]:bg-[#005C69] dark:has-[:checked]:border-[#445E93] dark:has-[:checked]:bg-[#445E93] has-[:checked]:text-white has-[:checked]:opacity-100 flex items-center gap-3'>
@@ -108,7 +109,9 @@ export function CheckForm({
                   height={32}
                 />
               </div>
-              <p>{league.leagueName}</p>
+              <div className='flex flex-col'>
+                <p>{league.leagueName}</p>
+              </div>
             </label>
           </div>
         );

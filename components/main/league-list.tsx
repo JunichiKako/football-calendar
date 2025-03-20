@@ -1,4 +1,3 @@
-// components/LeagueList.tsx
 import { getLeagueByGroup } from '@/data/league';
 import { cn } from '@/lib/utils';
 import getDateRange, { formatDateForDisplay } from '@/utils/getDate';
@@ -11,11 +10,13 @@ import { currentUser } from '@/data/auth';
 type LeagueListProps = {
   selectedLeagues: string[];
   selectedMatches: string[];
+  hasMatches?: boolean; // 試合があるかどうかのフラグ
 };
 
 export default async function LeagueList({
   selectedLeagues,
   selectedMatches,
+  hasMatches = true,
 }: LeagueListProps) {
   // ここで一括してリーグでグループ化されたリーグデータを取得する
   const leagueGroup = await getLeagueByGroup();
@@ -37,6 +38,16 @@ export default async function LeagueList({
   // 表示用に日付を整形
   const { displayFrom, displayTo } = formatDateForDisplay(dateFrom, dateTo);
 
+  // 試合がない場合のメッセージコンポーネント
+  const NoMatchesMessage = () => (
+    <div className='py-8 px-4 text-center'>
+      <h2 className='text-xl font-semibold mb-2'>
+        この期間のスケジュールでは試合情報がありません。
+      </h2>
+      <p className='text-gray-600'>リーグが再開するのをお待ちください。</p>
+    </div>
+  );
+
   // ユーザーがいれば選択できる試合のコンポーネント/なければ試合情報だけを見れるコンポーネントを表示
   return (
     <>
@@ -47,7 +58,10 @@ export default async function LeagueList({
           {displayFrom} - {displayTo}
         </p>
       </div>
-      {user ? (
+
+      {!hasMatches ? (
+        <NoMatchesMessage />
+      ) : user ? (
         <SelectedMatchCard
           filteredLeagues={filteredLeagues}
           selectedMatches={selectedMatches}
