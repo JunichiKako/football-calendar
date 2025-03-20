@@ -215,10 +215,20 @@ const EventGroup = ({ events, hour }: EventGroupProps) => {
 
   const handleDelete = async (eventId: string) => {
     try {
-      await removeMatchSelections(eventId);
-      setEvents((prevEvents) =>
-        prevEvents.filter((event) => event.id !== eventId)
-      );
+      const result = await removeMatchSelections(eventId);
+
+      if (result.success) {
+        // UIを更新（ローカルステートの更新）
+        setEvents((prevEvents) =>
+          prevEvents.filter((event) => event.id !== eventId)
+        );
+
+        // モーダルを閉じる
+        // closeModal(); // 必要に応じて実装
+      } else {
+        console.error('Failed to delete event:', result.error);
+        // エラーメッセージを表示（必要に応じて）
+      }
     } catch (error) {
       console.error('Error deleting event:', error);
     }
@@ -332,7 +342,10 @@ const EventGroup = ({ events, hour }: EventGroupProps) => {
                                 <AlertDialogAction asChild>
                                   <Button
                                     variant='destructive'
-                                    onClick={() => handleDelete(event.id)}
+                                    onClick={(e) => {
+                                      e.preventDefault(); // フォームのデフォルト送信を防止
+                                      handleDelete(event.id);
+                                    }}
                                   >
                                     削除
                                   </Button>
@@ -541,11 +554,7 @@ const CalendarMonthView = () => {
                     className='md:px-1 rounded md:text-xs flex items-center md:gap-1'
                   >
                     <div className={cn('shrink-0')}></div>
-                    <span
-                      className='truncate event-title'
-                    >
-                      {event.title}
-                    </span>
+                    <span className='truncate event-title'>{event.title}</span>
                     <time className='hidden md:block tabular-nums text-muted-foreground/50 text-xs ml-auto'>
                       {format(event.start, 'HH:mm')}
                     </time>

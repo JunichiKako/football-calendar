@@ -2,6 +2,7 @@
 
 import { currentUser } from '@/data/auth';
 import { createClient } from '@/lib/supabase/server';
+import { revalidateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 export async function saveMatchSelections(formData: FormData) {
@@ -70,17 +71,12 @@ export async function removeMatchSelections(matchId: string) {
 
     if (deleteError) throw deleteError;
 
-    // 残りの選択を取得
-    const { data: remainingMatches } = await supabase
-      .from('user_matches')
-      .select('match_id')
-      .eq('user_id', user.id);
+    // キャッシュを再検証
+    revalidateTag('user-matches');
 
-    const remainingMatchIds =
-      remainingMatches?.map((match) => match.match_id) || [];
-
-    redirect(`/?view=calendar&selectedMatches=${remainingMatchIds.join(',')}`);
+    return { success: true };
   } catch (error) {
-    throw error;
+    console.error('Error in removeMatchSelections:', error);
+    return { success: false, error };
   }
 }
