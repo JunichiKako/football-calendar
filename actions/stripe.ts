@@ -50,6 +50,12 @@ export async function handleSubscribe(formData: FormData) {
     redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/error`);
   }
 
+  // 無料プランの場合はホームページにリダイレクト
+  if (planId === 'free') {
+    redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/`);
+  }
+
+  // ここからはProプランの処理
   const supabase = await createClient();
   const user = await currentUser();
   if (!user) {
@@ -70,48 +76,44 @@ export async function handleSubscribe(formData: FormData) {
     redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/error`);
   }
 
-  if (planId === 'pro') {
-    try {
-      const session = await stripe.checkout.sessions.create({
-        customer: userData.stripe_customer_id,
-        payment_method_types: ['card'],
-        line_items: [
-          {
-            price: process.env.STRIPE_PRO_PLAN_PRICE_ID!,
-            quantity: 1,
-          },
-        ],
-        mode: 'subscription',
-        success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/plan`,
-        metadata: {
-          userId: user.id,
+  try {
+    const session = await stripe.checkout.sessions.create({
+      customer: userData.stripe_customer_id,
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price: process.env.STRIPE_PRO_PLAN_PRICE_ID!,
+          quantity: 1,
         },
-        // 3Dセキュア設定を追加
-        payment_method_options: {
-          card: {
-            request_three_d_secure: 'automatic',
-          },
+      ],
+      mode: 'subscription',
+      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/plan`,
+      metadata: {
+        userId: user.id,
+      },
+      // 3Dセキュア設定を追加
+      payment_method_options: {
+        card: {
+          request_three_d_secure: 'automatic',
         },
-        // 不正利用防止のための設定
-        allow_promotion_codes: false,
-        billing_address_collection: 'required',
-        customer_update: {
-          address: 'auto',
-        },
-      });
+      },
+      // 不正利用防止のための設定
+      allow_promotion_codes: false,
+      billing_address_collection: 'required',
+      customer_update: {
+        address: 'auto',
+      },
+    });
 
-      if (session.url) {
-        redirect(session.url);
-      }
-
-      console.error('No session URL returned from Stripe');
-      redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/error`);
-    } catch (error) {
-      console.error('Stripe session creation error:', error);
-      redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/error`);
+    if (session.url) {
+      redirect(session.url);
     }
-  }
 
-  redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/error`);
+    console.error('No session URL returned from Stripe');
+    redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/error`);
+  } catch (error) {
+    console.error('Stripe session creation error:', error);
+    redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/error`);
+  }
 }
