@@ -7,6 +7,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { createClientClient } from '@/lib/supabase/client';
 import { addGoogleCalendar } from '@/actions/add-google-calendar';
 import { signInWithGoogle } from '@/actions/auth';
+import { useCalendar } from '@/components/ui/calendar'; // useCalendarをインポート
 
 // 型定義を追加
 type CalendarActionResult = {
@@ -14,6 +15,7 @@ type CalendarActionResult = {
   addedEvents: number;
   totalEvents: number;
   remainingCalls?: number;
+  successfulIds?: string[];
   error?: string;
   redirect?: string;
 };
@@ -36,6 +38,7 @@ export function CalendarSubmitBtn({
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const supabase = createClientClient();
+  const { setEvents } = useCalendar(); // グローバルカレンダーコンテキストからsetEventsを取得
 
   // Client側でGoogleの再認証とカレンダーへの追加を行う
   const handleAddToCalendar = async () => {
@@ -77,6 +80,18 @@ export function CalendarSubmitBtn({
           return;
         }
         throw new Error(result.error || '不明なエラーが発生しました');
+      }
+
+      // 成功したイベントのaddedToGoogleCalendarフラグを更新
+      if (result.successfulIds && result.successfulIds.length > 0) {
+        setEvents((prevEvents) =>
+          prevEvents.map((event) => ({
+            ...event,
+            addedToGoogleCalendar:
+              event.addedToGoogleCalendar ||
+              (result.successfulIds?.includes(event.id) ?? false),
+          }))
+        );
       }
 
       toast({

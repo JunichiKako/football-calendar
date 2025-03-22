@@ -148,7 +148,7 @@ export async function addGoogleCalendar(
 
       // 重複がある場合、スキップ
       if (isDuplicate) {
-        return { success: true, added: false };
+        return { success: true, added: false, id: event.id };
       }
 
       // イベントを追加
@@ -179,7 +179,7 @@ export async function addGoogleCalendar(
         throw new Error('イベントの追加に失敗しました');
       }
 
-      return { success: true, added: true };
+      return { success: true, added: true, id: event.id };
     });
 
     // 全てのイベント追加を実行
@@ -187,6 +187,11 @@ export async function addGoogleCalendar(
 
     // 実際に追加されたイベントの数をカウント
     const addedEvents = results.filter((result) => result.added).length;
+
+    // 追加に成功したイベントのIDリストを作成
+    const successfulIds = results
+      .filter((result) => result.added)
+      .map((result) => result.id);
 
     // 全ての処理が成功した後にAPI利用回数を更新
     const { error: updateError } = await supabase
@@ -198,12 +203,15 @@ export async function addGoogleCalendar(
 
     if (updateError) throw new Error('API利用回数の更新に失敗しました');
 
-    // 戻り値に remainingCalls を追加
+    // 戻り値に remainingCalls と successfulIds を追加
     return {
       success: true,
       addedEvents,
       totalEvents: events.length,
-      remainingCalls: userData.calendar_api_calls_limit - (userData.calendar_api_calls_count + 1)
+      remainingCalls:
+        userData.calendar_api_calls_limit -
+        (userData.calendar_api_calls_count + 1),
+      successfulIds, // 追加に成功したイベントのIDリスト
     };
   } catch (error) {
     return {

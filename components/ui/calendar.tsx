@@ -79,6 +79,7 @@ export type CalendarEvent = {
   end: Date;
   title: string;
   leagueName: string;
+  addedToGoogleCalendar?: boolean; // Google Calendar に追加済みかどうかのフラグ
 };
 
 type CalendarProps = {
@@ -551,7 +552,11 @@ const CalendarMonthView = () => {
                 return (
                   <div
                     key={event.id}
-                    className='md:px-1 rounded md:text-xs flex items-center md:gap-1'
+                    className={cn(
+                      'md:px-1 rounded md:text-xs flex items-center md:gap-1',
+                      !event.addedToGoogleCalendar &&
+                        'bg-yellow-100 dark:bg-yellow-900/30' // 未追加イベントの背景色
+                    )}
                   >
                     <div className={cn('shrink-0')}></div>
                     <span className='truncate event-title'>{event.title}</span>
