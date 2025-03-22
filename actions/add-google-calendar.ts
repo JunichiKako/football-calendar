@@ -198,10 +198,12 @@ export async function addGoogleCalendar(
 
     if (updateError) throw new Error('API利用回数の更新に失敗しました');
 
+    // 戻り値に remainingCalls を追加
     return {
       success: true,
       addedEvents,
       totalEvents: events.length,
+      remainingCalls: userData.calendar_api_calls_limit - (userData.calendar_api_calls_count + 1)
     };
   } catch (error) {
     return {
