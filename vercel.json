@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/webhooks/stripe/**/*": {
+      "maxDuration": 60
+    }
+  }
+}
