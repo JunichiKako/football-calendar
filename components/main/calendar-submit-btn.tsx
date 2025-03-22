@@ -8,6 +8,16 @@ import { createClientClient } from '@/lib/supabase/client';
 import { addGoogleCalendar } from '@/actions/add-google-calendar';
 import { signInWithGoogle } from '@/actions/auth';
 
+// 型定義を追加
+type CalendarActionResult = {
+  success: boolean;
+  addedEvents: number;
+  totalEvents: number;
+  remainingCalls?: number;
+  error?: string;
+  redirect?: string;
+};
+
 type CalendarSubmitBtnProps = {
   events: Array<{
     id: string;
@@ -42,35 +52,42 @@ export function CalendarSubmitBtn({
         return;
       }
 
-      const result = await addGoogleCalendar(
+      // 型アサーションを追加
+      const result = (await addGoogleCalendar(
         events.map((event) => ({
           ...event,
           id: event.id.toString(),
         })),
         session.provider_token
-      );
+      )) as CalendarActionResult;
 
       if ('error' in result) {
         if (result.error === 'auth_required') {
           await signInWithGoogle();
           return;
         }
-        if (result.redirect) {
+        if (result.redirect && typeof result.redirect === 'string') {
           toast({
             title: 'カレンダーAPI制限',
             description: 'Googleカレンダーに追加する制限がかかっています',
           });
           setTimeout(() => {
-            window.location.href = result.redirect;
+            window.location.href = result.redirect as string;
           }, 3000);
           return;
         }
-        throw new Error(result.error);
+        throw new Error(result.error || '不明なエラーが発生しました');
       }
 
       toast({
         title: '追加完了',
-        description: `新規で追加された${result.addedEvents}件の試合をカレンダーに追加しました`,
+        description: `新規で追加された${
+          result.addedEvents
+        }件の試合をカレンダーに追加しました${
+          result.remainingCalls !== undefined
+            ? `（残りAPI回数: ${result.remainingCalls}）`
+            : ''
+        }`,
       });
     } catch (error) {
       console.error('Error details:', error);
