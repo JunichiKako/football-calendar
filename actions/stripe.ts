@@ -47,19 +47,22 @@ export async function handleSubscribe(formData: FormData) {
   // 入力値の厳密なバリデーション
   if (!planId || (planId !== 'free' && planId !== 'pro')) {
     console.error('Invalid plan ID:', planId);
-    redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/error`);
+    return { error: 'Invalid plan ID' };
   }
 
   // 無料プランの場合はホームページにリダイレクト
   if (planId === 'free') {
-    redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/`);
+    return {
+      success: true,
+      redirectUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/`,
+    };
   }
 
   // ここからはProプランの処理
   const supabase = await createClient();
   const user = await currentUser();
   if (!user) {
-    redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/callback`);
+    return { error: 'User not authenticated' };
   }
 
   const { data: userData, error: userError } = await supabase
@@ -68,12 +71,18 @@ export async function handleSubscribe(formData: FormData) {
     .eq('user_id', user.id)
     .single();
 
+  console.log('User data query result:', {
+    userData,
+    userError,
+    userId: user.id,
+  });
+
   if (userError || !userData?.stripe_customer_id) {
     console.error(
       'User not found or stripe_customer_id is missing:',
       userError
     );
-    redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/error`);
+    return { error: 'User not found or missing Stripe customer ID' };
   }
 
   try {
@@ -107,13 +116,14 @@ export async function handleSubscribe(formData: FormData) {
     });
 
     if (session.url) {
-      redirect(session.url);
+      // 直接リダイレクトせず、URLを返す
+      return { success: true, redirectUrl: session.url };
     }
 
     console.error('No session URL returned from Stripe');
-    redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/error`);
+    return { error: 'Failed to create checkout session' };
   } catch (error) {
     console.error('Stripe session creation error:', error);
-    redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/error`);
+    return { error: 'Failed to create checkout session' };
   }
 }
