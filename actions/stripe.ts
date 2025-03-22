@@ -22,6 +22,8 @@ export async function createPortalSession() {
     .eq('user_id', user.id)
     .single();
 
+  console.log(userData);
+
   // Userが見つからないか、stripe_customer_idがない場合はエラー画面へリダイレクト
   if (userError || !userData?.stripe_customer_id) {
     console.error(
@@ -47,22 +49,19 @@ export async function handleSubscribe(formData: FormData) {
   // 入力値の厳密なバリデーション
   if (!planId || (planId !== 'free' && planId !== 'pro')) {
     console.error('Invalid plan ID:', planId);
-    return { error: 'Invalid plan ID' };
+    redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/error`);
   }
 
   // 無料プランの場合はホームページにリダイレクト
   if (planId === 'free') {
-    return {
-      success: true,
-      redirectUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/`,
-    };
+    redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/`);
   }
 
   // ここからはProプランの処理
   const supabase = await createClient();
   const user = await currentUser();
   if (!user) {
-    return { error: 'User not authenticated' };
+    redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/callback`);
   }
 
   const { data: userData, error: userError } = await supabase
@@ -82,7 +81,7 @@ export async function handleSubscribe(formData: FormData) {
       'User not found or stripe_customer_id is missing:',
       userError
     );
-    return { error: 'User not found or missing Stripe customer ID' };
+    redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/error`);
   }
 
   try {
@@ -116,14 +115,13 @@ export async function handleSubscribe(formData: FormData) {
     });
 
     if (session.url) {
-      // 直接リダイレクトせず、URLを返す
-      return { success: true, redirectUrl: session.url };
+      redirect(session.url);
     }
 
     console.error('No session URL returned from Stripe');
-    return { error: 'Failed to create checkout session' };
+    redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/error`);
   } catch (error) {
     console.error('Stripe session creation error:', error);
-    return { error: 'Failed to create checkout session' };
+    redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/error`);
   }
 }
