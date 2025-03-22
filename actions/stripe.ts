@@ -44,84 +44,91 @@ export async function createPortalSession() {
 }
 
 export async function handleSubscribe(formData: FormData) {
+  let redirectUrl = '';
+
   const planId = formData.get('planId');
 
   // 入力値の厳密なバリデーション
   if (!planId || (planId !== 'free' && planId !== 'pro')) {
     console.error('Invalid plan ID:', planId);
-    redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/error`);
+    redirectUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/error`;
   }
-
   // 無料プランの場合はホームページにリダイレクト
-  if (planId === 'free') {
-    redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/`);
-  }
+  else if (planId === 'free') {
+    redirectUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/`;
+  } else {
+    // ここからはProプランの処理
+    const supabase = await createClient();
+    const user = await currentUser();
 
-  // ここからはProプランの処理
-  const supabase = await createClient();
-  const user = await currentUser();
-  if (!user) {
-    redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/callback`);
-  }
+    if (!user) {
+      redirectUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/callback`;
+    } else {
+      const { data: userData, error: userError } = await supabase
+        .from('users')
+        .select('stripe_customer_id')
+        .eq('user_id', user.id)
+        .single();
 
-  const { data: userData, error: userError } = await supabase
-    .from('users')
-    .select('stripe_customer_id')
-    .eq('user_id', user.id)
-    .single();
-
-  console.log('User data query result:', {
-    userData,
-    userError,
-    userId: user.id,
-  });
-
-  if (userError || !userData?.stripe_customer_id) {
-    console.error(
-      'User not found or stripe_customer_id is missing:',
-      userError
-    );
-    redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/error`);
-  }
-
-  try {
-    const session = await stripe.checkout.sessions.create({
-      customer: userData.stripe_customer_id,
-      payment_method_types: ['card'],
-      line_items: [
-        {
-          price: process.env.STRIPE_PRO_PLAN_PRICE_ID!,
-          quantity: 1,
-        },
-      ],
-      mode: 'subscription',
-      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/plan`,
-      metadata: {
+      console.log('User data query result:', {
+        userData,
+        userError,
         userId: user.id,
-      },
-      // 3Dセキュア設定を追加
-      payment_method_options: {
-        card: {
-          request_three_d_secure: 'automatic',
-        },
-      },
-      // 不正利用防止のための設定
-      allow_promotion_codes: false,
-      billing_address_collection: 'required',
-      customer_update: {
-        address: 'auto',
-      },
-    });
+      });
 
-    if (session.url) {
-      redirect(session.url);
+      if (userError || !userData?.stripe_customer_id) {
+        console.error(
+          'User not found or stripe_customer_id is missing:',
+          userError
+        );
+        redirectUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/error`;
+      } else {
+        try {
+          const session = await stripe.checkout.sessions.create({
+            customer: userData.stripe_customer_id,
+            payment_method_types: ['card'],
+            line_items: [
+              {
+                price: process.env.STRIPE_PRO_PLAN_PRICE_ID!,
+                quantity: 1,
+              },
+            ],
+            mode: 'subscription',
+            success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/plan`,
+            metadata: {
+              userId: user.id,
+            },
+            // 3Dセキュア設定を追加
+            payment_method_options: {
+              card: {
+                request_three_d_secure: 'automatic',
+              },
+            },
+            // 不正利用防止のための設定
+            allow_promotion_codes: false,
+            billing_address_collection: 'required',
+            customer_update: {
+              address: 'auto',
+            },
+          });
+
+          if (session.url) {
+            redirectUrl = session.url;
+          } else {
+            console.error('No session URL returned from Stripe');
+            redirectUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/error`;
+          }
+        } catch (error) {
+          console.error('Stripe session creation error:', error);
+          redirectUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/error`;
+        }
+      }
     }
+  }
 
-    console.error('No session URL returned from Stripe');
-    redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/error`);
-  } catch (error) {
-    console.error('Stripe session creation error:', error);
-    redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/error`);
+  // すべての処理の後、try...catchブロックの外でリダイレクト
+  if (redirectUrl) {
+    redirect(redirectUrl);
   }
 }
