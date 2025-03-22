@@ -1,6 +1,6 @@
 {
   "functions": {
-    "api/webhooks/stripe/**/*": {
+    ".next/server/app/api/webhooks/stripe/route.js": {
       "maxDuration": 60
     }
   }
