@@ -6,7 +6,6 @@ import CalendarView from '@/components/main/calendar-view';
 import { createClient } from '@/lib/supabase/server';
 import { currentUser } from '@/data/auth';
 import { redirect } from 'next/navigation';
-import LandingPage from '../../markting/page';
 // import { OnboardingModal } from '@/components/onboarding/onboarding-modal';
 
 type HomeParamsProps = {

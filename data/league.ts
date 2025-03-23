@@ -125,6 +125,7 @@ export const sortMatchesByDateTime = (matches: Match[]): Match[] => {
 
 // リーグごとの表示に必要なデータを取得
 // リーグごとの表示に必要なデータを取得 - すべてのリーグを常に返すように修正
+// 明示的なフィルタリングを追加した getLeagueByGroup 関数
 export const getLeagueByGroup = unstable_cache(
   async () => {
     console.log('📥 Starting getLeagueByGroup');
@@ -145,67 +146,16 @@ export const getLeagueByGroup = unstable_cache(
       return acc;
     }, {} as Record<string, { leagueId: number; leagueName: string; leagueImg: string; matches: Match[] }>);
 
-    // 試合データがないリーグIDを特定
-    const matchedLeagueIds = new Set(
-      Object.values(grouped).map((league) => league.leagueId)
+    // 試合がないリーグの処理は省略（コメントアウトと同じ）
+
+    // 試合があるリーグだけをフィルタリング（これを追加）
+    const filteredGrouped = Object.fromEntries(
+      Object.entries(grouped).filter(([_, league]) => league.matches.length > 0)
     );
-
-    // 試合がないリーグのIDを抽出
-    const missingLeagueIds = leagueIds.filter(
-      (id) => !matchedLeagueIds.has(id)
-    );
-
-    // 試合がないリーグ用のデータを取得
-    if (missingLeagueIds.length > 0) {
-      console.log(
-        `📊 Fetching info for ${missingLeagueIds.length} leagues with no matches`
-      );
-
-      // 試合がないリーグの情報を取得
-      await Promise.all(
-        missingLeagueIds.map(async (id) => {
-          try {
-            const res = await fetch(
-              `https://api.football-data.org/v4/competitions/${id}`,
-              {
-                method: 'GET',
-                headers: {
-                  'X-Auth-Token': process.env.FOOTBALL_API_KEY!,
-                },
-                next: { revalidate: 86400 },
-              }
-            );
-
-            if (!res.ok) {
-              console.error(
-                `❌ リーグ情報の取得に失敗しました。${id}: ${res.status} ${res.statusText}`
-              );
-              return;
-            }
-
-            const leagueData = await res.json();
-
-            // 試合がなくてもリーグ情報を追加
-            grouped[leagueData.name] = {
-              leagueId: leagueData.id,
-              leagueName: leagueData.name,
-              leagueImg: leagueData.emblem,
-              matches: [], // 空の試合配列
-            };
-
-            console.log(
-              `✅ Added league info for ${leagueData.name} with no matches`
-            );
-          } catch (error) {
-            console.error(`❌ Error fetching league info for ${id}:`, error);
-          }
-        })
-      );
-    }
 
     // リーグIDの順番にソート idが小さいものから順に並べる
     const orderedGrouped = Object.fromEntries(
-      Object.entries(grouped).sort(
+      Object.entries(filteredGrouped).sort(
         (a, b) =>
           leagueIds.indexOf(a[1].leagueId) - leagueIds.indexOf(b[1].leagueId)
       )
@@ -219,7 +169,7 @@ export const getLeagueByGroup = unstable_cache(
     console.log(
       '✅ getLeagueByGroup completed with',
       Object.keys(orderedGrouped).length,
-      'leagues'
+      'leagues with matches'
     );
     return orderedGrouped;
   },
