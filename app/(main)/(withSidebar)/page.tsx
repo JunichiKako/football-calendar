@@ -6,6 +6,7 @@ import CalendarView from '@/components/main/calendar-view';
 import { createClient } from '@/lib/supabase/server';
 import { currentUser } from '@/data/auth';
 import { redirect } from 'next/navigation';
+import LandingPage from '../../markting/page';
 // import { OnboardingModal } from '@/components/onboarding/onboarding-modal';
 
 type HomeParamsProps = {
@@ -43,6 +44,7 @@ export default async function Home({ searchParams }: HomeParamsProps) {
   const user = await currentUser();
 
   // オンボーディング状態をチェックする関数
+
   // async function checkOnboarding() {
   //   const { data: userData } = await supabase
   //     .from('users')
