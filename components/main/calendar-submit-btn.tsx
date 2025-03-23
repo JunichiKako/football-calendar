@@ -7,7 +7,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { createClientClient } from '@/lib/supabase/client';
 import { addGoogleCalendar } from '@/actions/add-google-calendar';
 import { signInWithGoogle } from '@/actions/auth';
-import { useCalendar } from '@/components/ui/calendar'; // useCalendarをインポート
+import { useCalendar } from '@/components/ui/calendar';
 
 // 型定義を追加
 type CalendarActionResult = {
@@ -29,16 +29,18 @@ type CalendarSubmitBtnProps = {
     leagueName: string;
   }>;
   disabled: boolean;
+  userPlan?: 'free' | 'pro'; // ユーザーのプラン情報を受け取る
 };
 
 export function CalendarSubmitBtn({
   events,
   disabled,
+  userPlan = 'free', // デフォルトはfree
 }: CalendarSubmitBtnProps) {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const supabase = createClientClient();
-  const { setEvents } = useCalendar(); // グローバルカレンダーコンテキストからsetEventsを取得
+  const { setEvents } = useCalendar();
 
   // Client側でGoogleの再認証とカレンダーへの追加を行う
   const handleAddToCalendar = async () => {
@@ -94,15 +96,15 @@ export function CalendarSubmitBtn({
         );
       }
 
+      // 残りのAPI回数の表示はfreeプランのみ
+      const apiCountMessage =
+        userPlan === 'free' && result.remainingCalls !== undefined
+          ? `（残りAPI回数: ${result.remainingCalls}）`
+          : '';
+
       toast({
         title: '追加完了',
-        description: `新規で追加された${
-          result.addedEvents
-        }件の試合をカレンダーに追加しました${
-          result.remainingCalls !== undefined
-            ? `（残りAPI回数: ${result.remainingCalls}）`
-            : ''
-        }`,
+        description: `新規で追加された${result.addedEvents}件の試合をカレンダーに追加しました${apiCountMessage}`,
       });
     } catch (error) {
       console.error('Error details:', error);
