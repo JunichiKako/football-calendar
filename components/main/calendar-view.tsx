@@ -1,3 +1,4 @@
+// サーバーコンポーネントとして維持
 import {
   Calendar,
   CalendarCurrentDate,
@@ -13,6 +14,8 @@ import {
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Match } from '@/types/match';
 import { CalendarSubmitBtn } from './calendar-submit-btn';
+import { createClient } from '@/lib/supabase/server';
+import { currentUser } from '@/data/auth';
 
 type CalendarViewProps = {
   groupedLeagues: {
@@ -26,11 +29,36 @@ type CalendarViewProps = {
   allSubmitMatches: string[];
 };
 
-export default function CalendarView({
+export default async function CalendarView({
   groupedLeagues,
   allSubmitMatches,
 }: CalendarViewProps) {
-  
+  // サーバーサイドでユーザープランを取得
+  let userPlan: 'free' | 'pro' = 'free'; // デフォルト値
+
+  try {
+    const user = await currentUser();
+    if (user) {
+      const supabase = await createClient();
+
+      const { data } = await supabase
+        .from('users')
+        .select('subscription_plan')
+        .eq('user_id', user.id)
+        .single();
+
+      if (
+        data &&
+        (data.subscription_plan === 'free' || data.subscription_plan === 'pro')
+      ) {
+        userPlan = data.subscription_plan;
+      }
+    }
+  } catch (error) {
+    console.error('Failed to fetch user plan:', error);
+    // エラーが発生した場合でもデフォルト値の'free'を使用
+  }
+
   // 全てのデータを含むgroupedLeaguesから、allSubmitMatchesに含まれる試合のみを抽出してイベントに合うように整形
   const selectedMatchData = Object.values(groupedLeagues)
     .flatMap((league) => league.matches)
@@ -96,8 +124,9 @@ export default function CalendarView({
         </div>
         {/* Google calendarに追加するボタン */}
         <CalendarSubmitBtn
-          events={events} 
+          events={events}
           disabled={events.length === 0}
+          userPlan={userPlan}
         />
       </div>
     </Calendar>
