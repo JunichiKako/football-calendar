@@ -9,7 +9,7 @@ export default function getDateRange() {
 
   // 14日後の日付を取得（UTCベース）
   const oneWeekLater = new Date(now);
-  oneWeekLater.setDate(now.getDate() + 14);
+  oneWeekLater.setDate(now.getDate() + 7);
 
   // YYYY-MM-DD形式に変換（UTCベース）
   const dateFrom = now.toISOString().split('T')[0];
