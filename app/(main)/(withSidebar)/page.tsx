@@ -6,7 +6,7 @@ import CalendarView from '@/components/main/calendar-view';
 import { createClient } from '@/lib/supabase/server';
 import { currentUser } from '@/data/auth';
 import { redirect } from 'next/navigation';
-import { OnboardingModal } from '@/components/onboarding/onboarding-modal';
+// import { OnboardingModal } from '@/components/onboarding/onboarding-modal';
 
 type HomeParamsProps = {
   searchParams: Promise<{
@@ -43,15 +43,15 @@ export default async function Home({ searchParams }: HomeParamsProps) {
   const user = await currentUser();
 
   // オンボーディング状態をチェックする関数
-  async function checkOnboarding() {
-    const { data: userData } = await supabase
-      .from('users')
-      .select('onboarding_completed')
-      .eq('user_id', user!.id)
-      .single();
+  // async function checkOnboarding() {
+  //   const { data: userData } = await supabase
+  //     .from('users')
+  //     .select('onboarding_completed')
+  //     .eq('user_id', user!.id)
+  //     .single();
 
-    return !userData?.onboarding_completed;
-  }
+  //   return !userData?.onboarding_completed;
+  // }
 
   // 他のデータフェッチ処理（認証不要）
   const { currentView, selectedLeagues, selectedMatches } = await getPageParams(
@@ -97,12 +97,12 @@ export default async function Home({ searchParams }: HomeParamsProps) {
   }
 
   // オンボーディングの表示（認証済みユーザーのみ）
-  const showOnboarding = user && user.id ? await checkOnboarding() : false;
+  // const showOnboarding = user && user.id ? await checkOnboarding() : false;
 
   // リーグ一覧と時間別スケジュール（認証不要）
   return (
     <>
-      {showOnboarding && <OnboardingModal isOpen={showOnboarding} />}
+      {/* {showOnboarding && <OnboardingModal isOpen={showOnboarding} />} */}
       {currentView === 'league' ? (
         <Suspense fallback={<div>Loading league...</div>}>
           <LeagueList
