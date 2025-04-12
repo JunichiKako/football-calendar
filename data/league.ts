@@ -105,7 +105,7 @@ const fetchLeagueData = unstable_cache(
   ['league-data'],
   {
     revalidate: 43200,
-    tags: ['leagues'],
+    tags: ['leagues','dateFrom'],
   }
 );
 
