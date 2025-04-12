@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useOptimistic, useTransition, useRef } from 'react';
+import { useTransition, useRef } from 'react';
 
 type MatchCheckboxProps = {
   matchId: number;
@@ -16,18 +16,14 @@ export default function MatchCheckbox({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
-  
+
   // 最新の選択状態を追跡
   const pendingStateRef = useRef<boolean | null>(null);
 
-  const [optimisticChecked, addOptimisticCheck] = useOptimistic(
-    isSelected,
-    (state, newValue: boolean) => newValue
-  );
-
   const updateSearchParams = (isChecked: boolean) => {
     const params = new URLSearchParams(searchParams);
-    const currentSelected = params.get('selectedMatches')?.split(',').filter(Boolean) || [];
+    const currentSelected =
+      params.get('selectedMatches')?.split(',').filter(Boolean) || [];
 
     if (isChecked) {
       if (!currentSelected.includes(matchId.toString())) {
@@ -51,12 +47,9 @@ export default function MatchCheckbox({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
-    
+
     // 最新の状態を保存
     pendingStateRef.current = isChecked;
-    
-    // 楽観的に更新
-    addOptimisticCheck(isChecked);
 
     // URLの更新を非同期で実行
     startTransition(() => {
@@ -80,7 +73,6 @@ export default function MatchCheckbox({
       value={matchId.toString()}
       id={matchId.toString()}
       className='peer hidden'
-      checked={optimisticChecked}
       onChange={handleChange}
       disabled={isPending}
     />
