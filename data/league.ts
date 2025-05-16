@@ -7,10 +7,12 @@ import getDateRange from '@/utils/getDate';
 import { unstable_cache } from 'next/cache';
 import { formatDateTime } from '@/utils/getDate';
 
-// 日付ベースのキャッシュキーを生成する関数
+// 日付ベースのキャッシュキーを生成する関数（JSTベース）
 const generateDateBasedCacheKey = () => {
-  const today = new Date();
-  return `league-data-${today.toISOString().split('T')[0]}`;
+  // 日本時間で日付を取得
+  const jstNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Tokyo' }));
+  const jstDate = jstNow.toISOString().split('T')[0];
+  return `league-data-${jstDate}`;
 };
 
 // 基本となるリーグデータを取得
@@ -110,7 +112,7 @@ const fetchLeagueData = unstable_cache(
   },
   [generateDateBasedCacheKey()], // 日付を含むキャッシュキー
   {
-    revalidate: 43200,
+    revalidate: 86400,
     tags: ['leagues', 'dateFrom'],
   }
 );
@@ -181,7 +183,7 @@ export const getLeagueByGroup = unstable_cache(
   },
   [`league-groups-${generateDateBasedCacheKey()}`], // 日付を含むキャッシュキー
   {
-    revalidate: 43200,
+    revalidate: 86400,
     tags: ['group-leagues'],
   }
 );
@@ -197,7 +199,7 @@ export const getLeagueMatchesByTime = unstable_cache(
   },
   [`league-matches-time-${generateDateBasedCacheKey()}`], // 日付を含むキャッシュキー
   {
-    revalidate: 43200,
+    revalidate: 86400,
     tags: ['time-leagues'],
   }
 );
