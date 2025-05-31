@@ -7,18 +7,27 @@ import getDateRange from '@/utils/getDate';
 import { unstable_cache } from 'next/cache';
 import { formatDateTime } from '@/utils/getDate';
 
-// 日付ベースのキャッシュキーを生成する関数（JSTベース）
+// 日付ベースのキャッシュキーを生成する関数
 const generateDateBasedCacheKey = () => {
-  // 日本時間で日付を取得
-  const jstNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Tokyo' }));
-  const jstDate = jstNow.toISOString().split('T')[0];
-  return `league-data-${jstDate}`;
+  // 固定日付
+  return `league-data-2025-05-01-to-2025-05-08`;
+  
+  // 動的日付（コメントアウト）
+  // const jstNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Tokyo' }));
+  // const jstDate = jstNow.toISOString().split('T')[0];
+  // return `league-data-${jstDate}`;
 };
 
-// 基本となるリーグデータを取得
+// 基本となるリーグデータを取得（キャッシュあり）
 const fetchLeagueData = unstable_cache(
   async () => {
-    const { dateFrom, dateTo } = getDateRange();
+    // 固定の日付範囲（2025年5月1日〜5月8日）
+    const dateFrom = '2025-05-01';
+    const dateTo = '2025-05-08';
+    
+    // 動的な日付範囲（コメントアウト）
+    // const { dateFrom, dateTo } = getDateRange();
+    
     console.log('🔍 Fetching league data with date range:', {
       dateFrom,
       dateTo,
@@ -131,75 +140,59 @@ export const sortMatchesByDateTime = (matches: Match[]): Match[] => {
   });
 };
 
-// リーグごとの表示に必要なデータを取得
-// リーグごとの表示に必要なデータを取得 - すべてのリーグを常に返すように修正
-// 明示的なフィルタリングを追加した getLeagueByGroup 関数
-export const getLeagueByGroup = unstable_cache(
-  async () => {
-    console.log('📥 Starting getLeagueByGroup');
-    const matches = await fetchLeagueData();
+// リーグごとの表示に必要なデータを取得（キャッシュなし、fetchLeagueDataに依存）
+export const getLeagueByGroup = async () => {
+  console.log('📥 Starting getLeagueByGroup');
+  const matches = await fetchLeagueData(); // キャッシュされたデータを使用
 
-    // 試合データからリーグをグループ化
-    const grouped = matches.reduce((acc, match) => {
-      const leagueName = match.leagueName;
-      if (!acc[leagueName]) {
-        acc[leagueName] = {
-          leagueId: match.leagueId,
-          leagueName: match.leagueName,
-          leagueImg: match.leagueImg,
-          matches: [],
-        };
-      }
-      acc[leagueName].matches.push(match);
-      return acc;
-    }, {} as Record<string, { leagueId: number; leagueName: string; leagueImg: string; matches: Match[] }>);
+  // 試合データからリーグをグループ化
+  const grouped = matches.reduce((acc, match) => {
+    const leagueName = match.leagueName;
+    if (!acc[leagueName]) {
+      acc[leagueName] = {
+        leagueId: match.leagueId,
+        leagueName: match.leagueName,
+        leagueImg: match.leagueImg,
+        matches: [],
+      };
+    }
+    acc[leagueName].matches.push(match);
+    return acc;
+  }, {} as Record<string, { leagueId: number; leagueName: string; leagueImg: string; matches: Match[] }>);
 
-    // 試合がないリーグの処理は省略（コメントアウトと同じ）
+  // 試合があるリーグだけをフィルタリング
+  const filteredGrouped = Object.fromEntries(
+    Object.entries(grouped).filter(([_, league]) => league.matches.length > 0)
+  );
 
-    // 試合があるリーグだけをフィルタリング（これを追加）
-    const filteredGrouped = Object.fromEntries(
-      Object.entries(grouped).filter(([_, league]) => league.matches.length > 0)
-    );
+  // リーグIDの順番にソート idが小さいものから順に並べる
+  const orderedGrouped = Object.fromEntries(
+    Object.entries(filteredGrouped).sort(
+      (a, b) =>
+        leagueIds.indexOf(a[1].leagueId) - leagueIds.indexOf(b[1].leagueId)
+    )
+  );
 
-    // リーグIDの順番にソート idが小さいものから順に並べる
-    const orderedGrouped = Object.fromEntries(
-      Object.entries(filteredGrouped).sort(
-        (a, b) =>
-          leagueIds.indexOf(a[1].leagueId) - leagueIds.indexOf(b[1].leagueId)
-      )
-    );
+  // 各リーグ内の試合を日時順にソート
+  Object.values(orderedGrouped).forEach((league) => {
+    league.matches = sortMatchesByDateTime(league.matches);
+  });
 
-    // 各リーグ内の試合を日時順にソート
-    Object.values(orderedGrouped).forEach((league) => {
-      league.matches = sortMatchesByDateTime(league.matches);
-    });
+  console.log(
+    '✅ getLeagueByGroup completed with',
+    Object.keys(orderedGrouped).length,
+    'leagues with matches'
+  );
+  return orderedGrouped;
+};
 
-    console.log(
-      '✅ getLeagueByGroup completed with',
-      Object.keys(orderedGrouped).length,
-      'leagues with matches'
-    );
-    return orderedGrouped;
-  },
-  [`league-groups-${generateDateBasedCacheKey()}`], // 日付を含むキャッシュキー
-  {
-    revalidate: 86400,
-    tags: ['group-leagues'],
-  }
-);
-
-// 時間順に試合を取得する関数
-export const getLeagueMatchesByTime = unstable_cache(
-  async () => {
-    console.log('📥 Starting getLeagueMatchesByTime');
-
-    // 元のデータを直接取得（すでにソート済み）
-    const matches = await fetchLeagueData();
-    return matches;
-  },
-  [`league-matches-time-${generateDateBasedCacheKey()}`], // 日付を含むキャッシュキー
-  {
-    revalidate: 86400,
-    tags: ['time-leagues'],
-  }
-);
+// 時間順に試合を取得する関数（キャッシュなし、fetchLeagueDataに依存）
+export const getLeagueMatchesByTime = async () => {
+  console.log('📥 Starting getLeagueMatchesByTime');
+  
+  // fetchLeagueDataのキャッシュを使用（すでにソート済み）
+  const matches = await fetchLeagueData();
+  
+  console.log('✅ getLeagueMatchesByTime completed with', matches.length, 'matches');
+  return matches;
+};
