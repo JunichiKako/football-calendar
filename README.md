@@ -1,38 +1,37 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# FootballTable ⚽️
 
-## Getting Started
+海外サッカーの試合スケジュールを日本語で確認し、ワンクリックでGoogleカレンダーに追加できるアプリです。
 
-First, run the development server:
+複数の配信サービス（DAZN、U-NEXT、ABEMAなど）にまたがる試合情報を、ひと目で把握できるようにすることで、
+「見逃した」「どこで見れるかわからない」といった課題を解決します。
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 背景
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+配信サービスが複数ある中で、効率的に各国のサッカーを観戦したいと思い、自分自身が使いたくなるようなサービスを目指して開発しました。  
+サッカー好きが快適に週末の観戦スケジュールを立てられるようにサポートします。
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+---
 
-## Learn More
+## 技術スタック
 
-To learn more about Next.js, take a look at the following resources:
+- **Next.js (App Router)**
+- **TypeScript**
+- **Tailwind CSS**
+- **Supabase**（認証/ユーザー管理 / DB）
+- **Stripe**（課金管理）
+- **Google Calendar API**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## 主な機能
 
-## Deploy on Vercel
+- 海外主要リーグ（プレミア、ラ・リーガ等）の試合スケジュールを外部APIから10回/分の制限の中でNext.jsのキャッシュを使い最適化
+- 試合のフィルターや時間順への切り替えはURLに状態保存し、最適化
+- Googleカレンダーへ試合をワンクリックで追加
+- 無料プラン（月3回まで）・有料プラン（無制限）の切り替え
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-- 自動デプロイ更新用のテスト
