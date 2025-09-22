@@ -7,7 +7,7 @@ export default function getDateRange() {
   // UTCで日付を設定
   now.setUTCHours(0, 0, 0, 0);
 
-  // 14日後の日付を取得（UTCベース）
+  // 7日後の日付を取得（UTCベース）
   const oneWeekLater = new Date(now);
   oneWeekLater.setDate(now.getDate() + 7);
 
@@ -19,6 +19,32 @@ export default function getDateRange() {
     dateFrom,
     dateTo,
   };
+}
+
+/**
+ * 拡張された日付範囲を取得する関数（2週間）
+ */
+export function getExtendedDateRange() {
+  const { dateFrom } = getDateRange();
+  
+  const now = new Date();
+  now.setUTCHours(0, 0, 0, 0);
+  
+  const endDate = new Date(now);
+  endDate.setDate(endDate.getDate() + 14); // 今日から2週間後
+  
+  const dateTo = endDate.toISOString().split('T')[0];
+  
+  return { dateFrom, dateTo };
+}
+
+/**
+ * 日付ベースのキャッシュキーを生成する関数
+ */
+export function generateDateBasedCacheKey() {
+  const jstNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Tokyo' }));
+  const jstDate = jstNow.toISOString().split('T')[0];
+  return `league-data-${jstDate}-v2`;
 }
 
 /**
