@@ -1,4 +1,3 @@
-// app/admin/[secret]/streaming/page.tsx
 import { notFound } from 'next/navigation';
 import { getLeagueMatchesByTime } from '@/data/league';
 import StreamingManager from './streaming-manager';
@@ -7,10 +6,13 @@ import { createClient } from '@/lib/supabase/server';
 export default async function AdminStreamingPage({ 
   params 
 }: { 
-  params: { secret: string } 
+  params: Promise<{ secret: string }> 
 }) {
+  // paramsをawaitで取得
+  const { secret } = await params;
+  
   // シークレットパスの検証
-  if (params.secret !== process.env.ADMIN_SECRET_PATH) {
+  if (secret !== process.env.ADMIN_SECRET_PATH) {
     notFound();
   }
   
