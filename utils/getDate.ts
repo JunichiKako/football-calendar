@@ -1,17 +1,10 @@
-/**
- * 日付範囲を取得する関数
- */
 export default function getDateRange() {
-  // サーバーとクライアントで一貫した日付を生成
   const now = new Date();
-  // UTCで日付を設定
   now.setUTCHours(0, 0, 0, 0);
 
-  // 7日後の日付を取得（UTCベース）
   const oneWeekLater = new Date(now);
   oneWeekLater.setDate(now.getDate() + 7);
 
-  // YYYY-MM-DD形式に変換（UTCベース）
   const dateFrom = now.toISOString().split('T')[0];
   const dateTo = oneWeekLater.toISOString().split('T')[0];
 
@@ -21,9 +14,6 @@ export default function getDateRange() {
   };
 }
 
-/**
- * 拡張された日付範囲を取得する関数（2週間）
- */
 export function getExtendedDateRange() {
   const { dateFrom } = getDateRange();
   
@@ -31,36 +21,28 @@ export function getExtendedDateRange() {
   now.setUTCHours(0, 0, 0, 0);
   
   const endDate = new Date(now);
-  endDate.setDate(endDate.getDate() + 14); // 今日から2週間後
+  endDate.setDate(endDate.getDate() + 14);
   
   const dateTo = endDate.toISOString().split('T')[0];
   
   return { dateFrom, dateTo };
 }
 
-/**
- * 日付ベースのキャッシュキーを生成する関数
- */
 export function generateDateBasedCacheKey() {
-  const jstNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Tokyo' }));
-  const jstDate = jstNow.toISOString().split('T')[0];
+  const now = new Date();
+  const jstOffset = 9 * 60 * 60 * 1000;
+  const jstTime = new Date(now.getTime() + jstOffset);
+  const jstDate = jstTime.toISOString().split('T')[0];
+  
   return `league-data-${jstDate}-v2`;
 }
 
-/**
- * 日付を日本時間に変換する関数
- */
 export function toJapaneseTime(date: string | Date) {
   return new Date(
     new Date(date).toLocaleString('en-US', { timeZone: 'Asia/Tokyo' })
   );
 }
 
-/**
- * 表示用の日付フォーマット
- * @param date 日付オブジェクトまたは日付文字列
- * @returns フォーマットされた日付文字列
- */
 export function formatDateTime(date: string | Date) {
   const jpDate = toJapaneseTime(date);
 
@@ -77,7 +59,6 @@ export function formatDateTime(date: string | Date) {
   };
 }
 
-// 取得した日付を表示用に整形する関数
 export function formatDateForDisplay(dateFrom: string, dateTo: string) {
   const [fromYear, fromMonth, fromDay] = dateFrom.split('-');
   const [, toMonth, toDay] = dateTo.split('-');
