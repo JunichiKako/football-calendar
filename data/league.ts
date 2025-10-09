@@ -19,12 +19,14 @@ const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 // リーグ基本情報をキャッシュから取得（長期キャッシュ、レート制限対応）
 const fetchLeagueBaseInfo = unstable_cache(
   async (): Promise<Record<number, LeagueInfo>> => {
+    console.log('🔵 fetchLeagueBaseInfo: 開始');
     const leagueInfos: Record<number, LeagueInfo> = {};
     
     for (let i = 0; i < leagueIds.length; i++) {
       const id = leagueIds[i];
       
       try {
+        console.log(`🔵 fetchLeagueBaseInfo: リーグ ${id} を取得中...`);
         const res = await fetch(
           `https://api.football-data.org/v4/competitions/${id}`,
           {
@@ -35,6 +37,8 @@ const fetchLeagueBaseInfo = unstable_cache(
           }
         );
 
+        console.log(`🔵 fetchLeagueBaseInfo: リーグ ${id} のレスポンス: ${res.status}`);
+
         if (res.ok) {
           const data = await res.json();
           leagueInfos[id] = {
@@ -42,6 +46,8 @@ const fetchLeagueBaseInfo = unstable_cache(
             name: data.name,
             emblem: data.emblem,
           };
+        } else if (res.status === 429) {
+          console.error(`❌ レート制限エラー: リーグ ${id}`);
         }
 
         if (i < leagueIds.length - 1) {
@@ -49,10 +55,11 @@ const fetchLeagueBaseInfo = unstable_cache(
         }
         
       } catch (error) {
-        // エラーは握りつぶす
+        console.error(`❌ fetchLeagueBaseInfo: リーグ ${id} でエラー:`, error);
       }
     }
     
+    console.log(`🔵 fetchLeagueBaseInfo: 完了 (${Object.keys(leagueInfos).length}件)`);
     return leagueInfos;
   },
   ['league-base-info'],
@@ -65,12 +72,15 @@ const fetchLeagueBaseInfo = unstable_cache(
 // 基本となるリーグデータを取得（キャッシュあり、自動拡張対応）
 const fetchLeagueData = unstable_cache(
   async () => {
+    console.log('🟢 fetchLeagueData: 開始');
     let { dateFrom, dateTo } = getDateRange();
+    console.log(`🟢 fetchLeagueData: 期間 ${dateFrom} - ${dateTo}`);
     let allLeagues: any[] = [];
 
     const leagues = await Promise.all(
       leagueIds.map(async (id) => {
         try {
+          console.log(`🟢 fetchLeagueData: リーグ ${id} の試合データを取得中...`);
           const res = await fetch(
             `https://api.football-data.org/v4/competitions/${id}/matches?season=2024&dateFrom=${dateFrom}&dateTo=${dateTo}`,
             {
@@ -81,15 +91,23 @@ const fetchLeagueData = unstable_cache(
             }
           );
 
+          console.log(`🟢 fetchLeagueData: リーグ ${id} のレスポンス: ${res.status}`);
+
           if (!res.ok) {
+            if (res.status === 429) {
+              console.error(`❌ レート制限エラー: リーグ ${id}`);
+            }
             return [];
           }
 
           const data: league = await res.json();
 
           if (!data.matches || !Array.isArray(data.matches)) {
+            console.log(`🟢 fetchLeagueData: リーグ ${id} は試合なし`);
             return [];
           }
+
+          console.log(`🟢 fetchLeagueData: リーグ ${id} の試合数: ${data.matches.length}`);
 
           return data.matches.map((match) => {
             const { date: matchDate, time: matchTime } = formatDateTime(
@@ -123,20 +141,25 @@ const fetchLeagueData = unstable_cache(
             };
           });
         } catch (error) {
+          console.error(`❌ fetchLeagueData: リーグ ${id} でエラー:`, error);
           return [];
         }
       })
     );
 
     allLeagues = leagues.flat();
+    console.log(`🟢 fetchLeagueData: 通常期間の試合数合計: ${allLeagues.length}`);
     
     // 試合が0件の場合のみ期間を2週間に拡張
     if (allLeagues.length === 0) {
+      console.log('🟡 fetchLeagueData: 試合0件のため期間を拡張');
       ({ dateFrom, dateTo } = getExtendedDateRange());
+      console.log(`🟡 fetchLeagueData: 拡張期間 ${dateFrom} - ${dateTo}`);
       
       const extendedLeagues = await Promise.all(
         leagueIds.map(async (id) => {
           try {
+            console.log(`🟡 fetchLeagueData: リーグ ${id} の拡張試合データを取得中...`);
             const res = await fetch(
               `https://api.football-data.org/v4/competitions/${id}/matches?season=2024&dateFrom=${dateFrom}&dateTo=${dateTo}`,
               {
@@ -147,7 +170,12 @@ const fetchLeagueData = unstable_cache(
               }
             );
 
+            console.log(`🟡 fetchLeagueData: リーグ ${id} の拡張レスポンス: ${res.status}`);
+
             if (!res.ok) {
+              if (res.status === 429) {
+                console.error(`❌ レート制限エラー(拡張): リーグ ${id}`);
+              }
               return [];
             }
 
@@ -156,6 +184,8 @@ const fetchLeagueData = unstable_cache(
             if (!data.matches || !Array.isArray(data.matches)) {
               return [];
             }
+
+            console.log(`🟡 fetchLeagueData: リーグ ${id} の拡張試合数: ${data.matches.length}`);
 
             return data.matches.map((match) => {
               const { date: matchDate, time: matchTime } = formatDateTime(
@@ -189,14 +219,17 @@ const fetchLeagueData = unstable_cache(
               };
             });
           } catch (error) {
+            console.error(`❌ fetchLeagueData: リーグ ${id} (拡張)でエラー:`, error);
             return [];
           }
         })
       );
 
       allLeagues = extendedLeagues.flat();
+      console.log(`🟡 fetchLeagueData: 拡張期間の試合数合計: ${allLeagues.length}`);
     }
 
+    console.log(`🟢 fetchLeagueData: 完了 (合計${allLeagues.length}試合)`);
     return sortMatchesByDateTime(allLeagues);
   },
   [generateDateBasedCacheKey()],
@@ -221,6 +254,7 @@ export const sortMatchesByDateTime = (matches: Match[]): Match[] => {
 
 // 試合の有無に関わらず全リーグを表示するための関数
 export const getLeagueByGroupWithAll = async () => {
+  console.log('⭐ getLeagueByGroupWithAll: 開始');
   const [matches, leagueBaseInfo] = await Promise.all([
     fetchLeagueData(),
     fetchLeagueBaseInfo()
@@ -263,11 +297,13 @@ export const getLeagueByGroupWithAll = async () => {
     league.matches = sortMatchesByDateTime(league.matches);
   });
 
+  console.log(`⭐ getLeagueByGroupWithAll: 完了 (${Object.keys(orderedGrouped).length}リーグ)`);
   return orderedGrouped;
 };
 
 // リーグごとの表示に必要なデータを取得（試合があるリーグのみ）
 export const getLeagueByGroup = async () => {
+  console.log('⭐ getLeagueByGroup: 開始');
   const matches = await fetchLeagueData();
 
   const grouped = matches.reduce((acc, match) => {
@@ -299,11 +335,14 @@ export const getLeagueByGroup = async () => {
     league.matches = sortMatchesByDateTime(league.matches);
   });
 
+  console.log(`⭐ getLeagueByGroup: 完了 (${Object.keys(orderedGrouped).length}リーグ)`);
   return orderedGrouped;
 };
 
 // 時間順に試合を取得する関数（キャッシュなし、fetchLeagueDataに依存）
 export const getLeagueMatchesByTime = async () => {
+  console.log('⭐ getLeagueMatchesByTime: 開始');
   const matches = await fetchLeagueData();
+  console.log(`⭐ getLeagueMatchesByTime: 完了 (${matches.length}試合)`);
   return matches;
 };
