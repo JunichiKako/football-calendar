@@ -28,15 +28,6 @@ export function getExtendedDateRange() {
   return { dateFrom, dateTo };
 }
 
-export function generateDateBasedCacheKey() {
-  const now = new Date();
-  const jstOffset = 9 * 60 * 60 * 1000;
-  const jstTime = new Date(now.getTime() + jstOffset);
-  const jstDate = jstTime.toISOString().split('T')[0];
-  
-  return `league-data-${jstDate}-v2`;
-}
-
 export function toJapaneseTime(date: string | Date) {
   return new Date(
     new Date(date).toLocaleString('en-US', { timeZone: 'Asia/Tokyo' })
