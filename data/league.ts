@@ -4,9 +4,9 @@ import { Match } from '@/types/match';
 import { leagueIds } from '@/data/leagueId';
 import { league } from '@/types/league';
 import { teamTranslations } from '@/data/translations';
-import getDateRange, { getExtendedDateRange, formatDateTime } from '@/utils/getDate';
+import getDateRange, { getExtendedDateRange, formatDateTime, getTodaysCacheKey } from '@/utils/getDate';
 
-type LeagueInfo ={
+type LeagueInfo = {
   id: number;
   name: string;
   emblem: string;
@@ -17,6 +17,7 @@ const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 async function fetchLeagueBaseInfo(): Promise<Record<number, LeagueInfo>> {
   console.log('🔵 fetchLeagueBaseInfo: 開始');
   const leagueInfos: Record<number, LeagueInfo> = {};
+  const todayKey = getTodaysCacheKey();
   
   for (let i = 0; i < leagueIds.length; i++) {
     const id = leagueIds[i];
@@ -32,7 +33,7 @@ async function fetchLeagueBaseInfo(): Promise<Record<number, LeagueInfo>> {
           },
           next: {
             revalidate: 604800,
-            tags: [`league-info-${id}`]
+            tags: [`league-info-${id}-${todayKey}`]
           }
         }
       );
@@ -63,13 +64,13 @@ async function fetchLeagueBaseInfo(): Promise<Record<number, LeagueInfo>> {
   return leagueInfos;
 }
 
-// React.cacheでキャッシュ（同一リクエスト内で1回だけ実行）
 const getCachedLeagueBaseInfo = cache(fetchLeagueBaseInfo);
 
 async function fetchLeagueData(): Promise<Match[]> {
   console.log('🟢 fetchLeagueData: 開始');
   let { dateFrom, dateTo } = getDateRange();
-  console.log(`🟢 fetchLeagueData: 期間 ${dateFrom} - ${dateTo}`);
+  const todayKey = getTodaysCacheKey();
+  console.log(`🟢 fetchLeagueData: 期間 ${dateFrom} - ${dateTo}, キャッシュキー: ${todayKey}`);
 
   const leagues = await Promise.all(
     leagueIds.map(async (id) => {
@@ -84,7 +85,7 @@ async function fetchLeagueData(): Promise<Match[]> {
             },
             next: {
               revalidate: 86400,
-              tags: [`league-matches-${id}`, 'league-matches']
+              tags: [`league-matches-${id}-${todayKey}`]
             }
           }
         );
@@ -172,7 +173,7 @@ async function fetchLeagueData(): Promise<Match[]> {
               },
               next: {
                 revalidate: 86400,
-                tags: [`league-matches-extended-${id}`, 'league-matches-extended']
+                tags: [`league-matches-extended-${id}-${todayKey}`]
               }
             }
           );
@@ -242,7 +243,6 @@ async function fetchLeagueData(): Promise<Match[]> {
   return sortMatchesByDateTime(allMatches);
 }
 
-// React.cacheでキャッシュ（同一リクエスト内で1回だけ実行）
 const getCachedLeagueData = cache(fetchLeagueData);
 
 export const sortMatchesByDateTime = (matches: Match[]): Match[] => {
