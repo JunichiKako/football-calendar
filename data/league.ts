@@ -12,53 +12,60 @@ type LeagueInfo = {
   emblem: string;
 }
 
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
 async function fetchLeagueBaseInfo(): Promise<Record<number, LeagueInfo>> {
   console.log('🔵 fetchLeagueBaseInfo: 開始');
-  const leagueInfos: Record<number, LeagueInfo> = {};
   const todayKey = getTodaysCacheKey();
   
-  for (let i = 0; i < leagueIds.length; i++) {
-    const id = leagueIds[i];
-    
-    try {
-      console.log(`🔵 fetchLeagueBaseInfo: リーグ ${id} を取得中...`);
-      const res = await fetch(
-        `https://api.football-data.org/v4/competitions/${id}`,
-        {
-          method: 'GET',
-          headers: {
-            'X-Auth-Token': process.env.FOOTBALL_API_KEY!,
-          },
-          next: {
-            revalidate: 604800,
-            tags: [`league-info-${id}-${todayKey}`]
+  const results = await Promise.allSettled(
+    leagueIds.map(async (id) => {
+      try {
+        console.log(`🔵 fetchLeagueBaseInfo: リーグ ${id} を取得中...`);
+        const res = await fetch(
+          `https://api.football-data.org/v4/competitions/${id}`,
+          {
+            method: 'GET',
+            headers: {
+              'X-Auth-Token': process.env.FOOTBALL_API_KEY!,
+            },
+            next: {
+              revalidate: 604800,
+              tags: [`league-info-${id}-${todayKey}`]
+            }
           }
+        );
+
+        console.log(`🔵 fetchLeagueBaseInfo: リーグ ${id} のレスポンス: ${res.status}`);
+
+        if (res.ok) {
+          const data = await res.json();
+          return {
+            id,
+            info: {
+              id: data.id,
+              name: data.name,
+              emblem: data.emblem,
+            }
+          };
+        } else if (res.status === 429) {
+          console.error(`❌ レート制限エラー: リーグ ${id}`);
+          return null;
         }
-      );
-
-      console.log(`🔵 fetchLeagueBaseInfo: リーグ ${id} のレスポンス: ${res.status}`);
-
-      if (res.ok) {
-        const data = await res.json();
-        leagueInfos[id] = {
-          id: data.id,
-          name: data.name,
-          emblem: data.emblem,
-        };
-      } else if (res.status === 429) {
-        console.error(`❌ レート制限エラー: リーグ ${id}`);
+        return null;
+      } catch (error) {
+        console.error(`❌ fetchLeagueBaseInfo: リーグ ${id} でエラー:`, error);
+        return null;
       }
+    })
+  );
 
-      if (i < leagueIds.length - 1) {
-        await delay(6000);
-      }
-      
-    } catch (error) {
-      console.error(`❌ fetchLeagueBaseInfo: リーグ ${id} でエラー:`, error);
+  const leagueInfos: Record<number, LeagueInfo> = {};
+  
+  results.forEach((result) => {
+    if (result.status === 'fulfilled' && result.value) {
+      const { id, info } = result.value;
+      leagueInfos[id] = info;
     }
-  }
+  });
   
   console.log(`🔵 fetchLeagueBaseInfo: 完了 (${Object.keys(leagueInfos).length}件)`);
   return leagueInfos;
