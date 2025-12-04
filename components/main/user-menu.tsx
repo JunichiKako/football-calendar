@@ -1,8 +1,8 @@
 import { signInWithGoogle, signOutWithGoogle } from '@/actions/auth';
 import { Button } from '../ui/button';
 import Link from 'next/link';
-import { Calendar, CreditCard } from 'lucide-react';
-import { createPortalSession } from '@/actions/stripe';
+import { Calendar } from 'lucide-react';
+// import { createPortalSession } from '@/actions/stripe';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,11 +23,11 @@ export default async function UserMenu() {
         <div className='flex items-center gap-3'>
           {/* lg以上の画面幅でプランとカレンダーリンクを表示 */}
           <div className='hidden lg:block'>
-            <Button variant='ghost' className='text-white' asChild>
+            {/* <Button variant='ghost' className='text-white' asChild>
               <Link href='/plan' className='flex items-center gap-2'>
                 プラン
               </Link>
-            </Button>
+            </Button> */}
             <Button variant='ghost' className='text-white' asChild>
               <Link href='/?view=calendar' className='flex items-center gap-2'>
                 <Calendar className='h-4 w-4' />
@@ -49,9 +49,9 @@ export default async function UserMenu() {
             <DropdownMenuContent align='end'>
               {/* lg未満の画面幅でプランとカレンダーリンクをドロップダウンに表示 */}
               <div className='lg:hidden'>
-                <DropdownMenuItem asChild>
+                {/* <DropdownMenuItem asChild>
                   <Link href='/plan'>プラン</Link>
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
                 <DropdownMenuItem asChild>
                   <Link
                     href='/?view=calendar'
@@ -63,12 +63,12 @@ export default async function UserMenu() {
                 </DropdownMenuItem>
               </div>
               <DropdownMenuItem>
-                <form action={createPortalSession} className='w-full'>
+                {/* <form action={createPortalSession} className='w-full'>
                   <button className='w-full text-left flex items-center gap-2'>
                     <CreditCard className='h-4 w-4' />
                     サブスクリプション管理
                   </button>
-                </form>
+                </form> */}
               </DropdownMenuItem>
               <div className='lg:hidden'>
                 <ThemeMenu />
@@ -89,11 +89,11 @@ export default async function UserMenu() {
               ログイン
             </Button>
           </form>
-          <Link href='plan'>
+          {/* <Link href='plan'>
             <Button variant='ghost' className='text-white' asChild>
               プラン
             </Button>
-          </Link>
+          </Link> */}
         </div>
       )}
     </div>

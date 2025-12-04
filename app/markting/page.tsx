@@ -58,9 +58,9 @@ export default function Home() {
               <Link href='/'>無料で試してみる</Link>
               <Calendar className='ml-2 h-5 w-5' />
             </Button>
-            <Button size='lg' variant='outline' className='text-lg px-8 py-6'>
+            {/* <Button size='lg' variant='outline' className='text-lg px-8 py-6'>
               <Link href='/plan'>詳しく見る</Link>
-            </Button>
+            </Button> */}
           </div>
 
           {/* Leagues */}

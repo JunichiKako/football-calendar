@@ -69,18 +69,18 @@ export async function addGoogleCalendar(
 
     if (limitError) throw new Error('ユーザー情報の取得に失敗しました');
 
-    // カレンダーAPIの制限に達した場合、/planにリダイレクト
-    if (
-      userData.calendar_api_calls_count >= userData.calendar_api_calls_limit
-    ) {
-      if (userData.subscription_plan === 'free') {
-        return {
-          error: 'Googleカレンダー追加の制限に達しました',
-          redirect: '/plan',
-        };
-      }
-      throw new Error('今月のカレンダーAPI利用制限に達しました');
-    }
+    // // カレンダーAPIの制限に達した場合、/planにリダイレクト
+    // if (
+    //   userData.calendar_api_calls_count >= userData.calendar_api_calls_limit
+    // ) {
+    //   if (userData.subscription_plan === 'free') {
+    //     return {
+    //       error: 'Googleカレンダー追加の制限に達しました',
+    //       redirect: '/plan',
+    //     };
+    //   }
+    //   throw new Error('今月のカレンダーAPI利用制限に達しました');
+    // }
 
     // Football Tableという名前のカレンダーが存在するか確認
     const calendarList = await calendarListResponse.json();
