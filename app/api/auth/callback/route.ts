@@ -1,8 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
-import Stripe from 'stripe';
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
@@ -23,38 +20,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(`${origin}/auth/auth-code-error`);
   }
 
-  // Stripe Customer作成のみ行い、DBへの保存はWebhookに任せる
-  // Stripe Customer作成前に既存の顧客をチェック
-  try {
-    // 既存の顧客を検索
-    const existingCustomers = await stripe.customers.list({
-      email: authData.user.email,
-      limit: 1,
-    });
-
-    if (existingCustomers.data.length > 0) {
-      console.log('Existing customer found:', existingCustomers.data[0].id);
-      // 既存の顧客が見つかった場合は新規作成をスキップ
-    } else {
-      // 新規顧客を作成
-      const customer = await stripe.customers.create({
-        email: authData.user.email ?? undefined,
-        metadata: {
-          supabase_uid: authData.user.id,
-        },
-      });
-      console.log('New customer created:', customer.id);
-    }
-  } catch (error) {
-    console.error('Stripe customer operation error:', error);
-    if (error instanceof Stripe.errors.StripeError) {
-      console.error('Stripe error details:', {
-        type: error.type,
-        code: error.code,
-        message: error.message,
-      });
-    }
-  }
+  // Stripe連携は休止中のため顧客作成処理をスキップ
 
   // リダイレクト処理
   const cleanRedirect = (baseUrl: string) => {
