@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(getURL()),
   title: {
     default: APP_NAME,
-    template: '%s | Football Table',
+    template: '%s | Football Calendar',
   },
   description:
     '各国のサッカーリーグのスケジュールを一括で確認できるサイトです。',

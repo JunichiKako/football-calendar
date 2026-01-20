@@ -18,7 +18,7 @@ export default async function Header() {
       </Suspense>
       <Button variant='ghost' className='-ml-2 text-lg' asChild>
         <Link href='/?view=league' className='ms-2 font-semibold text-white'>
-          Football Table
+          Football Calendar
         </Link>
       </Button>
       <span className='flex-1'></span>
