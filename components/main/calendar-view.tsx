@@ -13,9 +13,10 @@ import {
 } from '@/components/ui/calendar';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Match } from '@/types/match';
-import { CalendarSubmitBtn } from './calendar-submit-btn';
-import { createClient } from '@/lib/supabase/server';
-import { currentUser } from '@/data/auth';
+// ログイン機能を一時的に無効化
+// import { CalendarSubmitBtn } from './calendar-submit-btn';
+// import { createClient } from '@/lib/supabase/server';
+// import { currentUser } from '@/data/auth';
 
 type CalendarViewProps = {
   groupedLeagues: {
@@ -33,31 +34,27 @@ export default async function CalendarView({
   groupedLeagues,
   allSubmitMatches,
 }: CalendarViewProps) {
-  // サーバーサイドでユーザープランを取得
-  let userPlan: 'free' | 'pro' = 'free'; // デフォルト値
-
-  try {
-    const user = await currentUser();
-    if (user) {
-      const supabase = await createClient();
-
-      const { data } = await supabase
-        .from('users')
-        .select('subscription_plan')
-        .eq('user_id', user.id)
-        .single();
-
-      if (
-        data &&
-        (data.subscription_plan === 'free' || data.subscription_plan === 'pro')
-      ) {
-        userPlan = data.subscription_plan;
-      }
-    }
-  } catch (error) {
-    console.error('Failed to fetch user plan:', error);
-    // エラーが発生した場合でもデフォルト値の'free'を使用
-  }
+  // ログイン機能を一時的に無効化
+  // let userPlan: 'free' | 'pro' = 'free';
+  // try {
+  //   const user = await currentUser();
+  //   if (user) {
+  //     const supabase = await createClient();
+  //     const { data } = await supabase
+  //       .from('users')
+  //       .select('subscription_plan')
+  //       .eq('user_id', user.id)
+  //       .single();
+  //     if (
+  //       data &&
+  //       (data.subscription_plan === 'free' || data.subscription_plan === 'pro')
+  //     ) {
+  //       userPlan = data.subscription_plan;
+  //     }
+  //   }
+  // } catch (error) {
+  //   console.error('Failed to fetch user plan:', error);
+  // }
 
   // 全てのデータを含むgroupedLeaguesから、allSubmitMatchesに含まれる試合のみを抽出してイベントに合うように整形
   const selectedMatchData = Object.values(groupedLeagues)
@@ -122,12 +119,12 @@ export default async function CalendarView({
           <CalendarMonthView />
           <CalendarYearView />
         </div>
-        {/* Google calendarに追加するボタン */}
-        <CalendarSubmitBtn
+        {/* Google calendarに追加するボタン - ログイン機能を一時的に無効化 */}
+        {/* <CalendarSubmitBtn
           events={events}
           disabled={events.length === 0}
           userPlan={userPlan}
-        />
+        /> */}
       </div>
     </Calendar>
   );

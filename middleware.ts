@@ -1,25 +1,14 @@
-import { type NextRequest } from 'next/server';
-import { NextResponse } from 'next/server';
-import { updateSession } from '@/lib/supabase/middleware';
+import { type NextRequest, NextResponse } from 'next/server';
+// ログイン機能を一時的に無効化
+// import { updateSession } from '@/lib/supabase/middleware';
 
 export async function middleware(request: NextRequest) {
-  // リクエストURLの確認（デバッグ用）
-  console.log('Middleware入口URL:', request.nextUrl.toString());
-  console.log(
-    'クエリパラメータ:',
-    Object.fromEntries(request.nextUrl.searchParams)
-  );
-
-  // 認証処理を実行しつつ、URLパラメータを保持
-  const response = await updateSession(request);
-
-  // 処理後のレスポンスを確認（デバッグ用）
-  console.log('Middleware出口処理完了');
-
-  return response;
+  // 認証処理を一時的に無効化 - 単純にパススルー
+  // const response = await updateSession(request);
+  // return response;
+  return NextResponse.next();
 }
 
-// マッチャーを簡略化
 export const config = {
   matcher: [
     {
