@@ -13,11 +13,23 @@ const notoSansJP = Noto_Sans_JP({ subsets: ['latin'] });
 export const metadata: Metadata = {
   metadataBase: new URL(getURL()),
   title: {
-    default: APP_NAME,
+    default: 'サッカー試合日程・放送予定 | Football Calendar',
     template: '%s | Football Calendar',
   },
   description:
-    '各国のサッカーリーグのスケジュールを一括で確認できるサイトです。',
+    'プレミアリーグ、ラ・リーガ、セリエA、ブンデスリーガ、リーグ・アン、チャンピオンズリーグの試合日程と放送予定を一覧で確認。今日・今週の試合がすぐわかる。',
+  keywords: ['サッカー', '試合日程', 'プレミアリーグ', 'ラリーガ', 'セリエA', 'ブンデスリーガ', 'リーグアン', 'チャンピオンズリーグ', '放送予定', 'DAZN', 'U-NEXT', 'WOWOW'],
+  openGraph: {
+    title: 'サッカー試合日程・放送予定 | Football Calendar',
+    description: '欧州サッカーの試合日程と放送予定を一覧で確認',
+    type: 'website',
+    locale: 'ja_JP',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'サッカー試合日程・放送予定',
+    description: '欧州サッカーの試合日程と放送予定を一覧で確認',
+  },
   verification: {
     google: process.env.GOOGLE_SEARCH_CONSOLE_ID,
   },
