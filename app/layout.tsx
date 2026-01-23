@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   },
   description:
     '各国のサッカーリーグのスケジュールを一括で確認できるサイトです。',
+  verification: {
+    google: process.env.GOOGLE_SEARCH_CONSOLE_ID,
+  },
 };
 
 export default async function RootLayout({
