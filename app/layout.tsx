@@ -6,6 +6,7 @@ import { ThemeProvider } from '../components/theme-provider';
 import './globals.css';
 import { APP_NAME } from '@/config';
 import { Toaster } from '@/components/ui/toaster';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const notoSansJP = Noto_Sans_JP({ subsets: ['latin'] });
 
@@ -28,6 +29,9 @@ export default async function RootLayout({
 
       <html lang='ja' suppressHydrationWarning>
         <body className={cn(notoSansJP.className)}>
+          {process.env.NEXT_PUBLIC_GA_ID && (
+            <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+          )}
           <ThemeProvider
             attribute='class'
             defaultTheme='system'
