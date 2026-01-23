@@ -4,7 +4,8 @@ import Link from 'next/link';
 import MobileNav from './mobile-nav';
 import { ModeToggle } from './mode-toggle';
 import UserMenu from './main/user-menu';
-import LegalMenu from './legal-menu';
+// ログイン機能無効化に伴い一時的に非表示
+// import LegalMenu from './legal-menu';
 import { Suspense } from 'react';
 
 export default async function Header() {
@@ -26,7 +27,7 @@ export default async function Header() {
       <div className='hidden lg:block'>
         <ModeToggle />
       </div>
-      <LegalMenu />
+      {/* <LegalMenu /> */}
     </header>
   );
 }
