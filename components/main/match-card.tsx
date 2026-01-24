@@ -23,11 +23,20 @@ export default function MatchCard({ matches }: MatchProps) {
         return (
           <div
             key={match.matchId}
-            className='p-3 shadow-lg rounded-lg border'
+            className='p-3 shadow-lg rounded-lg border relative'
           >
-            <div className='flex justify-between items-center mb-1'>
-              <div className='flex gap-1'>
-                {showBadges && services.map((service) => (
+            <a
+              href={generateMatchCalendarUrl(match)}
+              target='_blank'
+              rel='noopener noreferrer'
+              className='absolute -top-2 -right-2 p-1.5 bg-background border rounded-full shadow-sm hover:bg-accent transition-colors'
+              title='Googleカレンダーに追加'
+            >
+              <CalendarPlus className='size-3.5 text-muted-foreground hover:text-foreground' />
+            </a>
+            {showBadges && services.length > 0 && (
+              <div className='flex gap-1 mb-1'>
+                {services.map((service) => (
                   <span
                     key={service}
                     className={`text-[10px] px-1.5 py-0.5 rounded ${STREAMING_COLORS[service]}`}
@@ -36,23 +45,14 @@ export default function MatchCard({ matches }: MatchProps) {
                   </span>
                 ))}
               </div>
-              <a
-                href={generateMatchCalendarUrl(match)}
-                target='_blank'
-                rel='noopener noreferrer'
-                className='p-1 hover:bg-accent rounded transition-colors'
-                title='Googleカレンダーに追加'
-              >
-                <CalendarPlus className='size-3.5 text-muted-foreground hover:text-foreground' />
-              </a>
-            </div>
+            )}
             <div className='flex justify-between items-center'>
               <div className='flex-1 space-y-3'>
                 <TeamLabel imageURL={match.homeEmblemUrl} name={match.home} />
                 <TeamLabel imageURL={match.awayEmblemUrl} name={match.away} />
               </div>
               <div className='border-l-2 border-border h-10'></div>
-              <div className='flex justify-center pl-4 flex-col items-center'>
+              <div className='pl-4 flex flex-col items-center'>
                 <div className='text-sm font-semibold mb-0.5'>
                   {match.matchDate}
                 </div>
