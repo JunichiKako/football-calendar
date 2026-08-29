@@ -15,7 +15,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
         <main
           data-calendar-view
-          className='pt-8 pb-4 px-4 lg:px-10 flex-1 overflow-auto'
+          className='pt-5 pb-4 px-4 lg:px-10 flex-1 overflow-auto'
         >
           {children}
           <Footer />

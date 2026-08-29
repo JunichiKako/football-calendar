@@ -54,7 +54,7 @@ export default async function LeagueList({
 
   return (
     <>
-      <div className='border-b pb-4 pt-4 mb-8 flex flex-wrap items-center justify-between gap-3'>
+      <div className='border-b mb-8 flex flex-wrap items-center justify-between gap-3 min-h-[60px]'>
         <p className='text-md'>リーグ別</p>
         <RangeToggle
           range={range}
