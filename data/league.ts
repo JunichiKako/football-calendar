@@ -27,6 +27,8 @@ type SnapshotMatch = {
   id: number;
   utcDate: string;
   status: string;
+  /** ICS配信用の更新回数。fetch-snapshot.mjs が前回と比較して採番する */
+  seq?: number;
   home: string | null;
   homeCrest: string | null;
   away: string | null;
@@ -43,6 +45,12 @@ const snapshot = snapshotJson as Snapshot;
 
 /** スナップショットの取得時刻。「いつ時点の情報か」を画面に出すために使う */
 export const getFetchedAt = () => snapshot.fetchedAt;
+
+/** ICS配信用。中止した試合も含めてリーグの全試合をそのまま返す */
+export function getFeedMatches(leagueId: number): SnapshotMatch[] {
+  return snapshot.leagues.find((league) => league.id === leagueId)?.matches ?? [];
+}
+
 
 /** 試合が存在する月の一覧(YYYY-MM)。月別表示の選択肢に使う */
 export const getAvailableMonths = cache((): string[] => {

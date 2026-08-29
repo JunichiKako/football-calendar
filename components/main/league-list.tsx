@@ -2,6 +2,10 @@ import { getAvailableMonths, getLeagueByGroup, type Range } from '@/data/league'
 import { cn } from '@/lib/utils';
 import { rangeLabel } from '@/utils/range-label';
 import RangeToggle, { type PageParams } from './range-toggle';
+import SubscribeButton from './subscribe-button';
+import { leagues } from '@/data/leagueId';
+import { getURL } from '@/utils/getURL';
+import { feedUrlFor } from '@/utils/feed-url';
 import Image from 'next/image';
 import MatchCard from './match-card';
 
@@ -31,6 +35,11 @@ export default async function LeagueList({
   // ここで一括してリーグでグループ化されたリーグデータを取得する
   const leagueGroup = await getLeagueByGroup(range);
 
+  // 2つ以上のリーグを選んでいるときだけ、まとめた購読URLを出す。
+  // 1つだけならリーグ見出しの購読ボタンと同じになるので出さない。
+  const selectedFeed =
+    selectedLeagues.length > 1 ? feedUrlFor(getURL(), selectedLeagues) : null;
+
   // サイドバーで選択されたリーグがあれば、選択されたリーグだけを表示する関数。なければ全てのリーグを表示
   const filteredLeagues =
     selectedLeagues.length > 0
@@ -51,12 +60,24 @@ export default async function LeagueList({
     <>
       <div className='border-b mb-8 flex flex-wrap items-center justify-between gap-3 min-h-[60px]'>
         <p className='text-md'>リーグ別</p>
-        <RangeToggle
-          range={range}
-          months={getAvailableMonths()}
-          weekLabel={rangeLabel({ kind: 'week' })}
-          params={params}
-        />
+        <div className='flex items-center gap-2 flex-wrap justify-end'>
+          {/* リーグを絞り込んでいるときは、その組み合わせをまとめて購読できる。
+              期間の絞り込みは反映しない。購読は貼りっぱなしで使うものなので、
+              月で絞ると翌月から空になってしまうため。 */}
+          {selectedFeed && (
+            <SubscribeButton
+              leagueLabel={selectedFeed.label}
+              feedUrl={selectedFeed.url}
+              label={`選択中の${selectedLeagues.length}リーグを購読`}
+            />
+          )}
+          <RangeToggle
+            range={range}
+            months={getAvailableMonths()}
+            weekLabel={rangeLabel({ kind: 'week' })}
+            params={params}
+          />
+        </div>
       </div>
 
       {!hasAnyMatches ? (
@@ -66,6 +87,7 @@ export default async function LeagueList({
           {Object.entries(filteredLeagues).map(([leagueName, league]) => {
             const isPremierLeague = leagueName === 'Premier League';
             const isChampionsLeague = leagueName === 'UEFA Champions League';
+            const leagueDef = leagues.find((l) => l.id === league.leagueId);
             return (
               <div key={leagueName}>
                 <div className='flex items-center justify-between mb-8'>
@@ -84,6 +106,12 @@ export default async function LeagueList({
                       <h2 className='text-lg font-bold'>{league.leagueName}</h2>
                     </div>
                   </div>
+                  {leagueDef && (
+                    <SubscribeButton
+                      leagueLabel={leagueDef.labelJa}
+                      feedUrl={`${getURL()}/calendar/${leagueDef.slug}.ics`}
+                    />
+                  )}
                 </div>
                 <MatchCard matches={league.matches} />
               </div>
