@@ -10,6 +10,18 @@ import {
   getLeagueDefault
 } from '@/utils/streaming';
 
+// 試合がない場合のメッセージ
+function NoMatchesMessage() {
+  return (
+    <div className='py-8 px-4 text-center'>
+      <h2 className='text-xl font-semibold mb-2'>
+        この期間のスケジュールでは試合情報がありません。
+      </h2>
+      <p className='text-gray-600'>リーグが再開するのをお待ちください。</p>
+    </div>
+  );
+}
+
 type LeagueListProps = {
   selectedLeagues: string[];
 };
@@ -39,16 +51,6 @@ export default async function LeagueList({
   const { dateFrom, dateTo } = getDateRange();
   // 表示用に日付を整形
   const { displayFrom, displayTo } = formatDateForDisplay(dateFrom, dateTo);
-
-  // 試合がない場合のメッセージコンポーネント
-  const NoMatchesMessage = () => (
-    <div className='py-8 px-4 text-center'>
-      <h2 className='text-xl font-semibold mb-2'>
-        この期間のスケジュールでは試合情報がありません。
-      </h2>
-      <p className='text-gray-600'>リーグが再開するのをお待ちください。</p>
-    </div>
-  );
 
   return (
     <>

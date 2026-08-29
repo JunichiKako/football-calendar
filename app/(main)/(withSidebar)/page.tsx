@@ -44,7 +44,9 @@ export async function generateMetadata({ searchParams }: HomeParamsProps): Promi
   const league = leaguesParam ? decodeURIComponent(leaguesParam) : '';
 
   // リーグ指定がある場合はリーグ専用メタデータ
-  if (league && leagueMetadata[league]) {
+  // Object.hasOwn を使わないと 'constructor' 等のプロトタイプ由来のキーが
+  // truthy になり、title が undefined のメタデータを返してしまう
+  if (league && Object.hasOwn(leagueMetadata, league)) {
     return {
       title: leagueMetadata[league].title,
       description: leagueMetadata[league].description,

@@ -5,6 +5,18 @@ import { Calendar } from 'lucide-react';
 import TimeMatchGroup from './time-match-group';
 import { groupMatchesByLeague } from '@/utils/group-matches';
 
+// 試合がない場合のメッセージ
+function NoMatchesMessage() {
+  return (
+    <div className='py-8 px-4 text-center'>
+      <h2 className='text-xl font-semibold mb-2'>
+        この期間のスケジュールでは試合情報がありません。
+      </h2>
+      <p className='text-gray-600'>リーグが再開するのをお待ちください。</p>
+    </div>
+  );
+}
+
 type TimeScheduleListProps = {
   selectedLeagues: string[];
 };
@@ -30,16 +42,6 @@ export default async function TimeScheduleList({
   // 日付の範囲を取得と表示用のフォーマット
   const { dateFrom, dateTo } = getDateRange();
   const { displayFrom, displayTo } = formatDateForDisplay(dateFrom, dateTo);
-
-  // 試合がない場合のメッセージコンポーネント
-  const NoMatchesMessage = () => (
-    <div className='py-8 px-4 text-center'>
-      <h2 className='text-xl font-semibold mb-2'>
-        この期間のスケジュールでは試合情報がありません。
-      </h2>
-      <p className='text-gray-600'>リーグが再開するのをお待ちください。</p>
-    </div>
-  );
 
   return (
     <>
