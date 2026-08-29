@@ -6,6 +6,8 @@ import SubscribeButton from './subscribe-button';
 import { leagues } from '@/data/leagueId';
 import { getURL } from '@/utils/getURL';
 import { feedUrlFor } from '@/utils/feed-url';
+import FavoriteTeams from './favorite-teams';
+import { getTeamsByLeague } from '@/data/league';
 import Image from 'next/image';
 import MatchCard from './match-card';
 
@@ -61,6 +63,7 @@ export default async function LeagueList({
       <div className='border-b mb-8 flex flex-wrap items-center justify-between gap-3 min-h-[60px]'>
         <p className='text-md'>リーグ別</p>
         <div className='flex items-center gap-2 flex-wrap justify-end'>
+          <FavoriteTeams groups={getTeamsByLeague()} baseUrl={getURL()} />
           {/* リーグを絞り込んでいるときは、その組み合わせをまとめて購読できる。
               期間の絞り込みは反映しない。購読は貼りっぱなしで使うものなので、
               月で絞ると翌月から空になってしまうため。 */}
@@ -89,7 +92,7 @@ export default async function LeagueList({
             const isChampionsLeague = leagueName === 'UEFA Champions League';
             const leagueDef = leagues.find((l) => l.id === league.leagueId);
             return (
-              <div key={leagueName}>
+              <div key={leagueName} data-league-section>
                 <div className='flex items-center justify-between mb-8'>
                   <div className='inline-block'>
                     <div className='py-2 rounded-md flex items-center'>

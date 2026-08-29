@@ -15,6 +15,11 @@ export default function MatchCard({ matches }: MatchProps) {
         return (
           <div
             key={match.matchId}
+            // お気に入り絞り込みはCSSの属性セレクタで行う。
+            // localStorage の値はサーバーで分からないため、サーバー描画した
+            // カードをクライアント側で隠す形にしている。
+            data-match
+            data-team={[match.homeId, match.awayId].filter(Boolean).join(' ')}
             className='p-3 shadow-lg rounded-lg border relative'
           >
             <a

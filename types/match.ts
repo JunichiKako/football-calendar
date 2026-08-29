@@ -22,8 +22,10 @@ export type Match = {
   matchTime: string | null;
   /** utcDate の時刻部分が未確定かどうか */
   timeUndecided: boolean;
+  homeId: number | null;
   home: string;
   homeEmblemUrl: string;
+  awayId: number | null;
   away: string;
   awayEmblemUrl: string;
 };

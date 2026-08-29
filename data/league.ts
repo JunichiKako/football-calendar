@@ -27,6 +27,8 @@ type SnapshotMatch = {
   id: number;
   utcDate: string;
   status: string;
+  homeId?: number | null;
+  awayId?: number | null;
   /** ICS配信用の更新回数。fetch-snapshot.mjs が前回と比較して採番する */
   seq?: number;
   home: string | null;
@@ -46,11 +48,71 @@ const snapshot = snapshotJson as Snapshot;
 /** スナップショットの取得時刻。「いつ時点の情報か」を画面に出すために使う */
 export const getFetchedAt = () => snapshot.fetchedAt;
 
+export type TeamOption = { id: number; name: string; crest: string };
+
+/** お気に入り選択用。スナップショットに登場する全チームをリーグごとに返す */
+export const getTeamsByLeague = cache((): { league: string; teams: TeamOption[] }[] =>
+  snapshot.leagues.map((league) => {
+    const byId = new Map<number, TeamOption>();
+    for (const match of league.matches) {
+      if (match.homeId && match.home) {
+        byId.set(match.homeId, {
+          id: match.homeId,
+          name: teamTranslations[match.home] ?? match.home,
+          crest: match.homeCrest ?? '',
+        });
+      }
+      if (match.awayId && match.away) {
+        byId.set(match.awayId, {
+          id: match.awayId,
+          name: teamTranslations[match.away] ?? match.away,
+          crest: match.awayCrest ?? '',
+        });
+      }
+    }
+    return {
+      league: leagues.find((l) => l.id === league.id)?.labelJa ?? league.name,
+      teams: [...byId.values()].sort((a, b) => a.name.localeCompare(b.name, 'ja')),
+    };
+  }).filter((group) => group.teams.length > 0)
+);
+
 /** ICS配信用。中止した試合も含めてリーグの全試合をそのまま返す */
 export function getFeedMatches(leagueId: number): SnapshotMatch[] {
   return snapshot.leagues.find((league) => league.id === leagueId)?.matches ?? [];
 }
 
+/** ICS配信用。指定チームが関わる試合を、所属リーグの情報つきで返す */
+export function getFeedMatchesByTeams(
+  teamIds: number[]
+): { match: SnapshotMatch; leagueId: number }[] {
+  const wanted = new Set(teamIds);
+  return snapshot.leagues.flatMap((league) =>
+    league.matches
+      .filter(
+        (match) =>
+          (match.homeId != null && wanted.has(match.homeId)) ||
+          (match.awayId != null && wanted.has(match.awayId))
+      )
+      .map((match) => ({ match, leagueId: league.id }))
+  );
+}
+
+/** チームIDから日本語名を引く。ICSのカレンダー名に使う */
+export const getTeamNames = cache((): Map<number, string> => {
+  const names = new Map<number, string>();
+  for (const league of snapshot.leagues) {
+    for (const match of league.matches) {
+      if (match.homeId && match.home) {
+        names.set(match.homeId, teamTranslations[match.home] ?? match.home);
+      }
+      if (match.awayId && match.away) {
+        names.set(match.awayId, teamTranslations[match.away] ?? match.away);
+      }
+    }
+  }
+  return names;
+});
 
 /** 試合が存在する月の一覧(YYYY-MM)。月別表示の選択肢に使う */
 export const getAvailableMonths = cache((): string[] => {
@@ -93,8 +155,10 @@ function toMatch(
     matchDate: formatMatchDate(raw.utcDate, undecided),
     matchTime: undecided ? null : formatMatchTime(raw.utcDate),
     timeUndecided: undecided,
+    homeId: raw.homeId ?? null,
     home: teamTranslations[home] ?? home,
     homeEmblemUrl: raw.homeCrest ?? '',
+    awayId: raw.awayId ?? null,
     away: teamTranslations[away] ?? away,
     awayEmblemUrl: raw.awayCrest ?? '',
   };
