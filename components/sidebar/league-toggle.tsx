@@ -18,9 +18,10 @@ export default function LeagueToggle() {
   };
 
   return (
-    <div className='grid grid-cols-2 gap-2 pt-4'>
+    <div className='grid gap-1.5'>
       <Button
         variant={currentView !== 'league' ? 'outline' : 'default'}
+        size='sm'
         asChild
       >
         <Link
@@ -30,7 +31,11 @@ export default function LeagueToggle() {
           リーグ別
         </Link>
       </Button>
-      <Button variant={currentView !== 'time' ? 'outline' : 'default'} asChild>
+      <Button
+        variant={currentView !== 'time' ? 'outline' : 'default'}
+        size='sm'
+        asChild
+      >
         <Link
           href={createUrlWithView('time')}
           className={cn(currentView !== 'time' && 'opacity-50')}

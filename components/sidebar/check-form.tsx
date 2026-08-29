@@ -92,8 +92,8 @@ export function CheckForm({
         const league = leagueByGroup[leagueName];
 
         return (
-          <div key={league.leagueId} className='p-2 rounded-lg cursor-pointer'>
-            <label className='cursor-pointer transition hover:bg-gray-200 dark:hover:bg-accent p-2 rounded-lg opacity-50 border border-transparent has-[:checked]:border-[#005C69] has-[:checked]:bg-[#005C69] dark:has-[:checked]:border-[#445E93] dark:has-[:checked]:bg-[#445E93] has-[:checked]:text-white has-[:checked]:opacity-100 flex items-center gap-3'>
+          <div key={league.leagueId} className='cursor-pointer'>
+            <label className='cursor-pointer transition hover:bg-gray-200 dark:hover:bg-accent p-2.5 rounded-lg opacity-50 border border-transparent has-[:checked]:border-[#005C69] has-[:checked]:bg-[#005C69] dark:has-[:checked]:border-[#445E93] dark:has-[:checked]:bg-[#445E93] has-[:checked]:text-white has-[:checked]:opacity-100 flex items-center gap-2.5'>
               <input
                 type='checkbox'
                 value={leagueName}
@@ -101,17 +101,15 @@ export function CheckForm({
                 onChange={() => handleLeagueToggle(leagueName)}
                 className='hidden'
               />
-              <div className='size-10 bg-white rounded-lg grid place-items-center'>
+              <div className='size-10 shrink-0 bg-white rounded-lg grid place-items-center'>
                 <Image
                   src={league.leagueImg}
                   alt={league.leagueName}
-                  width={32}
-                  height={32}
+                  width={30}
+                  height={30}
                 />
               </div>
-              <div className='flex flex-col'>
-                <p>{league.leagueName}</p>
-              </div>
+              <p className='text-[15px] leading-tight'>{league.leagueName}</p>
             </label>
           </div>
         );

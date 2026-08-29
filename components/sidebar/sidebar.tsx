@@ -9,12 +9,12 @@ export default async function Sidebar() {
   const allLeaguesByGroup = await getLeagueByGroupWithAll({ kind: 'all' });
 
   return (
-    <aside className='border-r w-80 p-6 bg-muted/20 h-full' data-calendar-hide>
+    <aside className='border-r w-72 p-5 bg-muted/20 h-full' data-calendar-hide>
       <div className='sticky top-20'>
         <Suspense>
           <CheckForm leagueByGroup={allLeaguesByGroup} />
         </Suspense>
-        <div className='mt-14'>
+        <div className='mt-10'>
           <Suspense>
             <LeagueToggle />
           </Suspense>
