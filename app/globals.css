@@ -104,3 +104,13 @@ main[data-calendar-view='true'] {
     line-height: 1.2;
   }
 }
+
+/*
+  全日程表示では試合カードが1700枚を超える。画面外のカードはレイアウトも
+  描画もスキップさせる。contain-intrinsic-size で高さを予約しておかないと
+  スクロールバーが伸縮するため、実測のカード高さを指定する。
+*/
+[data-match] {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 108px;
+}
