@@ -4,8 +4,6 @@ import getDateRange, { formatDateForDisplay } from '@/utils/getDate';
 import { Calendar } from 'lucide-react';
 import Image from 'next/image';
 import MatchCard from './match-card';
-import SelectedMatchCard from './selected-match-card';
-import { currentUser } from '@/data/auth';
 import {
   STREAMING_LABELS,
   STREAMING_COLORS,
@@ -14,17 +12,13 @@ import {
 
 type LeagueListProps = {
   selectedLeagues: string[];
-  selectedMatches: string[];
 };
 
 export default async function LeagueList({
   selectedLeagues,
-  selectedMatches,
 }: LeagueListProps) {
   // ここで一括してリーグでグループ化されたリーグデータを取得する
   const leagueGroup = await getLeagueByGroup();
-  // userの有無で表示を変える
-  const user = await currentUser();
 
   // サイドバーで選択されたリーグがあれば、選択されたリーグだけを表示する関数。なければ全てのリーグを表示
   const filteredLeagues =
@@ -56,7 +50,6 @@ export default async function LeagueList({
     </div>
   );
 
-  // ユーザーがいれば選択できる試合のコンポーネント/なければ試合情報だけを見れるコンポーネントを表示
   return (
     <>
       <div className='border-b pb-4 pt-4 mb-8 flex justify-between'>
@@ -69,11 +62,6 @@ export default async function LeagueList({
 
       {!hasAnyMatches ? (
         <NoMatchesMessage />
-      ) : user ? (
-        <SelectedMatchCard
-          filteredLeagues={filteredLeagues}
-          selectedMatches={selectedMatches}
-        />
       ) : (
         <div className='space-y-20'>
           {Object.entries(filteredLeagues).map(([leagueName, league]) => {

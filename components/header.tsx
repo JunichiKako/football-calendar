@@ -3,9 +3,6 @@ import { getLeagueByGroup } from '@/data/league';
 import Link from 'next/link';
 import MobileNav from './mobile-nav';
 import { ModeToggle } from './mode-toggle';
-import UserMenu from './main/user-menu';
-// ログイン機能無効化に伴い一時的に非表示
-// import LegalMenu from './legal-menu';
 import { Suspense } from 'react';
 
 export default async function Header() {
@@ -23,11 +20,7 @@ export default async function Header() {
         </Link>
       </Button>
       <span className='flex-1'></span>
-      <UserMenu />
-      <div className='hidden lg:block'>
-        <ModeToggle />
-      </div>
-      {/* <LegalMenu /> */}
+      <ModeToggle />
     </header>
   );
 }
