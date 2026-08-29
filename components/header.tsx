@@ -7,7 +7,8 @@ import { Suspense } from 'react';
 
 export default async function Header() {
   // モバイル用のナビゲーションメニューを表示するために、取得
-  const leagueByGroup = await getLeagueByGroup();
+  // ナビゲーションのリーグ一覧は表示範囲に依存させない
+  const leagueByGroup = await getLeagueByGroup({ kind: 'all' });
 
   return (
     <header className='sticky gap-2 md:gap-4 top-0 z-50 h-14 flex items-center px-2 md:px-4 border-b bg-[#4BCBEE] dark:bg-[#050401]'>

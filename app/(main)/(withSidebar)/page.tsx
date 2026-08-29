@@ -2,11 +2,15 @@ import { Suspense } from 'react';
 import { Metadata } from 'next';
 import LeagueList from '@/components/main/league-list';
 import TimeScheduleList from '@/components/main/time-schedule-list';
+import { getAvailableMonths, type Range } from '@/data/league';
+import { currentMonth } from '@/utils/getDate';
 
 type HomeParamsProps = {
   searchParams: Promise<{
     leagues?: string;
     view?: string;
+    range?: string;
+    month?: string;
   }>;
 };
 
@@ -57,6 +61,26 @@ export async function generateMetadata({ searchParams }: HomeParamsProps): Promi
   return {};
 }
 
+/** ?range= と ?month= を Range に落とす。不正な値は今週にフォールバックする */
+function parseRange(rangeParam?: string, monthParam?: string): Range {
+  if (rangeParam === 'all') return { kind: 'all' };
+
+  if (rangeParam === 'month') {
+    const months = getAvailableMonths();
+    if (monthParam && months.includes(monthParam)) {
+      return { kind: 'month', month: monthParam };
+    }
+    // 指定がない場合は今月。シーズン外なら直近の未来の月、それも無ければ最終月
+    const now = currentMonth();
+    const fallback = months.includes(now)
+      ? now
+      : months.find((m) => m >= now) ?? months.at(-1) ?? now;
+    return { kind: 'month', month: fallback };
+  }
+
+  return { kind: 'week' };
+}
+
 async function getPageParams(searchParams: HomeParamsProps['searchParams']) {
   const params = await searchParams;
   const view = params.view || 'league';
@@ -70,24 +94,30 @@ async function getPageParams(searchParams: HomeParamsProps['searchParams']) {
   return {
     currentView: view,
     selectedLeagues: leagues,
+    range: parseRange(params.range, params.month),
+    params,
   };
 }
 
 // キャッシュのためこの/でviewを切り替えて表示する
 export default async function Home({ searchParams }: HomeParamsProps) {
-  const { currentView, selectedLeagues } = await getPageParams(searchParams);
+  const { currentView, selectedLeagues, range, params } = await getPageParams(searchParams);
 
   if (currentView === 'time') {
     return (
       <Suspense fallback={<div>Loading time...</div>}>
-        <TimeScheduleList selectedLeagues={selectedLeagues} />
+        <TimeScheduleList
+          selectedLeagues={selectedLeagues}
+          range={range}
+          params={params}
+        />
       </Suspense>
     );
   }
 
   return (
     <Suspense fallback={<div>Loading league...</div>}>
-      <LeagueList selectedLeagues={selectedLeagues} />
+      <LeagueList selectedLeagues={selectedLeagues} range={range} params={params} />
     </Suspense>
   );
 }

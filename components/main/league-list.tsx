@@ -1,7 +1,7 @@
-import { getLeagueByGroup } from '@/data/league';
+import { getAvailableMonths, getLeagueByGroup, type Range } from '@/data/league';
 import { cn } from '@/lib/utils';
-import getDateRange, { formatDateForDisplay } from '@/utils/getDate';
-import { Calendar } from 'lucide-react';
+import { rangeLabel } from '@/utils/range-label';
+import RangeToggle, { type PageParams } from './range-toggle';
 import Image from 'next/image';
 import MatchCard from './match-card';
 import {
@@ -24,13 +24,17 @@ function NoMatchesMessage() {
 
 type LeagueListProps = {
   selectedLeagues: string[];
+  range: Range;
+  params: PageParams;
 };
 
 export default async function LeagueList({
   selectedLeagues,
+  range,
+  params,
 }: LeagueListProps) {
   // ここで一括してリーグでグループ化されたリーグデータを取得する
-  const leagueGroup = await getLeagueByGroup();
+  const leagueGroup = await getLeagueByGroup(range);
 
   // サイドバーで選択されたリーグがあれば、選択されたリーグだけを表示する関数。なければ全てのリーグを表示
   const filteredLeagues =
@@ -47,19 +51,17 @@ export default async function LeagueList({
     (league) => league.matches.length > 0
   );
 
-  //表示されている日付を取得するために呼び出し
-  const { dateFrom, dateTo } = getDateRange();
-  // 表示用に日付を整形
-  const { displayFrom, displayTo } = formatDateForDisplay(dateFrom, dateTo);
 
   return (
     <>
-      <div className='border-b pb-4 pt-4 mb-8 flex justify-between'>
+      <div className='border-b pb-4 pt-4 mb-8 flex flex-wrap items-center justify-between gap-3'>
         <p className='text-md'>リーグ別</p>
-        <p className='flex text-muted-foreground text-sm gap-2 items-center'>
-          <Calendar className='size-5' />
-          {displayFrom} - {displayTo}
-        </p>
+        <RangeToggle
+          range={range}
+          months={getAvailableMonths()}
+          weekLabel={rangeLabel({ kind: 'week' })}
+          params={params}
+        />
       </div>
 
       {!hasAnyMatches ? (

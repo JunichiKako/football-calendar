@@ -1,11 +1,12 @@
-import { getLeagueByGroup, getLeagueByGroupWithAll } from '@/data/league';
+import { getLeagueByGroupWithAll } from '@/data/league';
 import { CheckForm } from './check-form';
 import LeagueToggle from './league-toggle';
 import { Suspense } from 'react';
 
 export default async function Sidebar() {
   // サイドバーに表示するためのリーグデータを取得
-  const allLeaguesByGroup = await getLeagueByGroupWithAll();
+  // リーグ選択の一覧は表示範囲に依存させない
+  const allLeaguesByGroup = await getLeagueByGroupWithAll({ kind: 'all' });
 
   return (
     <aside className='border-r w-80 p-6 bg-muted/20 h-full' data-calendar-hide>

@@ -1,76 +1,72 @@
-export default function getDateRange() {
-  const now = new Date();
-  now.setUTCHours(0, 0, 0, 0);
+const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
 
-  const oneWeekLater = new Date(now);
-  oneWeekLater.setDate(now.getDate() + 7);
-
-  const dateFrom = now.toISOString().split('T')[0];
-  const dateTo = oneWeekLater.toISOString().split('T')[0];
-
-  return {
-    dateFrom,
-    dateTo,
-  };
+/** UTC の ISO 文字列を JST の日付キー(YYYY-MM-DD)に変換する */
+export function toJstDateKey(utcDate: string | Date): string {
+  const jst = new Date(new Date(utcDate).getTime() + JST_OFFSET_MS);
+  return jst.toISOString().slice(0, 10);
 }
 
-export function getExtendedDateRange() {
-  const { dateFrom } = getDateRange();
-  
-  const now = new Date();
-  now.setUTCHours(0, 0, 0, 0);
-  
-  const endDate = new Date(now);
-  endDate.setDate(endDate.getDate() + 14);
-  
-  const dateTo = endDate.toISOString().split('T')[0];
-  
-  return { dateFrom, dateTo };
+/** 今日(JST)の日付キー */
+export function todayJstKey(): string {
+  return toJstDateKey(new Date());
 }
 
-export function getTodaysCacheKey() {
-  const now = new Date();
-  const jstOffset = 9 * 60 * 60 * 1000;
-  const jstTime = new Date(now.getTime() + jstOffset);
-  
-  // 0時台前半（0:00〜0:09）は前日のキャッシュを使う
-  const hour = jstTime.getHours();
-  const minute = jstTime.getMinutes();
-  if (hour === 0 && minute < 10) {
-    jstTime.setDate(jstTime.getDate() - 1);
-  }
-  
-  return jstTime.toISOString().split('T')[0];
+function addDays(key: string, days: number): string {
+  const d = new Date(`${key}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + days);
+  return d.toISOString().slice(0, 10);
 }
 
-export function toJapaneseTime(date: string | Date) {
-  return new Date(
-    new Date(date).toLocaleString('en-US', { timeZone: 'Asia/Tokyo' })
-  );
+/** 今週の範囲。今日から7日後まで */
+export function getWeekRange(): { from: string; to: string } {
+  const from = todayJstKey();
+  return { from, to: addDays(from, 7) };
 }
 
-export function formatDateTime(date: string | Date) {
-  const jpDate = toJapaneseTime(date);
-
-  return {
-    date: jpDate.toLocaleDateString('ja-JP', {
-      month: 'numeric',
-      day: 'numeric',
-      weekday: 'short',
-    }),
-    time: jpDate.toLocaleTimeString('ja-JP', {
-      hour: '2-digit',
-      minute: '2-digit',
-    }),
-  };
+/** 指定した月(YYYY-MM)の範囲 */
+export function getMonthRange(month: string): { from: string; to: string } {
+  const [year, mon] = month.split('-').map(Number);
+  const from = `${month}-01`;
+  // 翌月0日 = 当月末日
+  const last = new Date(Date.UTC(year, mon, 0)).toISOString().slice(0, 10);
+  return { from, to: last };
 }
 
-export function formatDateForDisplay(dateFrom: string, dateTo: string) {
-  const [fromYear, fromMonth, fromDay] = dateFrom.split('-');
-  const [, toMonth, toDay] = dateTo.split('-');
+/** 今月(JST)の YYYY-MM */
+export function currentMonth(): string {
+  return todayJstKey().slice(0, 7);
+}
 
-  return {
-    displayFrom: `${fromYear}/${fromMonth}/${fromDay}`,
-    displayTo: `${toMonth}/${toDay}`,
-  };
+/**
+ * 表示用の日付。
+ * 時刻未定の試合は utcDate の時刻がダミーなので、JST 変換せず UTC の日付を使う。
+ */
+export function formatMatchDate(utcDate: string, timeUndecided: boolean): string {
+  const key = timeUndecided ? utcDate.slice(0, 10) : toJstDateKey(utcDate);
+  const [, month, day] = key.split('-');
+  const weekday = ['日', '月', '火', '水', '木', '金', '土'][
+    new Date(`${key}T00:00:00Z`).getUTCDay()
+  ];
+  return `${Number(month)}/${Number(day)}(${weekday})`;
+}
+
+/** 表示用の時刻(JST)。時刻が確定している試合にのみ使う */
+export function formatMatchTime(utcDate: string): string {
+  const jst = new Date(new Date(utcDate).getTime() + JST_OFFSET_MS);
+  const hh = String(jst.getUTCHours()).padStart(2, '0');
+  const mm = String(jst.getUTCMinutes()).padStart(2, '0');
+  return `${hh}:${mm}`;
+}
+
+/** ヘッダーに出す期間表示 */
+export function formatRangeLabel(from: string, to: string): string {
+  const [fy, fm, fd] = from.split('-');
+  const [, tm, td] = to.split('-');
+  return `${fy}/${Number(fm)}/${Number(fd)} - ${Number(tm)}/${Number(td)}`;
+}
+
+/** 月の表示ラベル (2026-10 -> 2026年10月) */
+export function formatMonthLabel(month: string): string {
+  const [year, mon] = month.split('-');
+  return `${year}年${Number(mon)}月`;
 }

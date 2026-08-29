@@ -56,9 +56,15 @@ export default function MatchCard({ matches }: MatchProps) {
                 <div className='text-sm font-semibold mb-0.5'>
                   {match.matchDate}
                 </div>
-                <time className='text-base tabular-nums font-medium'>
-                  {match.matchTime}
-                </time>
+                {match.timeUndecided ? (
+                  <span className='text-xs text-muted-foreground whitespace-nowrap'>
+                    時刻未定
+                  </span>
+                ) : (
+                  <time className='text-base tabular-nums font-medium'>
+                    {match.matchTime}
+                  </time>
+                )}
               </div>
             </div>
           </div>
