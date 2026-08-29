@@ -12,6 +12,7 @@
 //     TIMED に変わったことを検知するのに必要（ICS配信で SEQUENCE を上げる根拠）。
 
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { findUntranslated, readTranslationKeys } from './translations.mjs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -210,6 +211,15 @@ async function main() {
 
   console.log(`\n合計 ${total}試合 / ${leagues.length}リーグ`);
   if (failed.length > 0) console.log(`取得失敗: ${failed.join(', ')}`);
+
+  // 昇格チームが入ると日本語表記が無いまま英語で表示されてしまう。
+  // 気づける手段が無いと放置されるため、ここで検知して警告する。
+  // GitHub Actions では ::warning:: が実行結果に注記として出る。
+  const missing = findUntranslated(snapshot, await readTranslationKeys());
+  if (missing.length > 0) {
+    const list = missing.map((m) => `${m.name} (${m.league})`).join(', ');
+    console.warn(`\n::warning::data/translations.ts に未登録のチームが${missing.length}件あります: ${list}`);
+  }
 }
 
 if (isMain) {

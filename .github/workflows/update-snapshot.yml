@@ -34,6 +34,12 @@ jobs:
           FOOTBALL_API_KEY: ${{ secrets.FOOTBALL_API_KEY }}
         run: node scripts/fetch-snapshot.mjs
 
+      # 昇格チームが入ると日本語表記が無いまま英語で表示されてしまう。
+      # データ自体は正しいのでコミットは続行し、警告だけ残す。
+      - name: チーム名の日本語表記を確認
+        continue-on-error: true
+        run: npm test
+
       - name: 差分があればコミット
         run: |
           if git diff --quiet -- data/snapshot.json; then
