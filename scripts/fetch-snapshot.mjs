@@ -31,10 +31,9 @@ const LEAGUES = [
 ];
 
 const API_KEY = process.env.FOOTBALL_API_KEY;
-if (!API_KEY) {
-  console.error('FOOTBALL_API_KEY が設定されていません');
-  process.exit(1);
-}
+
+// テストから reconcile だけを import できるよう、直接実行されたときのみ main を走らせる
+const isMain = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -42,6 +41,27 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 function currentSeason() {
   const now = new Date();
   return now.getUTCMonth() + 1 >= 7 ? now.getUTCFullYear() : now.getUTCFullYear() - 1;
+}
+
+/**
+ * ICS配信で「変更あり」とみなす条件。
+ * IN_PLAY や FINISHED への遷移はカレンダー上の予定を変えないので無視する。
+ * これを含めると毎日 SEQUENCE が上がり、購読側に無意味な更新通知が飛ぶ。
+ */
+const CANCELLED_STATUSES = new Set(['POSTPONED', 'CANCELLED', 'SUSPENDED']);
+
+function icsRelevant(record) {
+  return {
+    utcDate: record.utcDate,
+    undecided: record.status === 'SCHEDULED',
+    cancelled: CANCELLED_STATUSES.has(record.status),
+  };
+}
+
+function hasIcsChange(before, after) {
+  const a = icsRelevant(before);
+  const b = icsRelevant(after);
+  return a.utcDate !== b.utcDate || a.undecided !== b.undecided || a.cancelled !== b.cancelled;
 }
 
 /** ICS配信と画面表示に必要な項目だけに絞る。生JSONの2割程度まで落ちる */
@@ -59,6 +79,50 @@ function toRecord(match) {
     away: match.awayTeam.name ?? null,
     awayCrest: match.awayTeam.crest ?? null,
   };
+}
+
+/**
+ * 前回のスナップショットと突き合わせて seq(SEQUENCE) を決める。
+ * ICS では同じ UID のイベントを更新するとき SEQUENCE を増やす必要があり、
+ * 前回配った番号を知らないと採番できない。実行時に git 履歴は読めないので
+ * スナップショット自身に持たせる。
+ *
+ * APIから消えた試合も捨てない。黙って消すと購読者のカレンダーに古い予定が
+ * 残り続けるため、CANCELLED として配り続ける(キックオフ予定日から7日間)。
+ */
+export function reconcile(current, previous) {
+  const prevById = new Map((previous ?? []).map((m) => [m.id, m]));
+  const result = [];
+
+  for (const match of current) {
+    const before = prevById.get(match.id);
+    if (!before) {
+      result.push({ ...match, seq: 0 });
+      continue;
+    }
+    result.push({
+      ...match,
+      seq: hasIcsChange(before, match) ? (before.seq ?? 0) + 1 : before.seq ?? 0,
+    });
+  }
+
+  // 今回のレスポンスから消えた試合を CANCELLED として残す
+  const currentIds = new Set(current.map((m) => m.id));
+  const dropAfter = Date.now() - 7 * 24 * 60 * 60 * 1000;
+
+  for (const before of prevById.values()) {
+    if (currentIds.has(before.id)) continue;
+    if (new Date(before.utcDate).getTime() < dropAfter) continue; // 十分に過去なら配信終了
+
+    result.push(
+      before.status === 'CANCELLED'
+        ? before // すでに中止として配信済み。SEQUENCE は上げない
+        : { ...before, status: 'CANCELLED', seq: (before.seq ?? 0) + 1 }
+    );
+  }
+
+  result.sort((a, b) => a.utcDate.localeCompare(b.utcDate) || a.id - b.id);
+  return result;
 }
 
 async function fetchLeague(id, season) {
@@ -102,9 +166,17 @@ async function main() {
     if (index > 0) await sleep(7000);
 
     try {
-      const matches = await fetchLeague(def.id, season);
+      const fetched = await fetchLeague(def.id, season);
+      const matches = reconcile(fetched, previousLeagues.get(def.id)?.matches);
       leagues.push({ ...def, season, matches });
-      console.log(`  ${def.name}: ${matches.length}試合`);
+
+      const updated = matches.filter((m) => (m.seq ?? 0) > 0).length;
+      const cancelled = matches.filter((m) => m.status === 'CANCELLED').length;
+      const detail = [
+        updated > 0 && `更新 ${updated}`,
+        cancelled > 0 && `中止 ${cancelled}`,
+      ].filter(Boolean).join(' / ');
+      console.log(`  ${def.name}: ${matches.length}試合${detail ? ` (${detail})` : ''}`);
     } catch (error) {
       const kept = previousLeagues.get(def.id);
       failed.push(`${def.name} (${error.message})`);
@@ -140,7 +212,13 @@ async function main() {
   if (failed.length > 0) console.log(`取得失敗: ${failed.join(', ')}`);
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+if (isMain) {
+  if (!API_KEY) {
+    console.error('FOOTBALL_API_KEY が設定されていません');
+    process.exit(1);
+  }
+  main().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+}

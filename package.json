@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "node --test scripts/*.test.mjs",
+    "snapshot": "node scripts/fetch-snapshot.mjs"
   },
   "dependencies": {
     "@next/third-parties": "^16.1.4",
