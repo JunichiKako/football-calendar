@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CalendarPlus, ExternalLink, X } from 'lucide-react';
 
 type SubscribeButtonProps = {
@@ -10,6 +10,19 @@ type SubscribeButtonProps = {
   /** ボタンに出す文言。既定は「カレンダーに購読」 */
   label?: string;
 };
+
+type FeedSummary = {
+  names: string[];
+  count: number;
+  first: string | null;
+  last: string | null;
+};
+
+/** 2026-08-21 -> 2026年8月21日 */
+function formatDate(value: string): string {
+  const [year, month, day] = value.split('-');
+  return `${year}年${Number(month)}月${Number(day)}日`;
+}
 
 /**
  * Googleカレンダーの「URLで追加」を開くURLを作る。
@@ -32,6 +45,24 @@ export default function SubscribeButton({
   // Googleのダイアログは webcal:// の生URLしか表示しないため、何が起きるのか
   // 分からない。飛ぶ前にこちらで説明する。
   const [open, setOpen] = useState(false);
+  const [summary, setSummary] = useState<FeedSummary | null>(null);
+
+  // 何試合・いつからいつまで入るのかは、配信URLの .json から取る。
+  // お気に入りは選択したチームの組み合わせ次第で変わるため、サーバー側で
+  // 事前に用意できない。開いたときだけ取りに行く。
+  useEffect(() => {
+    if (!open) return;
+
+    const controller = new AbortController();
+    fetch(feedUrl.replace(/\.ics$/, '.json'), { signal: controller.signal })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: FeedSummary | null) => setSummary(data))
+      .catch(() => {
+        // 集計が取れなくても購読自体はできるので、黙って諦める
+      });
+
+    return () => controller.abort();
+  }, [open, feedUrl]);
 
   return (
     <>
@@ -68,6 +99,39 @@ export default function SubscribeButton({
             </div>
 
             <div className='space-y-3 px-4 py-4 text-sm'>
+              {summary && (
+                <div className='space-y-2 rounded-md border bg-muted/40 px-3 py-2'>
+                  {summary.names.length > 0 && (
+                    <div className='flex flex-wrap gap-1'>
+                      {summary.names.map((name) => (
+                        <span
+                          key={name}
+                          className='rounded bg-background px-1.5 py-0.5 text-xs'
+                        >
+                          {name}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  {summary.count > 0 ? (
+                    <div>
+                      <p className='font-medium tabular-nums'>
+                        {summary.count.toLocaleString()}試合
+                      </p>
+                      {summary.first && summary.last && (
+                        <p className='mt-0.5 text-xs text-muted-foreground tabular-nums'>
+                          {formatDate(summary.first)} 〜 {formatDate(summary.last)}
+                        </p>
+                      )}
+                    </div>
+                  ) : (
+                    <p className='text-xs text-muted-foreground'>
+                      現在この日程には試合がありません。公開され次第、購読しているカレンダーに追加されます。
+                    </p>
+                  )}
+                </div>
+              )}
+
               <p className='leading-relaxed'>
                 Googleカレンダーが開きます。
                 <span className='font-medium'>「追加」</span>

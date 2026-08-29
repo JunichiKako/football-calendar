@@ -2,6 +2,7 @@ import { getFeedMatchesByTeams, getTeamNames } from '@/data/league';
 import { leagues } from '@/data/leagueId';
 import { toIcsEvent } from '@/utils/match-to-ics';
 import { buildCalendar } from '@/utils/ics';
+import { summarize } from '@/utils/feed-summary';
 
 // チームの組み合わせは数が多すぎて事前生成できない。
 // 要求されたものだけ生成し、以後キャッシュさせる。
@@ -22,7 +23,7 @@ export async function GET(
   const teamIds = [
     ...new Set(
       ids
-        .replace(/\.ics$/, '')
+        .replace(/\.(ics|json)$/, '')
         .split('+')
         .map(Number)
         .filter((id) => Number.isInteger(id) && id > 0)
@@ -47,6 +48,16 @@ export async function GET(
       return league ? [toIcsEvent(match, league)] : [];
     })
     .sort((a, b) => a.start.getTime() - b.start.getTime());
+
+  // .json では購読前の確認用にイベントの集計だけを返す
+  if (ids.endsWith('.json')) {
+    return Response.json(
+      summarize(
+        events,
+        found.map((id) => names.get(id) ?? String(id))
+      )
+    );
+  }
 
   const label =
     found.length <= 3

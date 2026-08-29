@@ -2,6 +2,7 @@ import { getFeedMatches } from '@/data/league';
 import { leagueBySlug, leagues, type LeagueDef } from '@/data/leagueId';
 import { toIcsEvent } from '@/utils/match-to-ics';
 import { buildCalendar } from '@/utils/ics';
+import { summarize } from '@/utils/feed-summary';
 
 // 単一リーグ分は事前生成する。スナップショットはデプロイ時に固定されるため
 // 静的ルートになり、CDNがキャッシュできる。
@@ -19,7 +20,7 @@ export function generateStaticParams() {
  * 別キャッシュにならないよう、定義順に正規化して扱う。
  */
 function resolveLeagues(slug: string): LeagueDef[] | null {
-  const names = slug.replace(/\.ics$/, '').split('+');
+  const names = slug.replace(/\.(ics|json)$/, '').split('+');
   const found = names.map((name) => leagueBySlug.get(name));
 
   if (found.some((league) => !league)) return null;
@@ -42,6 +43,11 @@ export async function GET(
   const events = targets
     .flatMap((league) => getFeedMatches(league.id).map((match) => toIcsEvent(match, league)))
     .sort((a, b) => a.start.getTime() - b.start.getTime());
+
+  // .json では購読前の確認用にイベントの集計だけを返す
+  if (slug.endsWith('.json')) {
+    return Response.json(summarize(events, targets.map((league) => league.labelJa)));
+  }
 
   const label =
     targets.length === 1
