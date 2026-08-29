@@ -38,3 +38,7 @@ next-env.d.ts
 
 # 開発時のAPIレスポンスキャッシュ
 .dev-cache/
+
+# Cloudflare (未使用)
+.open-next/
+.wrangler/
