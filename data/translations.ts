@@ -25,6 +25,10 @@ export const teamTranslations: Record<string, string> = {
   'Ipswich Town FC': 'イプスウィッチ',
   'Leicester City FC': 'レスター',
   'Southampton FC': 'サウサンプトン',
+  'Coventry City FC': 'コヴェントリー',
+  'Hull City AFC': 'ハル・シティ',
+  'Leeds United FC': 'リーズ',
+  'Sunderland AFC': 'サンダーランド',
 
   // 25/26シーズンのブンデスリーガのチーム名を翻訳
 
@@ -48,6 +52,10 @@ export const teamTranslations: Record<string, string> = {
   'VfL Wolfsburg': 'ヴォルフスブルク',
   'FC St. Pauli 1910': 'ザンクトパウリ',
   'Holstein Kiel': 'キール',
+  'FC Schalke 04': 'シャルケ',
+  'Hamburger SV': 'ハンブルガーSV',
+  'SC Paderborn 07': 'パーダーボルン',
+  'SV 07 Elversberg': 'エルヴァースベルク',
 
   // 25/26シーズンのラ・リーガのチーム名を翻訳
 
@@ -74,6 +82,11 @@ export const teamTranslations: Record<string, string> = {
   'RCD Espanyol de Barcelona': 'エスパニョール',
   'Real Valladolid CF': 'バジャドリ-ド',
   'CD Leganés': 'レガネス',
+  'Elche CF': 'エルチェ',
+  'Levante UD': 'レバンテ',
+  'Málaga CF': 'マラガ',
+  'RC Deportivo La Coruña': 'デポルティボ',
+  'Real Racing Club de Santander': 'ラシン・サンタンデール',
 
   // 25/26シーズンのセリエAのチーム名を翻訳
 
@@ -123,6 +136,9 @@ export const teamTranslations: Record<string, string> = {
   'Angers SCO': 'アンジェ',
   'AJ Auxerre': 'オセール',
   'AS Saint-Étienne': 'サンテティエンヌ',
+  'ES Troyes AC': 'トロワ',
+  'Le Mans FC': 'ル・マン',
+  'Paris FC': 'パリFC',
 
   // チャンピオンズリーグのチーム名を翻訳
   'Sporting Clube de Portugal': 'スポルティング',
