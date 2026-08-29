@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useSyncExternalStore } from 'react';
-import { CalendarPlus, Star, X } from 'lucide-react';
+import { Star, X } from 'lucide-react';
 import Image from 'next/image';
 import type { TeamOption } from '@/data/league';
 import {
@@ -12,6 +12,7 @@ import {
 } from '@/utils/favorites';
 import { cn } from '@/lib/utils';
 import FavoriteFilter from './favorite-filter';
+import SubscribeButton from './subscribe-button';
 
 type FavoriteTeamsProps = {
   groups: { league: string; teams: TeamOption[] }[];
@@ -42,7 +43,6 @@ export default function FavoriteTeams({ groups, baseUrl }: FavoriteTeamsProps) {
   const feedUrl = `${baseUrl}/calendar/teams/${[...favorites]
     .sort((a, b) => a - b)
     .join('+')}.ics`;
-  const googleUrl = `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(feedUrl)}`;
 
   return (
     <div className='flex flex-wrap items-center gap-2'>
@@ -83,16 +83,11 @@ export default function FavoriteTeams({ groups, baseUrl }: FavoriteTeamsProps) {
       </button>
 
       {favorites.length > 0 && (
-        <a
-          href={googleUrl}
-          target='_blank'
-          rel='noopener noreferrer'
-          title='お気に入りチームの試合をGoogleカレンダーに購読します。日程変更は自動で反映されます(反映まで最大1日)'
-          className='inline-flex items-center gap-1 rounded-md border px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:bg-accent hover:text-foreground'
-        >
-          <CalendarPlus className='size-3.5' />
-          お気に入りを購読
-        </a>
+        <SubscribeButton
+          leagueLabel={`お気に入り${favorites.length}チーム`}
+          feedUrl={feedUrl}
+          label='お気に入りを購読'
+        />
       )}
 
       {/*
