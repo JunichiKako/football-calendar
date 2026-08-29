@@ -2,8 +2,8 @@
 //
 // name / emblem は football-data.org の /v4/competitions/{id} が返す値と同一。
 // 以前はこれを取得するためにレンダーごとに6リクエスト叩いていたが、年単位で
-// 変わらない値なので定数化した。leagueName は配信データ(streaming-data.json)と
-// ページのメタデータのキーも兼ねるため、APIの表記から変えないこと。
+// 変わらない値なので定数化した。name はページのメタデータのキーも兼ねるため、
+// APIの表記から変えないこと。
 export type LeagueDef = {
   id: number;
   name: string;

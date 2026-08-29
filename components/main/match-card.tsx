@@ -2,12 +2,6 @@ import { Match } from '@/types/match';
 import { TeamLabel } from '@/utils/team-label';
 import { generateMatchCalendarUrl } from '@/utils/google-calendar';
 import { CalendarPlus } from 'lucide-react';
-import {
-  STREAMING_LABELS,
-  STREAMING_COLORS,
-  getStreamingServices,
-  isDifferentFromDefault
-} from '@/utils/streaming';
 
 type MatchProps = {
   matches: Match[];
@@ -17,8 +11,6 @@ export default function MatchCard({ matches }: MatchProps) {
   return (
     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6'>
       {matches.map((match) => {
-        const services = getStreamingServices(match.matchId, match.leagueName);
-        const showBadges = isDifferentFromDefault(match.matchId, match.leagueName);
 
         return (
           <div
@@ -34,18 +26,6 @@ export default function MatchCard({ matches }: MatchProps) {
             >
               <CalendarPlus className='size-3.5 text-muted-foreground hover:text-foreground' />
             </a>
-            {showBadges && services.length > 0 && (
-              <div className='flex gap-1 mb-1'>
-                {services.map((service) => (
-                  <span
-                    key={service}
-                    className={`text-[10px] px-1.5 py-0.5 rounded ${STREAMING_COLORS[service]}`}
-                  >
-                    {STREAMING_LABELS[service]}
-                  </span>
-                ))}
-              </div>
-            )}
             <div className='flex justify-between items-center'>
               <div className='flex-1 space-y-3'>
                 <TeamLabel imageURL={match.homeEmblemUrl} name={match.home} />

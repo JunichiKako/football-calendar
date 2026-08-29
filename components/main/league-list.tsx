@@ -4,11 +4,6 @@ import { rangeLabel } from '@/utils/range-label';
 import RangeToggle, { type PageParams } from './range-toggle';
 import Image from 'next/image';
 import MatchCard from './match-card';
-import {
-  STREAMING_LABELS,
-  STREAMING_COLORS,
-  getLeagueDefault
-} from '@/utils/streaming';
 
 // 試合がない場合のメッセージ
 function NoMatchesMessage() {
@@ -87,14 +82,6 @@ export default async function LeagueList({
                         })}
                       />
                       <h2 className='text-lg font-bold'>{league.leagueName}</h2>
-                      {getLeagueDefault(leagueName).map((service) => (
-                        <span
-                          key={service}
-                          className={`ml-2 text-[10px] px-1.5 py-0.5 rounded ${STREAMING_COLORS[service]}`}
-                        >
-                          {STREAMING_LABELS[service]}
-                        </span>
-                      ))}
                     </div>
                   </div>
                 </div>

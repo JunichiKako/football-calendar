@@ -2,7 +2,6 @@
  * GoogleカレンダーのURLスキーム用のURL生成
  */
 import { Match } from '@/types/match';
-import { getStreamingServices, STREAMING_LABELS } from '@/utils/streaming';
 
 /** 日付を YYYYMMDDTHHmmssZ に変換 */
 function toDateTimeStamp(isoDate: string): string {
@@ -28,12 +27,8 @@ function addDays(isoDate: string, days: number): string {
  * カレンダーに書き込んでしまうため、終日イベントとして追加する。
  */
 export function generateMatchCalendarUrl(match: Match): string {
-  const services = getStreamingServices(match.matchId, match.leagueName);
-  const broadcast = services.map((s) => STREAMING_LABELS[s]).join(' / ');
-
   const details = [
     match.leagueName,
-    broadcast && `放送: ${broadcast}`,
     match.timeUndecided && 'キックオフ時刻は未定です',
   ]
     .filter(Boolean)
