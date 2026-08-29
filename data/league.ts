@@ -22,9 +22,54 @@ type LeagueResult = {
   matches: Match[];
   /** false ならAPI取得に失敗している。「試合0件」と区別するために持つ */
   ok: boolean;
+  /** 開発時のファイルキャッシュから返したか */
+  cached: boolean;
 };
 
 const API_BASE = 'https://api.football-data.org/v4';
+
+// --- 開発時専用のファイルキャッシュ ---------------------------------------
+//
+// Next.js のデータキャッシュは再コンパイルのたびに揺れるため、開発中は
+// ファイルを保存するたびに実APIを叩いてしまい、レート制限(10リクエスト/分)に
+// 当たっていた。プロセスをまたいで生き残る自前のキャッシュを挟むことで、
+// 開発中のAPI呼び出しを実質ゼロにする。
+//
+// 本番では読み書きとも一切行わない (fs も動的 import なのでバンドルされない)。
+// 強制的に再取得したい場合は FOOTBALL_DEV_CACHE=off か .dev-cache/ の削除で。
+const DEV_CACHE_DIR = '.dev-cache';
+const DEV_CACHE_TTL_MS = 6 * 60 * 60 * 1000;
+
+const useDevCache =
+  process.env.NODE_ENV === 'development' && process.env.FOOTBALL_DEV_CACHE !== 'off';
+
+async function readDevCache(key: string): Promise<LeagueResponse | null> {
+  if (!useDevCache) return null;
+  try {
+    const { readFile } = await import('node:fs/promises');
+    const raw = await readFile(`${DEV_CACHE_DIR}/${key}.json`, 'utf-8');
+    const { savedAt, body } = JSON.parse(raw);
+    if (Date.now() - savedAt > DEV_CACHE_TTL_MS) return null;
+    return body as LeagueResponse;
+  } catch {
+    return null;
+  }
+}
+
+async function writeDevCache(key: string, body: LeagueResponse): Promise<void> {
+  if (!useDevCache) return;
+  try {
+    const { mkdir, writeFile } = await import('node:fs/promises');
+    await mkdir(DEV_CACHE_DIR, { recursive: true });
+    await writeFile(
+      `${DEV_CACHE_DIR}/${key}.json`,
+      JSON.stringify({ savedAt: Date.now(), body })
+    );
+  } catch {
+    // 開発用の補助キャッシュなので書き込み失敗は無視してよい
+  }
+}
+// ---------------------------------------------------------------------------
 
 function toMatch(match: LeagueResponse['matches'][number]): Match {
   const { date: matchDate, time: matchTime } = formatDateTime(match.utcDate);
@@ -57,6 +102,12 @@ function toMatch(match: LeagueResponse['matches'][number]): Match {
 async function fetchLeagueMatches(id: number): Promise<LeagueResult> {
   const { dateFrom, dateTo } = getExtendedDateRange();
   const todayKey = getTodaysCacheKey();
+  const devCacheKey = `league-${id}-${dateFrom}-${dateTo}`;
+
+  const cached = await readDevCache(devCacheKey);
+  if (cached) {
+    return { id, matches: (cached.matches ?? []).map(toMatch), ok: true, cached: true };
+  }
 
   try {
     const res = await fetch(
@@ -73,14 +124,15 @@ async function fetchLeagueMatches(id: number): Promise<LeagueResult> {
     if (!res.ok) {
       const reason = res.status === 429 ? 'レート制限 (10リクエスト/分)' : `HTTP ${res.status}`;
       console.error(`[league:${id}] 取得失敗: ${reason}`);
-      return { id, matches: [], ok: false };
+      return { id, matches: [], ok: false, cached: false };
     }
 
     const data: LeagueResponse = await res.json();
-    return { id, matches: (data.matches ?? []).map(toMatch), ok: true };
+    await writeDevCache(devCacheKey, data);
+    return { id, matches: (data.matches ?? []).map(toMatch), ok: true, cached: false };
   } catch (error) {
     console.error(`[league:${id}] 取得失敗:`, error);
-    return { id, matches: [], ok: false };
+    return { id, matches: [], ok: false, cached: false };
   }
 }
 
@@ -107,9 +159,11 @@ async function fetchAllLeagues(): Promise<LeagueGroup[]> {
   });
 
   const failed = results.filter((r) => !r.ok).map((r) => r.id);
+  const cachedCount = results.filter((r) => r.cached).length;
   const total = groups.reduce((n, g) => n + g.matches.length, 0);
   console.log(
     `[league] ${leagueIds.length}リーグ / ${total}試合` +
+      (cachedCount > 0 ? ` / devキャッシュ ${cachedCount}件` : '') +
       (failed.length > 0 ? ` / 取得失敗: ${failed.join(', ')}` : '')
   );
 
