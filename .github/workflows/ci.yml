@@ -1,0 +1,43 @@
+name: CI
+
+# push と Pull Request で型・lint・テスト・ビルドを通す。
+#
+# アプリは data/snapshot.json を読むだけで実行時にAPIを叩かないため、
+# FOOTBALL_API_KEY を含む環境変数なしでビルドが通る。CIにシークレットを
+# 渡す必要がない。
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# 同じブランチで連続pushしたとき、古い実行は打ち切る
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: 型チェック
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: テスト
+        run: npm test
+
+      - name: ビルド
+        run: npm run build

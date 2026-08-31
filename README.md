@@ -157,7 +157,7 @@ npm run dev
 | `npm test` | SEQUENCE採番とチーム名の検証 |
 | `npm run snapshot` | 試合日程を手動で取得・更新 |
 
-環境変数は3つだけです。`FOOTBALL_API_KEY` はスクリプトとGitHub Actionsが使うもので、**アプリの実行時には不要**です。
+環境変数は3つだけです。`FOOTBALL_API_KEY` はスクリプトとGitHub Actionsが使うもので、**アプリの実行時には不要**です。そのため CI では環境変数を一切渡さずに型チェック・lint・テスト・ビルドが通ります（`.github/workflows/ci.yml`）。
 
 ---
 
