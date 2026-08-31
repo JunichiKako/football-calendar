@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-31T15:42:21.768Z",
+  "fetchedAt": "2026-08-31T23:30:57.721Z",
   "season": 2026,
   "leagues": [
     {
@@ -276,7 +276,7 @@
         {
           "id": 560557,
           "utcDate": "2026-08-31T19:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 2,
           "stage": "REGULAR_SEASON",
           "homeId": 58,
@@ -12043,7 +12043,7 @@
         {
           "id": 564657,
           "utcDate": "2026-08-31T17:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 3,
           "stage": "REGULAR_SEASON",
           "homeId": 79,
@@ -12057,7 +12057,7 @@
         {
           "id": 564650,
           "utcDate": "2026-08-31T19:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 3,
           "stage": "REGULAR_SEASON",
           "homeId": 81,
@@ -17202,7 +17202,7 @@
         {
           "id": 558622,
           "utcDate": "2026-08-30T18:45:00Z",
-          "status": "IN_PLAY",
+          "status": "FINISHED",
           "matchday": 2,
           "stage": "REGULAR_SEASON",
           "homeId": 110,
@@ -17216,7 +17216,7 @@
         {
           "id": 558623,
           "utcDate": "2026-08-30T18:45:00Z",
-          "status": "IN_PLAY",
+          "status": "FINISHED",
           "matchday": 2,
           "stage": "REGULAR_SEASON",
           "homeId": 104,
@@ -17230,7 +17230,7 @@
         {
           "id": 558621,
           "utcDate": "2026-08-31T16:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 2,
           "stage": "REGULAR_SEASON",
           "homeId": 5890,
@@ -17244,7 +17244,7 @@
         {
           "id": 558628,
           "utcDate": "2026-08-31T18:45:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 2,
           "stage": "REGULAR_SEASON",
           "homeId": 102,
@@ -17424,18 +17424,18 @@
           "seq": 0
         },
         {
-          "id": 558608,
+          "id": 558600,
           "utcDate": "2026-09-12T16:00:00Z",
           "status": "TIMED",
           "matchday": 4,
           "stage": "REGULAR_SEASON",
-          "homeId": 471,
-          "home": "US Sassuolo Calcio",
-          "homeCrest": "https://crests.football-data.org/471.png",
-          "awayId": 109,
-          "away": "Juventus FC",
-          "awayCrest": "https://crests.football-data.org/109.png",
-          "seq": 0
+          "homeId": 110,
+          "home": "SS Lazio",
+          "homeCrest": "https://crests.football-data.org/110.png",
+          "awayId": 98,
+          "away": "AC Milan",
+          "awayCrest": "https://crests.football-data.org/98.png",
+          "seq": 1
         },
         {
           "id": 558607,
@@ -17449,34 +17449,6 @@
           "awayId": 104,
           "away": "Cagliari Calcio",
           "awayCrest": "https://crests.football-data.org/104.png",
-          "seq": 0
-        },
-        {
-          "id": 558603,
-          "utcDate": "2026-09-13T10:30:00Z",
-          "status": "TIMED",
-          "matchday": 4,
-          "stage": "REGULAR_SEASON",
-          "homeId": 586,
-          "home": "Torino FC",
-          "homeCrest": "https://crests.football-data.org/586.png",
-          "awayId": 100,
-          "away": "AS Roma",
-          "awayCrest": "https://crests.football-data.org/100.png",
-          "seq": 0
-        },
-        {
-          "id": 558602,
-          "utcDate": "2026-09-13T13:00:00Z",
-          "status": "TIMED",
-          "matchday": 4,
-          "stage": "REGULAR_SEASON",
-          "homeId": 7397,
-          "home": "Como 1907",
-          "homeCrest": "https://crests.football-data.org/7397.png",
-          "awayId": 112,
-          "away": "Parma Calcio 1913",
-          "awayCrest": "https://crests.football-data.org/112.png",
           "seq": 0
         },
         {
@@ -17508,18 +17480,46 @@
           "seq": 0
         },
         {
-          "id": 558600,
+          "id": 558608,
           "utcDate": "2026-09-13T18:45:00Z",
           "status": "TIMED",
           "matchday": 4,
           "stage": "REGULAR_SEASON",
-          "homeId": 110,
-          "home": "SS Lazio",
-          "homeCrest": "https://crests.football-data.org/110.png",
-          "awayId": 98,
-          "away": "AC Milan",
-          "awayCrest": "https://crests.football-data.org/98.png",
-          "seq": 0
+          "homeId": 471,
+          "home": "US Sassuolo Calcio",
+          "homeCrest": "https://crests.football-data.org/471.png",
+          "awayId": 109,
+          "away": "Juventus FC",
+          "awayCrest": "https://crests.football-data.org/109.png",
+          "seq": 1
+        },
+        {
+          "id": 558602,
+          "utcDate": "2026-09-14T16:30:00Z",
+          "status": "TIMED",
+          "matchday": 4,
+          "stage": "REGULAR_SEASON",
+          "homeId": 7397,
+          "home": "Como 1907",
+          "homeCrest": "https://crests.football-data.org/7397.png",
+          "awayId": 112,
+          "away": "Parma Calcio 1913",
+          "awayCrest": "https://crests.football-data.org/112.png",
+          "seq": 1
+        },
+        {
+          "id": 558603,
+          "utcDate": "2026-09-14T16:30:00Z",
+          "status": "TIMED",
+          "matchday": 4,
+          "stage": "REGULAR_SEASON",
+          "homeId": 586,
+          "home": "Torino FC",
+          "homeCrest": "https://crests.football-data.org/586.png",
+          "awayId": 100,
+          "away": "AS Roma",
+          "awayCrest": "https://crests.football-data.org/100.png",
+          "seq": 1
         },
         {
           "id": 558601,
@@ -22807,6 +22807,20 @@
           "seq": 0
         },
         {
+          "id": 559682,
+          "utcDate": "2026-09-18T18:45:00Z",
+          "status": "TIMED",
+          "matchday": 5,
+          "stage": "REGULAR_SEASON",
+          "homeId": 548,
+          "home": "AS Monaco FC",
+          "homeCrest": "https://crests.football-data.org/548.png",
+          "awayId": 546,
+          "away": "Racing Club de Lens",
+          "awayCrest": "https://crests.football-data.org/546.png",
+          "seq": 1
+        },
+        {
           "id": 559676,
           "utcDate": "2026-09-19T00:00:00Z",
           "status": "SCHEDULED",
@@ -22849,20 +22863,6 @@
           "seq": 0
         },
         {
-          "id": 559679,
-          "utcDate": "2026-09-19T00:00:00Z",
-          "status": "SCHEDULED",
-          "matchday": 5,
-          "stage": "REGULAR_SEASON",
-          "homeId": 1045,
-          "home": "Paris FC",
-          "homeCrest": "https://crests.football-data.org/1045.png",
-          "awayId": 576,
-          "away": "RC Strasbourg Alsace",
-          "awayCrest": "https://crests.football-data.org/576.png",
-          "seq": 0
-        },
-        {
           "id": 559680,
           "utcDate": "2026-09-19T00:00:00Z",
           "status": "SCHEDULED",
@@ -22891,20 +22891,6 @@
           "seq": 0
         },
         {
-          "id": 559682,
-          "utcDate": "2026-09-19T00:00:00Z",
-          "status": "SCHEDULED",
-          "matchday": 5,
-          "stage": "REGULAR_SEASON",
-          "homeId": 548,
-          "home": "AS Monaco FC",
-          "homeCrest": "https://crests.football-data.org/548.png",
-          "awayId": 546,
-          "away": "Racing Club de Lens",
-          "awayCrest": "https://crests.football-data.org/546.png",
-          "seq": 0
-        },
-        {
           "id": 559683,
           "utcDate": "2026-09-19T00:00:00Z",
           "status": "SCHEDULED",
@@ -22917,6 +22903,20 @@
           "away": "Stade Rennais FC 1901",
           "awayCrest": "https://crests.football-data.org/529.png",
           "seq": 0
+        },
+        {
+          "id": 559679,
+          "utcDate": "2026-09-19T15:15:00Z",
+          "status": "TIMED",
+          "matchday": 5,
+          "stage": "REGULAR_SEASON",
+          "homeId": 1045,
+          "home": "Paris FC",
+          "homeCrest": "https://crests.football-data.org/1045.png",
+          "awayId": 576,
+          "away": "RC Strasbourg Alsace",
+          "awayCrest": "https://crests.football-data.org/576.png",
+          "seq": 1
         },
         {
           "id": 559675,
