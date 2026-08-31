@@ -47,26 +47,9 @@ jobs:
             exit 0
           fi
 
-          # 何試合が増減したかをコミットメッセージに残す
-          summary=$(node -e "
-            const fs = require('node:fs');
-            const { execSync } = require('node:child_process');
-            const now = JSON.parse(fs.readFileSync('data/snapshot.json', 'utf-8'));
-            const before = JSON.parse(execSync('git show HEAD:data/snapshot.json').toString());
-            const count = (s) => s.leagues.reduce((n, l) => n + l.matches.length, 0);
-            const key = (s) => new Map(s.leagues.flatMap(l => l.matches.map(m => [m.id, m])));
-            const a = key(before), b = key(now);
-            const added = [...b.keys()].filter(id => !a.has(id)).length;
-            const removed = [...a.keys()].filter(id => !b.has(id)).length;
-            const changed = [...b.entries()].filter(([id, m]) =>
-              a.has(id) && (a.get(id).utcDate !== m.utcDate || a.get(id).status !== m.status)
-            ).length;
-            const parts = [];
-            if (added) parts.push(\`追加 \${added}\`);
-            if (removed) parts.push(\`削除 \${removed}\`);
-            if (changed) parts.push(\`変更 \${changed}\`);
-            console.log(\`\${count(now)}試合 (\${parts.join(' / ') || '内容の更新'})\`);
-          ")
+          # 変更内容をコミットメッセージに残す。
+          # 「配信更新」は seq が上がったもの＝購読者に届く変更だけを数える。
+          summary=$(node scripts/summarize-changes.mjs)
 
           git config user.name  'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
