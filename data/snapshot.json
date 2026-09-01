@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-01T12:54:38.506Z",
+  "fetchedAt": "2026-09-01T22:13:33.587Z",
   "season": 2026,
   "leagues": [
     {
@@ -12489,6 +12489,20 @@
           "seq": 1
         },
         {
+          "id": 564692,
+          "utcDate": "2026-09-18T19:00:00Z",
+          "status": "TIMED",
+          "matchday": 7,
+          "stage": "REGULAR_SEASON",
+          "homeId": 80,
+          "home": "RCD Espanyol de Barcelona",
+          "homeCrest": "https://crests.football-data.org/80.png",
+          "awayId": 285,
+          "away": "Elche CF",
+          "awayCrest": "https://crests.football-data.org/285.png",
+          "seq": 1
+        },
+        {
           "id": 564693,
           "utcDate": "2026-09-19T12:00:00Z",
           "status": "TIMED",
@@ -12545,34 +12559,6 @@
           "seq": 1
         },
         {
-          "id": 564689,
-          "utcDate": "2026-09-20T00:00:00Z",
-          "status": "SCHEDULED",
-          "matchday": 7,
-          "stage": "REGULAR_SEASON",
-          "homeId": 95,
-          "home": "Valencia CF",
-          "homeCrest": "https://crests.football-data.org/95.png",
-          "awayId": 92,
-          "away": "Real Sociedad de Fútbol",
-          "awayCrest": "https://crests.football-data.org/92.png",
-          "seq": 0
-        },
-        {
-          "id": 564692,
-          "utcDate": "2026-09-20T00:00:00Z",
-          "status": "SCHEDULED",
-          "matchday": 7,
-          "stage": "REGULAR_SEASON",
-          "homeId": 80,
-          "home": "RCD Espanyol de Barcelona",
-          "homeCrest": "https://crests.football-data.org/80.png",
-          "awayId": 285,
-          "away": "Elche CF",
-          "awayCrest": "https://crests.football-data.org/285.png",
-          "seq": 0
-        },
-        {
           "id": 564697,
           "utcDate": "2026-09-20T12:00:00Z",
           "status": "TIMED",
@@ -12626,6 +12612,20 @@
           "awayId": 88,
           "away": "Levante UD",
           "awayCrest": "https://crests.football-data.org/88.png",
+          "seq": 1
+        },
+        {
+          "id": 564689,
+          "utcDate": "2026-09-20T19:00:00Z",
+          "status": "TIMED",
+          "matchday": 7,
+          "stage": "REGULAR_SEASON",
+          "homeId": 95,
+          "home": "Valencia CF",
+          "homeCrest": "https://crests.football-data.org/95.png",
+          "awayId": 92,
+          "away": "Real Sociedad de Fútbol",
+          "awayCrest": "https://crests.football-data.org/92.png",
           "seq": 1
         },
         {
