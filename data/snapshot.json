@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-02T22:11:55.926Z",
+  "fetchedAt": "2026-09-03T12:23:38.529Z",
   "season": 2026,
   "leagues": [
     {
@@ -668,7 +668,7 @@
         {
           "id": 560585,
           "utcDate": "2026-09-20T13:00:00Z",
-          "status": "2026-09-19 13:00:00Z",
+          "status": "TIMED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 341,
@@ -682,7 +682,7 @@
         {
           "id": 560590,
           "utcDate": "2026-09-20T13:00:00Z",
-          "status": "2026-09-19 13:00:00Z",
+          "status": "TIMED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 65,
@@ -1060,7 +1060,7 @@
         {
           "id": 560612,
           "utcDate": "2026-10-25T14:00:00Z",
-          "status": "2026-10-24 13:00:00Z",
+          "status": "TIMED",
           "matchday": 8,
           "stage": "REGULAR_SEASON",
           "homeId": 64,
@@ -1228,7 +1228,7 @@
         {
           "id": 560628,
           "utcDate": "2026-10-31T20:00:00Z",
-          "status": "2026-11-01 14:00:00Z",
+          "status": "TIMED",
           "matchday": 9,
           "stage": "REGULAR_SEASON",
           "homeId": 58,
@@ -7486,7 +7486,7 @@
         {
           "id": 565791,
           "utcDate": "2026-09-04T18:30:00Z",
-          "status": "2026-09-04 18:30:00Z",
+          "status": "TIMED",
           "matchday": 2,
           "stage": "REGULAR_SEASON",
           "homeId": 10,
@@ -7500,7 +7500,7 @@
         {
           "id": 565785,
           "utcDate": "2026-09-05T13:30:00Z",
-          "status": "2026-09-05 13:30:00Z",
+          "status": "TIMED",
           "matchday": 2,
           "stage": "REGULAR_SEASON",
           "homeId": 12,
@@ -7514,7 +7514,7 @@
         {
           "id": 565787,
           "utcDate": "2026-09-05T13:30:00Z",
-          "status": "2026-09-05 13:30:00Z",
+          "status": "TIMED",
           "matchday": 2,
           "stage": "REGULAR_SEASON",
           "homeId": 2,
@@ -7528,7 +7528,7 @@
         {
           "id": 565790,
           "utcDate": "2026-09-05T13:30:00Z",
-          "status": "2026-09-05 13:30:00Z",
+          "status": "TIMED",
           "matchday": 2,
           "stage": "REGULAR_SEASON",
           "homeId": 3,
@@ -7542,7 +7542,7 @@
         {
           "id": 565792,
           "utcDate": "2026-09-05T13:30:00Z",
-          "status": "2026-09-05 13:30:00Z",
+          "status": "TIMED",
           "matchday": 2,
           "stage": "REGULAR_SEASON",
           "homeId": 18,
@@ -7556,7 +7556,7 @@
         {
           "id": 565793,
           "utcDate": "2026-09-05T13:30:00Z",
-          "status": "2026-09-05 13:30:00Z",
+          "status": "TIMED",
           "matchday": 2,
           "stage": "REGULAR_SEASON",
           "homeId": 29,
@@ -7570,7 +7570,7 @@
         {
           "id": 565789,
           "utcDate": "2026-09-05T16:30:00Z",
-          "status": "2026-09-05 16:30:00Z",
+          "status": "TIMED",
           "matchday": 2,
           "stage": "REGULAR_SEASON",
           "homeId": 6,
@@ -7584,7 +7584,7 @@
         {
           "id": 565788,
           "utcDate": "2026-09-06T13:30:00Z",
-          "status": "2026-09-06 13:30:00Z",
+          "status": "TIMED",
           "matchday": 2,
           "stage": "REGULAR_SEASON",
           "homeId": 7,
@@ -7598,7 +7598,7 @@
         {
           "id": 565786,
           "utcDate": "2026-09-06T15:30:00Z",
-          "status": "2026-09-06 15:30:00Z",
+          "status": "TIMED",
           "matchday": 2,
           "stage": "REGULAR_SEASON",
           "homeId": 19,
@@ -7612,7 +7612,7 @@
         {
           "id": 565797,
           "utcDate": "2026-09-11T18:30:00Z",
-          "status": "2026-09-11 18:30:00Z",
+          "status": "TIMED",
           "matchday": 3,
           "stage": "REGULAR_SEASON",
           "homeId": 28,
@@ -7626,7 +7626,7 @@
         {
           "id": 565794,
           "utcDate": "2026-09-12T13:30:00Z",
-          "status": "2026-09-12 13:30:00Z",
+          "status": "TIMED",
           "matchday": 3,
           "stage": "REGULAR_SEASON",
           "homeId": 2,
@@ -7640,7 +7640,7 @@
         {
           "id": 565795,
           "utcDate": "2026-09-12T13:30:00Z",
-          "status": "2026-09-12 13:30:00Z",
+          "status": "TIMED",
           "matchday": 3,
           "stage": "REGULAR_SEASON",
           "homeId": 4,
@@ -7654,7 +7654,7 @@
         {
           "id": 565796,
           "utcDate": "2026-09-12T13:30:00Z",
-          "status": "2026-09-12 13:30:00Z",
+          "status": "TIMED",
           "matchday": 3,
           "stage": "REGULAR_SEASON",
           "homeId": 16,
@@ -7668,7 +7668,7 @@
         {
           "id": 565801,
           "utcDate": "2026-09-12T13:30:00Z",
-          "status": "2026-09-12 13:30:00Z",
+          "status": "TIMED",
           "matchday": 3,
           "stage": "REGULAR_SEASON",
           "homeId": 15,
@@ -7682,7 +7682,7 @@
         {
           "id": 565802,
           "utcDate": "2026-09-12T13:30:00Z",
-          "status": "2026-09-12 13:30:00Z",
+          "status": "TIMED",
           "matchday": 3,
           "stage": "REGULAR_SEASON",
           "homeId": 17,
@@ -7696,7 +7696,7 @@
         {
           "id": 565798,
           "utcDate": "2026-09-12T16:30:00Z",
-          "status": "2026-09-12 16:30:00Z",
+          "status": "TIMED",
           "matchday": 3,
           "stage": "REGULAR_SEASON",
           "homeId": 1,
@@ -7710,7 +7710,7 @@
         {
           "id": 565799,
           "utcDate": "2026-09-13T13:30:00Z",
-          "status": "2026-09-13 13:30:00Z",
+          "status": "TIMED",
           "matchday": 3,
           "stage": "REGULAR_SEASON",
           "homeId": 721,
@@ -7724,7 +7724,7 @@
         {
           "id": 565800,
           "utcDate": "2026-09-13T15:30:00Z",
-          "status": "2026-09-13 15:30:00Z",
+          "status": "TIMED",
           "matchday": 3,
           "stage": "REGULAR_SEASON",
           "homeId": 719,
@@ -7738,7 +7738,7 @@
         {
           "id": 565804,
           "utcDate": "2026-09-18T18:30:00Z",
-          "status": "2026-09-18 18:30:00Z",
+          "status": "TIMED",
           "matchday": 4,
           "stage": "REGULAR_SEASON",
           "homeId": 5,
@@ -7752,7 +7752,7 @@
         {
           "id": 565808,
           "utcDate": "2026-09-19T13:30:00Z",
-          "status": "2026-09-19 13:30:00Z",
+          "status": "TIMED",
           "matchday": 4,
           "stage": "REGULAR_SEASON",
           "homeId": 7,
@@ -7766,7 +7766,7 @@
         {
           "id": 565809,
           "utcDate": "2026-09-19T13:30:00Z",
-          "status": "2026-09-19 13:30:00Z",
+          "status": "TIMED",
           "matchday": 4,
           "stage": "REGULAR_SEASON",
           "homeId": 18,
@@ -7780,7 +7780,7 @@
         {
           "id": 565810,
           "utcDate": "2026-09-19T13:30:00Z",
-          "status": "2026-09-19 13:30:00Z",
+          "status": "TIMED",
           "matchday": 4,
           "stage": "REGULAR_SEASON",
           "homeId": 12,
@@ -7794,7 +7794,7 @@
         {
           "id": 565811,
           "utcDate": "2026-09-19T13:30:00Z",
-          "status": "2026-09-19 13:30:00Z",
+          "status": "TIMED",
           "matchday": 4,
           "stage": "REGULAR_SEASON",
           "homeId": 19,
@@ -7808,7 +7808,7 @@
         {
           "id": 565806,
           "utcDate": "2026-09-19T16:30:00Z",
-          "status": "2026-09-19 16:30:00Z",
+          "status": "TIMED",
           "matchday": 4,
           "stage": "REGULAR_SEASON",
           "homeId": 10,
@@ -7822,7 +7822,7 @@
         {
           "id": 565807,
           "utcDate": "2026-09-20T13:30:00Z",
-          "status": "2026-09-20 13:30:00Z",
+          "status": "TIMED",
           "matchday": 4,
           "stage": "REGULAR_SEASON",
           "homeId": 3,
@@ -7836,7 +7836,7 @@
         {
           "id": 565805,
           "utcDate": "2026-09-20T15:30:00Z",
-          "status": "2026-09-20 15:30:00Z",
+          "status": "TIMED",
           "matchday": 4,
           "stage": "REGULAR_SEASON",
           "homeId": 6,
@@ -7850,7 +7850,7 @@
         {
           "id": 565803,
           "utcDate": "2026-09-20T17:30:00Z",
-          "status": "2026-09-20 17:30:00Z",
+          "status": "TIMED",
           "matchday": 4,
           "stage": "REGULAR_SEASON",
           "homeId": 29,
@@ -7864,7 +7864,7 @@
         {
           "id": 565812,
           "utcDate": "2026-10-10T00:00:00Z",
-          "status": "2026-10-10 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 15,
@@ -7873,12 +7873,12 @@
           "awayId": 3,
           "away": "Bayer 04 Leverkusen",
           "awayCrest": "https://crests.football-data.org/3.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565813,
           "utcDate": "2026-10-10T00:00:00Z",
-          "status": "2026-10-10 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 29,
@@ -7887,12 +7887,12 @@
           "awayId": 10,
           "away": "VfB Stuttgart",
           "awayCrest": "https://crests.football-data.org/10.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565814,
           "utcDate": "2026-10-10T00:00:00Z",
-          "status": "2026-10-10 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 1,
@@ -7901,12 +7901,12 @@
           "awayId": 18,
           "away": "Borussia Mönchengladbach",
           "awayCrest": "https://crests.football-data.org/18.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565815,
           "utcDate": "2026-10-10T00:00:00Z",
-          "status": "2026-10-10 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 721,
@@ -7915,12 +7915,12 @@
           "awayId": 19,
           "away": "Eintracht Frankfurt",
           "awayCrest": "https://crests.football-data.org/19.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565816,
           "utcDate": "2026-10-10T00:00:00Z",
-          "status": "2026-10-10 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 17,
@@ -7929,12 +7929,12 @@
           "awayId": 6,
           "away": "FC Schalke 04",
           "awayCrest": "https://crests.football-data.org/6.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565817,
           "utcDate": "2026-10-10T00:00:00Z",
-          "status": "2026-10-10 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 28,
@@ -7943,12 +7943,12 @@
           "awayId": 719,
           "away": "SV 07 Elversberg",
           "awayCrest": "https://crests.football-data.org/719.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565818,
           "utcDate": "2026-10-10T00:00:00Z",
-          "status": "2026-10-10 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 2,
@@ -7957,12 +7957,12 @@
           "awayId": 7,
           "away": "Hamburger SV",
           "awayCrest": "https://crests.football-data.org/7.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565819,
           "utcDate": "2026-10-10T00:00:00Z",
-          "status": "2026-10-10 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 16,
@@ -7971,12 +7971,12 @@
           "awayId": 5,
           "away": "FC Bayern München",
           "awayCrest": "https://crests.football-data.org/5.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565820,
           "utcDate": "2026-10-10T00:00:00Z",
-          "status": "2026-10-10 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 4,
@@ -7985,12 +7985,12 @@
           "awayId": 12,
           "away": "SV Werder Bremen",
           "awayCrest": "https://crests.football-data.org/12.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565821,
           "utcDate": "2026-10-17T00:00:00Z",
-          "status": "2026-10-17 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 28,
@@ -7999,12 +7999,12 @@
           "awayId": 4,
           "away": "Borussia Dortmund",
           "awayCrest": "https://crests.football-data.org/4.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565822,
           "utcDate": "2026-10-17T00:00:00Z",
-          "status": "2026-10-17 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 7,
@@ -8013,12 +8013,12 @@
           "awayId": 10,
           "away": "VfB Stuttgart",
           "awayCrest": "https://crests.football-data.org/10.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565823,
           "utcDate": "2026-10-17T00:00:00Z",
-          "status": "2026-10-17 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 12,
@@ -8027,12 +8027,12 @@
           "awayId": 29,
           "away": "SC Paderborn 07",
           "awayCrest": "https://crests.football-data.org/29.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565824,
           "utcDate": "2026-10-17T00:00:00Z",
-          "status": "2026-10-17 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 719,
@@ -8041,12 +8041,12 @@
           "awayId": 16,
           "away": "FC Augsburg",
           "awayCrest": "https://crests.football-data.org/16.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565825,
           "utcDate": "2026-10-17T00:00:00Z",
-          "status": "2026-10-17 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 5,
@@ -8055,12 +8055,12 @@
           "awayId": 721,
           "away": "RB Leipzig",
           "awayCrest": "https://crests.football-data.org/721.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565826,
           "utcDate": "2026-10-17T00:00:00Z",
-          "status": "2026-10-17 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 18,
@@ -8069,12 +8069,12 @@
           "awayId": 2,
           "away": "TSG 1899 Hoffenheim",
           "awayCrest": "https://crests.football-data.org/2.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565827,
           "utcDate": "2026-10-17T00:00:00Z",
-          "status": "2026-10-17 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 3,
@@ -8083,12 +8083,12 @@
           "awayId": 17,
           "away": "SC Freiburg",
           "awayCrest": "https://crests.football-data.org/17.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565828,
           "utcDate": "2026-10-17T00:00:00Z",
-          "status": "2026-10-17 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 19,
@@ -8097,12 +8097,12 @@
           "awayId": 1,
           "away": "1. FC Köln",
           "awayCrest": "https://crests.football-data.org/1.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565829,
           "utcDate": "2026-10-17T00:00:00Z",
-          "status": "2026-10-17 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 6,
@@ -8111,12 +8111,12 @@
           "awayId": 15,
           "away": "1. FSV Mainz 05",
           "awayCrest": "https://crests.football-data.org/15.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565830,
           "utcDate": "2026-10-24T00:00:00Z",
-          "status": "2026-10-24 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 15,
@@ -8125,12 +8125,12 @@
           "awayId": 12,
           "away": "SV Werder Bremen",
           "awayCrest": "https://crests.football-data.org/12.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565831,
           "utcDate": "2026-10-24T00:00:00Z",
-          "status": "2026-10-24 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 1,
@@ -8139,12 +8139,12 @@
           "awayId": 6,
           "away": "FC Schalke 04",
           "awayCrest": "https://crests.football-data.org/6.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565832,
           "utcDate": "2026-10-24T00:00:00Z",
-          "status": "2026-10-24 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 721,
@@ -8153,12 +8153,12 @@
           "awayId": 719,
           "away": "SV 07 Elversberg",
           "awayCrest": "https://crests.football-data.org/719.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565833,
           "utcDate": "2026-10-24T00:00:00Z",
-          "status": "2026-10-24 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 10,
@@ -8167,12 +8167,12 @@
           "awayId": 18,
           "away": "Borussia Mönchengladbach",
           "awayCrest": "https://crests.football-data.org/18.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565834,
           "utcDate": "2026-10-24T00:00:00Z",
-          "status": "2026-10-24 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 29,
@@ -8181,12 +8181,12 @@
           "awayId": 7,
           "away": "Hamburger SV",
           "awayCrest": "https://crests.football-data.org/7.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565835,
           "utcDate": "2026-10-24T00:00:00Z",
-          "status": "2026-10-24 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 2,
@@ -8195,12 +8195,12 @@
           "awayId": 3,
           "away": "Bayer 04 Leverkusen",
           "awayCrest": "https://crests.football-data.org/3.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565836,
           "utcDate": "2026-10-24T00:00:00Z",
-          "status": "2026-10-24 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 17,
@@ -8209,12 +8209,12 @@
           "awayId": 5,
           "away": "FC Bayern München",
           "awayCrest": "https://crests.football-data.org/5.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565837,
           "utcDate": "2026-10-24T00:00:00Z",
-          "status": "2026-10-24 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 4,
@@ -8223,12 +8223,12 @@
           "awayId": 19,
           "away": "Eintracht Frankfurt",
           "awayCrest": "https://crests.football-data.org/19.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565838,
           "utcDate": "2026-10-24T00:00:00Z",
-          "status": "2026-10-24 13:30:00Z",
+          "status": "SCHEDULED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 16,
@@ -8237,7 +8237,7 @@
           "awayId": 28,
           "away": "1. FC Union Berlin",
           "awayCrest": "https://crests.football-data.org/28.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 565839,
@@ -12085,7 +12085,7 @@
         {
           "id": 564667,
           "utcDate": "2026-09-04T19:00:00Z",
-          "status": "TIMED",
+          "status": "2026-09-05 13:15:00Z",
           "matchday": 4,
           "stage": "REGULAR_SEASON",
           "homeId": 90,
@@ -12099,7 +12099,7 @@
         {
           "id": 564663,
           "utcDate": "2026-09-05T14:15:00Z",
-          "status": "TIMED",
+          "status": "2026-09-05 14:15:00Z",
           "matchday": 4,
           "stage": "REGULAR_SEASON",
           "homeId": 77,
@@ -12225,7 +12225,7 @@
         {
           "id": 564669,
           "utcDate": "2026-09-11T19:00:00Z",
-          "status": "2026-09-13 14:00:00Z",
+          "status": "TIMED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 559,
@@ -12239,7 +12239,7 @@
         {
           "id": 564670,
           "utcDate": "2026-09-12T12:00:00Z",
-          "status": "2026-09-13 14:00:00Z",
+          "status": "TIMED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 5335,
@@ -12253,7 +12253,7 @@
         {
           "id": 564673,
           "utcDate": "2026-09-12T14:15:00Z",
-          "status": "2026-09-13 14:00:00Z",
+          "status": "TIMED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 79,
@@ -12267,7 +12267,7 @@
         {
           "id": 564676,
           "utcDate": "2026-09-12T16:30:00Z",
-          "status": "2026-09-13 14:00:00Z",
+          "status": "TIMED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 77,
@@ -12281,7 +12281,7 @@
         {
           "id": 564677,
           "utcDate": "2026-09-12T19:00:00Z",
-          "status": "2026-09-13 14:00:00Z",
+          "status": "TIMED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 86,
@@ -12295,7 +12295,7 @@
         {
           "id": 564672,
           "utcDate": "2026-09-13T12:00:00Z",
-          "status": "2026-09-13 14:00:00Z",
+          "status": "TIMED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 558,
@@ -12309,7 +12309,7 @@
         {
           "id": 564675,
           "utcDate": "2026-09-13T14:15:00Z",
-          "status": "2026-09-13 14:00:00Z",
+          "status": "TIMED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 88,
@@ -12323,7 +12323,7 @@
         {
           "id": 564668,
           "utcDate": "2026-09-13T16:30:00Z",
-          "status": "2026-09-13 14:00:00Z",
+          "status": "TIMED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 82,
@@ -12337,7 +12337,7 @@
         {
           "id": 564674,
           "utcDate": "2026-09-13T19:00:00Z",
-          "status": "2026-09-13 14:00:00Z",
+          "status": "TIMED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 92,
@@ -12351,7 +12351,7 @@
         {
           "id": 564671,
           "utcDate": "2026-09-14T19:00:00Z",
-          "status": "2026-09-13 14:00:00Z",
+          "status": "TIMED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 94,
@@ -12365,7 +12365,7 @@
         {
           "id": 564678,
           "utcDate": "2026-09-15T17:00:00Z",
-          "status": "2026-09-16 14:00:00Z",
+          "status": "TIMED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 87,
@@ -12379,7 +12379,7 @@
         {
           "id": 564680,
           "utcDate": "2026-09-15T18:00:00Z",
-          "status": "2026-09-16 14:00:00Z",
+          "status": "TIMED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 263,
@@ -12393,7 +12393,7 @@
         {
           "id": 564681,
           "utcDate": "2026-09-15T19:30:00Z",
-          "status": "2026-09-16 14:00:00Z",
+          "status": "TIMED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 285,
@@ -12407,7 +12407,7 @@
         {
           "id": 564679,
           "utcDate": "2026-09-16T17:00:00Z",
-          "status": "2026-09-16 14:00:00Z",
+          "status": "TIMED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 560,
@@ -12421,7 +12421,7 @@
         {
           "id": 564684,
           "utcDate": "2026-09-16T17:00:00Z",
-          "status": "2026-09-16 14:00:00Z",
+          "status": "TIMED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 78,
@@ -12435,7 +12435,7 @@
         {
           "id": 564685,
           "utcDate": "2026-09-16T19:30:00Z",
-          "status": "2026-09-16 14:00:00Z",
+          "status": "TIMED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 88,
@@ -12449,7 +12449,7 @@
         {
           "id": 564687,
           "utcDate": "2026-09-16T19:30:00Z",
-          "status": "2026-09-16 14:00:00Z",
+          "status": "TIMED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 81,
@@ -12463,7 +12463,7 @@
         {
           "id": 564686,
           "utcDate": "2026-09-17T17:00:00Z",
-          "status": "2026-09-16 14:00:00Z",
+          "status": "TIMED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 90,
@@ -12477,7 +12477,7 @@
         {
           "id": 564683,
           "utcDate": "2026-09-17T19:30:00Z",
-          "status": "2026-09-16 14:00:00Z",
+          "status": "TIMED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 84,
@@ -12491,7 +12491,7 @@
         {
           "id": 564692,
           "utcDate": "2026-09-18T19:00:00Z",
-          "status": "2026-09-20 14:00:00Z",
+          "status": "TIMED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 80,
@@ -12505,7 +12505,7 @@
         {
           "id": 564693,
           "utcDate": "2026-09-19T12:00:00Z",
-          "status": "2026-09-20 14:00:00Z",
+          "status": "TIMED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 79,
@@ -12519,7 +12519,7 @@
         {
           "id": 564691,
           "utcDate": "2026-09-19T14:15:00Z",
-          "status": "2026-09-20 14:00:00Z",
+          "status": "TIMED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 77,
@@ -12533,7 +12533,7 @@
         {
           "id": 564694,
           "utcDate": "2026-09-19T16:30:00Z",
-          "status": "2026-09-20 14:00:00Z",
+          "status": "TIMED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 558,
@@ -12547,7 +12547,7 @@
         {
           "id": 564690,
           "utcDate": "2026-09-19T19:00:00Z",
-          "status": "2026-09-20 14:00:00Z",
+          "status": "TIMED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 559,
@@ -12561,7 +12561,7 @@
         {
           "id": 564697,
           "utcDate": "2026-09-20T12:00:00Z",
-          "status": "2026-09-20 14:00:00Z",
+          "status": "TIMED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 82,
@@ -12575,7 +12575,7 @@
         {
           "id": 564688,
           "utcDate": "2026-09-20T14:15:00Z",
-          "status": "2026-09-20 14:00:00Z",
+          "status": "TIMED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 78,
@@ -12589,7 +12589,7 @@
         {
           "id": 564695,
           "utcDate": "2026-09-20T16:30:00Z",
-          "status": "2026-09-20 14:00:00Z",
+          "status": "TIMED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 560,
@@ -12603,7 +12603,7 @@
         {
           "id": 564696,
           "utcDate": "2026-09-20T16:30:00Z",
-          "status": "2026-09-20 14:00:00Z",
+          "status": "TIMED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 94,
@@ -12617,7 +12617,7 @@
         {
           "id": 564689,
           "utcDate": "2026-09-20T19:00:00Z",
-          "status": "2026-09-20 14:00:00Z",
+          "status": "TIMED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 95,
@@ -12981,7 +12981,7 @@
         {
           "id": 564723,
           "utcDate": "2026-10-25T00:00:00Z",
-          "status": "2026-10-25 16:00:00Z",
+          "status": "SCHEDULED",
           "matchday": 10,
           "stage": "REGULAR_SEASON",
           "homeId": 81,
@@ -12990,7 +12990,7 @@
           "awayId": 86,
           "away": "Real Madrid CF",
           "awayCrest": "https://crests.football-data.org/86.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 564724,
@@ -17370,7 +17370,7 @@
         {
           "id": 558610,
           "utcDate": "2026-09-07T16:30:00Z",
-          "status": "2026-09-07 15:00:00Z",
+          "status": "TIMED",
           "matchday": 3,
           "stage": "REGULAR_SEASON",
           "homeId": 104,
@@ -17426,7 +17426,7 @@
         {
           "id": 558600,
           "utcDate": "2026-09-12T16:00:00Z",
-          "status": "2026-09-13 17:45:00Z",
+          "status": "TIMED",
           "matchday": 4,
           "stage": "REGULAR_SEASON",
           "homeId": 110,
@@ -17482,7 +17482,7 @@
         {
           "id": 558608,
           "utcDate": "2026-09-13T18:45:00Z",
-          "status": "2026-09-12 15:00:00Z",
+          "status": "TIMED",
           "matchday": 4,
           "stage": "REGULAR_SEASON",
           "homeId": 471,
@@ -17496,7 +17496,7 @@
         {
           "id": 558602,
           "utcDate": "2026-09-14T16:30:00Z",
-          "status": "2026-09-13 12:00:00Z",
+          "status": "TIMED",
           "matchday": 4,
           "stage": "REGULAR_SEASON",
           "homeId": 7397,
@@ -17510,7 +17510,7 @@
         {
           "id": 558603,
           "utcDate": "2026-09-14T16:30:00Z",
-          "status": "2026-09-13 09:30:00Z",
+          "status": "TIMED",
           "matchday": 4,
           "stage": "REGULAR_SEASON",
           "homeId": 586,
@@ -22809,7 +22809,7 @@
         {
           "id": 559682,
           "utcDate": "2026-09-18T18:45:00Z",
-          "status": "2026-09-19 14:00:00Z",
+          "status": "TIMED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 548,
@@ -22823,7 +22823,7 @@
         {
           "id": 559679,
           "utcDate": "2026-09-19T15:15:00Z",
-          "status": "2026-09-19 14:00:00Z",
+          "status": "TIMED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 1045,
@@ -22837,7 +22837,7 @@
         {
           "id": 559677,
           "utcDate": "2026-09-19T18:45:00Z",
-          "status": "2026-09-19 14:00:00Z",
+          "status": "TIMED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 535,
@@ -22851,7 +22851,7 @@
         {
           "id": 559680,
           "utcDate": "2026-09-19T18:45:00Z",
-          "status": "2026-09-19 14:00:00Z",
+          "status": "TIMED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 511,
@@ -22865,7 +22865,7 @@
         {
           "id": 559681,
           "utcDate": "2026-09-19T18:45:00Z",
-          "status": "2026-09-19 14:00:00Z",
+          "status": "TIMED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 532,
@@ -22879,7 +22879,7 @@
         {
           "id": 559683,
           "utcDate": "2026-09-19T18:45:00Z",
-          "status": "2026-09-19 14:00:00Z",
+          "status": "TIMED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 523,
@@ -22893,7 +22893,7 @@
         {
           "id": 559676,
           "utcDate": "2026-09-20T13:00:00Z",
-          "status": "2026-09-19 14:00:00Z",
+          "status": "TIMED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 519,
@@ -22907,7 +22907,7 @@
         {
           "id": 559678,
           "utcDate": "2026-09-20T15:15:00Z",
-          "status": "2026-09-19 14:00:00Z",
+          "status": "TIMED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 522,
