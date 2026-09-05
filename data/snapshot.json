@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-04T21:58:36.368Z",
+  "fetchedAt": "2026-09-05T11:30:22.879Z",
   "season": 2026,
   "leagues": [
     {
@@ -12071,7 +12071,7 @@
         {
           "id": 564682,
           "utcDate": "2026-09-03T19:00:00Z",
-          "status": "2026-09-03 18:00:00Z",
+          "status": "FINISHED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 92,
