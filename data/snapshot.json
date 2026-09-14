@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-14T14:35:51.027Z",
+  "fetchedAt": "2026-09-14T22:53:03.862Z",
   "season": 2026,
   "leagues": [
     {
@@ -556,7 +556,7 @@
         {
           "id": 560579,
           "utcDate": "2026-09-14T19:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 4,
           "stage": "REGULAR_SEASON",
           "homeId": 341,
@@ -12351,7 +12351,7 @@
         {
           "id": 564671,
           "utcDate": "2026-09-14T19:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 94,
@@ -17496,7 +17496,7 @@
         {
           "id": 558602,
           "utcDate": "2026-09-14T16:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 4,
           "stage": "REGULAR_SEASON",
           "homeId": 7397,
@@ -17510,7 +17510,7 @@
         {
           "id": 558603,
           "utcDate": "2026-09-14T16:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 4,
           "stage": "REGULAR_SEASON",
           "homeId": 586,
@@ -17524,7 +17524,7 @@
         {
           "id": 558601,
           "utcDate": "2026-09-14T18:45:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 4,
           "stage": "REGULAR_SEASON",
           "homeId": 108,
