@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-16T22:30:33.506Z",
+  "fetchedAt": "2026-09-17T12:54:37.874Z",
   "season": 2026,
   "leagues": [
     {
@@ -12405,6 +12405,20 @@
           "seq": 1
         },
         {
+          "id": 564685,
+          "utcDate": "2026-09-16T00:00:00Z",
+          "status": "POSTPONED",
+          "matchday": 6,
+          "stage": "REGULAR_SEASON",
+          "homeId": 88,
+          "home": "Levante UD",
+          "homeCrest": "https://crests.football-data.org/88.png",
+          "awayId": 77,
+          "away": "Athletic Club",
+          "awayCrest": "https://crests.football-data.org/77.png",
+          "seq": 2
+        },
+        {
           "id": 564679,
           "utcDate": "2026-09-16T17:00:00Z",
           "status": "FINISHED",
@@ -12430,20 +12444,6 @@
           "awayId": 79,
           "away": "CA Osasuna",
           "awayCrest": "https://crests.football-data.org/79.png",
-          "seq": 1
-        },
-        {
-          "id": 564685,
-          "utcDate": "2026-09-16T19:30:00Z",
-          "status": "IN_PLAY",
-          "matchday": 6,
-          "stage": "REGULAR_SEASON",
-          "homeId": 88,
-          "home": "Levante UD",
-          "homeCrest": "https://crests.football-data.org/88.png",
-          "awayId": 77,
-          "away": "Athletic Club",
-          "awayCrest": "https://crests.football-data.org/77.png",
           "seq": 1
         },
         {
