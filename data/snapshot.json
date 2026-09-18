@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-18T12:32:06.021Z",
+  "fetchedAt": "2026-09-18T22:06:21.055Z",
   "season": 2026,
   "leagues": [
     {
@@ -570,7 +570,7 @@
         {
           "id": 560591,
           "utcDate": "2026-09-18T19:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 402,
@@ -7738,7 +7738,7 @@
         {
           "id": 565804,
           "utcDate": "2026-09-18T18:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 4,
           "stage": "REGULAR_SEASON",
           "homeId": 5,
@@ -12405,20 +12405,6 @@
           "seq": 1
         },
         {
-          "id": 564685,
-          "utcDate": "2026-09-16T00:00:00Z",
-          "status": "POSTPONED",
-          "matchday": 6,
-          "stage": "REGULAR_SEASON",
-          "homeId": 88,
-          "home": "Levante UD",
-          "homeCrest": "https://crests.football-data.org/88.png",
-          "awayId": 77,
-          "away": "Athletic Club",
-          "awayCrest": "https://crests.football-data.org/77.png",
-          "seq": 2
-        },
-        {
           "id": 564679,
           "utcDate": "2026-09-16T17:00:00Z",
           "status": "FINISHED",
@@ -12491,7 +12477,7 @@
         {
           "id": 564692,
           "utcDate": "2026-09-18T19:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 80,
@@ -12907,6 +12893,20 @@
           "away": "Rayo Vallecano de Madrid",
           "awayCrest": "https://crests.football-data.org/87.png",
           "seq": 5
+        },
+        {
+          "id": 564685,
+          "utcDate": "2026-10-21T18:00:00Z",
+          "status": "TIMED",
+          "matchday": 6,
+          "stage": "REGULAR_SEASON",
+          "homeId": 88,
+          "home": "Levante UD",
+          "homeCrest": "https://crests.football-data.org/88.png",
+          "awayId": 77,
+          "away": "Athletic Club",
+          "awayCrest": "https://crests.football-data.org/77.png",
+          "seq": 3
         },
         {
           "id": 564718,
@@ -17538,7 +17538,7 @@
         {
           "id": 558596,
           "utcDate": "2026-09-18T18:45:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 5911,
@@ -22809,7 +22809,7 @@
         {
           "id": 559682,
           "utcDate": "2026-09-18T18:45:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 548,
