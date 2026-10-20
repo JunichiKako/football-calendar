@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-10-20T13:10:13.951Z",
+  "fetchedAt": "2026-10-20T22:50:57.138Z",
   "season": 2026,
   "leagues": [
     {
@@ -794,7 +794,7 @@
         {
           "id": 560594,
           "utcDate": "2026-10-11T13:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 322,
@@ -808,7 +808,7 @@
         {
           "id": 560596,
           "utcDate": "2026-10-11T13:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 354,
@@ -822,7 +822,7 @@
         {
           "id": 560598,
           "utcDate": "2026-10-11T15:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 64,
@@ -836,7 +836,7 @@
         {
           "id": 560597,
           "utcDate": "2026-10-12T19:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 1076,
@@ -850,7 +850,7 @@
         {
           "id": 560603,
           "utcDate": "2026-10-17T11:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 62,
@@ -864,7 +864,7 @@
         {
           "id": 560602,
           "utcDate": "2026-10-17T14:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 63,
@@ -878,7 +878,7 @@
         {
           "id": 560610,
           "utcDate": "2026-10-17T14:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 65,
@@ -892,7 +892,7 @@
         {
           "id": 560611,
           "utcDate": "2026-10-17T14:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 402,
@@ -906,7 +906,7 @@
         {
           "id": 560607,
           "utcDate": "2026-10-17T16:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 67,
@@ -920,7 +920,7 @@
         {
           "id": 560604,
           "utcDate": "2026-10-18T13:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 1044,
@@ -934,7 +934,7 @@
         {
           "id": 560605,
           "utcDate": "2026-10-18T13:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 341,
@@ -948,7 +948,7 @@
         {
           "id": 560609,
           "utcDate": "2026-10-18T13:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 397,
@@ -1688,92 +1688,8 @@
           "seq": 1
         },
         {
-          "id": 560662,
-          "utcDate": "2026-12-02T20:00:00Z",
-          "status": "TIMED",
-          "matchday": 13,
-          "stage": "REGULAR_SEASON",
-          "homeId": 73,
-          "home": "Tottenham Hotspur FC",
-          "homeCrest": "https://crests.football-data.org/73.png",
-          "awayId": 63,
-          "away": "Fulham FC",
-          "awayCrest": "https://crests.football-data.org/63.png",
-          "seq": 0
-        },
-        {
-          "id": 560663,
-          "utcDate": "2026-12-02T20:00:00Z",
-          "status": "TIMED",
-          "matchday": 13,
-          "stage": "REGULAR_SEASON",
-          "homeId": 64,
-          "home": "Liverpool FC",
-          "homeCrest": "https://crests.football-data.org/64.png",
-          "awayId": 71,
-          "away": "Sunderland AFC",
-          "awayCrest": "https://crests.football-data.org/71.png",
-          "seq": 0
-        },
-        {
-          "id": 560664,
-          "utcDate": "2026-12-02T20:00:00Z",
-          "status": "TIMED",
-          "matchday": 13,
-          "stage": "REGULAR_SEASON",
-          "homeId": 322,
-          "home": "Hull City AFC",
-          "homeCrest": "https://crests.football-data.org/322.png",
-          "awayId": 351,
-          "away": "Nottingham Forest FC",
-          "awayCrest": "https://crests.football-data.org/351.png",
-          "seq": 0
-        },
-        {
-          "id": 560665,
-          "utcDate": "2026-12-02T20:00:00Z",
-          "status": "TIMED",
-          "matchday": 13,
-          "stage": "REGULAR_SEASON",
-          "homeId": 61,
-          "home": "Chelsea FC",
-          "homeCrest": "https://crests.football-data.org/61.png",
-          "awayId": 354,
-          "away": "Crystal Palace FC",
-          "awayCrest": "https://crests.football-data.org/354.png",
-          "seq": 0
-        },
-        {
-          "id": 560666,
-          "utcDate": "2026-12-02T20:00:00Z",
-          "status": "TIMED",
-          "matchday": 13,
-          "stage": "REGULAR_SEASON",
-          "homeId": 58,
-          "home": "Aston Villa FC",
-          "homeCrest": "https://crests.football-data.org/58.png",
-          "awayId": 62,
-          "away": "Everton FC",
-          "awayCrest": "https://crests.football-data.org/62.png",
-          "seq": 0
-        },
-        {
-          "id": 560667,
-          "utcDate": "2026-12-02T20:00:00Z",
-          "status": "TIMED",
-          "matchday": 13,
-          "stage": "REGULAR_SEASON",
-          "homeId": 402,
-          "home": "Brentford FC",
-          "homeCrest": "https://crests.football-data.org/402.png",
-          "awayId": 57,
-          "away": "Arsenal FC",
-          "awayCrest": "https://crests.football-data.org/57.png",
-          "seq": 0
-        },
-        {
           "id": 560668,
-          "utcDate": "2026-12-02T20:00:00Z",
+          "utcDate": "2026-12-01T20:00:00Z",
           "status": "TIMED",
           "matchday": 13,
           "stage": "REGULAR_SEASON",
@@ -1783,11 +1699,53 @@
           "awayId": 349,
           "away": "Ipswich Town FC",
           "awayCrest": "https://crests.football-data.org/349.png",
-          "seq": 0
+          "seq": 1
+        },
+        {
+          "id": 560663,
+          "utcDate": "2026-12-02T19:30:00Z",
+          "status": "TIMED",
+          "matchday": 13,
+          "stage": "REGULAR_SEASON",
+          "homeId": 64,
+          "home": "Liverpool FC",
+          "homeCrest": "https://crests.football-data.org/64.png",
+          "awayId": 71,
+          "away": "Sunderland AFC",
+          "awayCrest": "https://crests.football-data.org/71.png",
+          "seq": 1
+        },
+        {
+          "id": 560664,
+          "utcDate": "2026-12-02T19:30:00Z",
+          "status": "TIMED",
+          "matchday": 13,
+          "stage": "REGULAR_SEASON",
+          "homeId": 322,
+          "home": "Hull City AFC",
+          "homeCrest": "https://crests.football-data.org/322.png",
+          "awayId": 351,
+          "away": "Nottingham Forest FC",
+          "awayCrest": "https://crests.football-data.org/351.png",
+          "seq": 1
+        },
+        {
+          "id": 560665,
+          "utcDate": "2026-12-02T19:30:00Z",
+          "status": "TIMED",
+          "matchday": 13,
+          "stage": "REGULAR_SEASON",
+          "homeId": 61,
+          "home": "Chelsea FC",
+          "homeCrest": "https://crests.football-data.org/61.png",
+          "awayId": 354,
+          "away": "Crystal Palace FC",
+          "awayCrest": "https://crests.football-data.org/354.png",
+          "seq": 1
         },
         {
           "id": 560669,
-          "utcDate": "2026-12-02T20:00:00Z",
+          "utcDate": "2026-12-02T19:30:00Z",
           "status": "TIMED",
           "matchday": 13,
           "stage": "REGULAR_SEASON",
@@ -1797,11 +1755,39 @@
           "awayId": 341,
           "away": "Leeds United FC",
           "awayCrest": "https://crests.football-data.org/341.png",
-          "seq": 0
+          "seq": 1
+        },
+        {
+          "id": 560666,
+          "utcDate": "2026-12-02T20:15:00Z",
+          "status": "TIMED",
+          "matchday": 13,
+          "stage": "REGULAR_SEASON",
+          "homeId": 58,
+          "home": "Aston Villa FC",
+          "homeCrest": "https://crests.football-data.org/58.png",
+          "awayId": 62,
+          "away": "Everton FC",
+          "awayCrest": "https://crests.football-data.org/62.png",
+          "seq": 1
+        },
+        {
+          "id": 560667,
+          "utcDate": "2026-12-02T20:15:00Z",
+          "status": "TIMED",
+          "matchday": 13,
+          "stage": "REGULAR_SEASON",
+          "homeId": 402,
+          "home": "Brentford FC",
+          "homeCrest": "https://crests.football-data.org/402.png",
+          "awayId": 57,
+          "away": "Arsenal FC",
+          "awayCrest": "https://crests.football-data.org/57.png",
+          "seq": 1
         },
         {
           "id": 560670,
-          "utcDate": "2026-12-02T20:00:00Z",
+          "utcDate": "2026-12-02T20:15:00Z",
           "status": "TIMED",
           "matchday": 13,
           "stage": "REGULAR_SEASON",
@@ -1811,11 +1797,11 @@
           "awayId": 66,
           "away": "Manchester United FC",
           "awayCrest": "https://crests.football-data.org/66.png",
-          "seq": 0
+          "seq": 1
         },
         {
           "id": 560671,
-          "utcDate": "2026-12-02T20:00:00Z",
+          "utcDate": "2026-12-02T20:15:00Z",
           "status": "TIMED",
           "matchday": 13,
           "stage": "REGULAR_SEASON",
@@ -1825,21 +1811,35 @@
           "awayId": 397,
           "away": "Brighton & Hove Albion FC",
           "awayCrest": "https://crests.football-data.org/397.png",
-          "seq": 0
+          "seq": 1
         },
         {
-          "id": 560672,
-          "utcDate": "2026-12-05T15:00:00Z",
+          "id": 560662,
+          "utcDate": "2026-12-03T20:00:00Z",
           "status": "TIMED",
-          "matchday": 14,
+          "matchday": 13,
           "stage": "REGULAR_SEASON",
           "homeId": 73,
           "home": "Tottenham Hotspur FC",
           "homeCrest": "https://crests.football-data.org/73.png",
-          "awayId": 57,
-          "away": "Arsenal FC",
-          "awayCrest": "https://crests.football-data.org/57.png",
-          "seq": 0
+          "awayId": 63,
+          "away": "Fulham FC",
+          "awayCrest": "https://crests.football-data.org/63.png",
+          "seq": 1
+        },
+        {
+          "id": 560676,
+          "utcDate": "2026-12-05T12:30:00Z",
+          "status": "TIMED",
+          "matchday": 14,
+          "stage": "REGULAR_SEASON",
+          "homeId": 61,
+          "home": "Chelsea FC",
+          "homeCrest": "https://crests.football-data.org/61.png",
+          "awayId": 64,
+          "away": "Liverpool FC",
+          "awayCrest": "https://crests.football-data.org/64.png",
+          "seq": 1
         },
         {
           "id": 560673,
@@ -1867,48 +1867,6 @@
           "awayId": 349,
           "away": "Ipswich Town FC",
           "awayCrest": "https://crests.football-data.org/349.png",
-          "seq": 0
-        },
-        {
-          "id": 560675,
-          "utcDate": "2026-12-05T15:00:00Z",
-          "status": "TIMED",
-          "matchday": 14,
-          "stage": "REGULAR_SEASON",
-          "homeId": 67,
-          "home": "Newcastle United FC",
-          "homeCrest": "https://crests.football-data.org/67.png",
-          "awayId": 71,
-          "away": "Sunderland AFC",
-          "awayCrest": "https://crests.football-data.org/71.png",
-          "seq": 0
-        },
-        {
-          "id": 560676,
-          "utcDate": "2026-12-05T15:00:00Z",
-          "status": "TIMED",
-          "matchday": 14,
-          "stage": "REGULAR_SEASON",
-          "homeId": 61,
-          "home": "Chelsea FC",
-          "homeCrest": "https://crests.football-data.org/61.png",
-          "awayId": 64,
-          "away": "Liverpool FC",
-          "awayCrest": "https://crests.football-data.org/64.png",
-          "seq": 0
-        },
-        {
-          "id": 560677,
-          "utcDate": "2026-12-05T15:00:00Z",
-          "status": "TIMED",
-          "matchday": 14,
-          "stage": "REGULAR_SEASON",
-          "homeId": 402,
-          "home": "Brentford FC",
-          "homeCrest": "https://crests.football-data.org/402.png",
-          "awayId": 65,
-          "away": "Manchester City FC",
-          "awayCrest": "https://crests.football-data.org/65.png",
           "seq": 0
         },
         {
@@ -1941,7 +1899,7 @@
         },
         {
           "id": 560680,
-          "utcDate": "2026-12-05T15:00:00Z",
+          "utcDate": "2026-12-05T17:30:00Z",
           "status": "TIMED",
           "matchday": 14,
           "stage": "REGULAR_SEASON",
@@ -1951,11 +1909,39 @@
           "awayId": 397,
           "away": "Brighton & Hove Albion FC",
           "awayCrest": "https://crests.football-data.org/397.png",
-          "seq": 0
+          "seq": 1
+        },
+        {
+          "id": 560677,
+          "utcDate": "2026-12-05T20:00:00Z",
+          "status": "TIMED",
+          "matchday": 14,
+          "stage": "REGULAR_SEASON",
+          "homeId": 402,
+          "home": "Brentford FC",
+          "homeCrest": "https://crests.football-data.org/402.png",
+          "awayId": 65,
+          "away": "Manchester City FC",
+          "awayCrest": "https://crests.football-data.org/65.png",
+          "seq": 1
+        },
+        {
+          "id": 560675,
+          "utcDate": "2026-12-06T14:00:00Z",
+          "status": "TIMED",
+          "matchday": 14,
+          "stage": "REGULAR_SEASON",
+          "homeId": 67,
+          "home": "Newcastle United FC",
+          "homeCrest": "https://crests.football-data.org/67.png",
+          "awayId": 71,
+          "away": "Sunderland AFC",
+          "awayCrest": "https://crests.football-data.org/71.png",
+          "seq": 1
         },
         {
           "id": 560681,
-          "utcDate": "2026-12-05T15:00:00Z",
+          "utcDate": "2026-12-06T14:00:00Z",
           "status": "TIMED",
           "matchday": 14,
           "stage": "REGULAR_SEASON",
@@ -1965,63 +1951,21 @@
           "awayId": 63,
           "away": "Fulham FC",
           "awayCrest": "https://crests.football-data.org/63.png",
-          "seq": 0
+          "seq": 1
         },
         {
-          "id": 560682,
-          "utcDate": "2026-12-12T15:00:00Z",
+          "id": 560672,
+          "utcDate": "2026-12-06T16:30:00Z",
           "status": "TIMED",
-          "matchday": 15,
+          "matchday": 14,
           "stage": "REGULAR_SEASON",
-          "homeId": 71,
-          "home": "Sunderland AFC",
-          "homeCrest": "https://crests.football-data.org/71.png",
-          "awayId": 351,
-          "away": "Nottingham Forest FC",
-          "awayCrest": "https://crests.football-data.org/351.png",
-          "seq": 0
-        },
-        {
-          "id": 560683,
-          "utcDate": "2026-12-12T15:00:00Z",
-          "status": "TIMED",
-          "matchday": 15,
-          "stage": "REGULAR_SEASON",
-          "homeId": 354,
-          "home": "Crystal Palace FC",
-          "homeCrest": "https://crests.football-data.org/354.png",
-          "awayId": 66,
-          "away": "Manchester United FC",
-          "awayCrest": "https://crests.football-data.org/66.png",
-          "seq": 0
-        },
-        {
-          "id": 560684,
-          "utcDate": "2026-12-12T15:00:00Z",
-          "status": "TIMED",
-          "matchday": 15,
-          "stage": "REGULAR_SEASON",
-          "homeId": 322,
-          "home": "Hull City AFC",
-          "homeCrest": "https://crests.football-data.org/322.png",
-          "awayId": 73,
-          "away": "Tottenham Hotspur FC",
-          "awayCrest": "https://crests.football-data.org/73.png",
-          "seq": 0
-        },
-        {
-          "id": 560685,
-          "utcDate": "2026-12-12T15:00:00Z",
-          "status": "TIMED",
-          "matchday": 15,
-          "stage": "REGULAR_SEASON",
-          "homeId": 397,
-          "home": "Brighton & Hove Albion FC",
-          "homeCrest": "https://crests.football-data.org/397.png",
-          "awayId": 62,
-          "away": "Everton FC",
-          "awayCrest": "https://crests.football-data.org/62.png",
-          "seq": 0
+          "homeId": 73,
+          "home": "Tottenham Hotspur FC",
+          "homeCrest": "https://crests.football-data.org/73.png",
+          "awayId": 57,
+          "away": "Arsenal FC",
+          "awayCrest": "https://crests.football-data.org/57.png",
+          "seq": 1
         },
         {
           "id": 560686,
@@ -2035,48 +1979,6 @@
           "awayId": 67,
           "away": "Newcastle United FC",
           "awayCrest": "https://crests.football-data.org/67.png",
-          "seq": 0
-        },
-        {
-          "id": 560687,
-          "utcDate": "2026-12-12T15:00:00Z",
-          "status": "TIMED",
-          "matchday": 15,
-          "stage": "REGULAR_SEASON",
-          "homeId": 1076,
-          "home": "Coventry City FC",
-          "homeCrest": "https://crests.football-data.org/1076.png",
-          "awayId": 58,
-          "away": "Aston Villa FC",
-          "awayCrest": "https://crests.football-data.org/58.png",
-          "seq": 0
-        },
-        {
-          "id": 560688,
-          "utcDate": "2026-12-12T15:00:00Z",
-          "status": "TIMED",
-          "matchday": 15,
-          "stage": "REGULAR_SEASON",
-          "homeId": 57,
-          "home": "Arsenal FC",
-          "homeCrest": "https://crests.football-data.org/57.png",
-          "awayId": 1044,
-          "away": "AFC Bournemouth",
-          "awayCrest": "https://crests.football-data.org/bournemouth.png",
-          "seq": 0
-        },
-        {
-          "id": 560689,
-          "utcDate": "2026-12-12T15:00:00Z",
-          "status": "TIMED",
-          "matchday": 15,
-          "stage": "REGULAR_SEASON",
-          "homeId": 65,
-          "home": "Manchester City FC",
-          "homeCrest": "https://crests.football-data.org/65.png",
-          "awayId": 61,
-          "away": "Chelsea FC",
-          "awayCrest": "https://crests.football-data.org/61.png",
           "seq": 0
         },
         {
@@ -2108,6 +2010,118 @@
           "seq": 0
         },
         {
+          "id": 560689,
+          "utcDate": "2026-12-12T17:30:00Z",
+          "status": "TIMED",
+          "matchday": 15,
+          "stage": "REGULAR_SEASON",
+          "homeId": 65,
+          "home": "Manchester City FC",
+          "homeCrest": "https://crests.football-data.org/65.png",
+          "awayId": 61,
+          "away": "Chelsea FC",
+          "awayCrest": "https://crests.football-data.org/61.png",
+          "seq": 1
+        },
+        {
+          "id": 560682,
+          "utcDate": "2026-12-13T14:00:00Z",
+          "status": "TIMED",
+          "matchday": 15,
+          "stage": "REGULAR_SEASON",
+          "homeId": 71,
+          "home": "Sunderland AFC",
+          "homeCrest": "https://crests.football-data.org/71.png",
+          "awayId": 351,
+          "away": "Nottingham Forest FC",
+          "awayCrest": "https://crests.football-data.org/351.png",
+          "seq": 1
+        },
+        {
+          "id": 560685,
+          "utcDate": "2026-12-13T14:00:00Z",
+          "status": "TIMED",
+          "matchday": 15,
+          "stage": "REGULAR_SEASON",
+          "homeId": 397,
+          "home": "Brighton & Hove Albion FC",
+          "homeCrest": "https://crests.football-data.org/397.png",
+          "awayId": 62,
+          "away": "Everton FC",
+          "awayCrest": "https://crests.football-data.org/62.png",
+          "seq": 1
+        },
+        {
+          "id": 560688,
+          "utcDate": "2026-12-13T14:00:00Z",
+          "status": "TIMED",
+          "matchday": 15,
+          "stage": "REGULAR_SEASON",
+          "homeId": 57,
+          "home": "Arsenal FC",
+          "homeCrest": "https://crests.football-data.org/57.png",
+          "awayId": 1044,
+          "away": "AFC Bournemouth",
+          "awayCrest": "https://crests.football-data.org/bournemouth.png",
+          "seq": 1
+        },
+        {
+          "id": 560687,
+          "utcDate": "2026-12-13T16:30:00Z",
+          "status": "TIMED",
+          "matchday": 15,
+          "stage": "REGULAR_SEASON",
+          "homeId": 1076,
+          "home": "Coventry City FC",
+          "homeCrest": "https://crests.football-data.org/1076.png",
+          "awayId": 58,
+          "away": "Aston Villa FC",
+          "awayCrest": "https://crests.football-data.org/58.png",
+          "seq": 1
+        },
+        {
+          "id": 560683,
+          "utcDate": "2026-12-13T19:00:00Z",
+          "status": "TIMED",
+          "matchday": 15,
+          "stage": "REGULAR_SEASON",
+          "homeId": 354,
+          "home": "Crystal Palace FC",
+          "homeCrest": "https://crests.football-data.org/354.png",
+          "awayId": 66,
+          "away": "Manchester United FC",
+          "awayCrest": "https://crests.football-data.org/66.png",
+          "seq": 1
+        },
+        {
+          "id": 560684,
+          "utcDate": "2026-12-14T20:00:00Z",
+          "status": "TIMED",
+          "matchday": 15,
+          "stage": "REGULAR_SEASON",
+          "homeId": 322,
+          "home": "Hull City AFC",
+          "homeCrest": "https://crests.football-data.org/322.png",
+          "awayId": 73,
+          "away": "Tottenham Hotspur FC",
+          "awayCrest": "https://crests.football-data.org/73.png",
+          "seq": 1
+        },
+        {
+          "id": 560695,
+          "utcDate": "2026-12-19T12:30:00Z",
+          "status": "TIMED",
+          "matchday": 16,
+          "stage": "REGULAR_SEASON",
+          "homeId": 402,
+          "home": "Brentford FC",
+          "homeCrest": "https://crests.football-data.org/402.png",
+          "awayId": 67,
+          "away": "Newcastle United FC",
+          "awayCrest": "https://crests.football-data.org/67.png",
+          "seq": 1
+        },
+        {
           "id": 560692,
           "utcDate": "2026-12-19T15:00:00Z",
           "status": "TIMED",
@@ -2119,20 +2133,6 @@
           "awayId": 63,
           "away": "Fulham FC",
           "awayCrest": "https://crests.football-data.org/63.png",
-          "seq": 0
-        },
-        {
-          "id": 560693,
-          "utcDate": "2026-12-19T15:00:00Z",
-          "status": "TIMED",
-          "matchday": 16,
-          "stage": "REGULAR_SEASON",
-          "homeId": 397,
-          "home": "Brighton & Hove Albion FC",
-          "homeCrest": "https://crests.football-data.org/397.png",
-          "awayId": 349,
-          "away": "Ipswich Town FC",
-          "awayCrest": "https://crests.football-data.org/349.png",
           "seq": 0
         },
         {
@@ -2150,20 +2150,6 @@
           "seq": 0
         },
         {
-          "id": 560695,
-          "utcDate": "2026-12-19T15:00:00Z",
-          "status": "TIMED",
-          "matchday": 16,
-          "stage": "REGULAR_SEASON",
-          "homeId": 402,
-          "home": "Brentford FC",
-          "homeCrest": "https://crests.football-data.org/402.png",
-          "awayId": 67,
-          "away": "Newcastle United FC",
-          "awayCrest": "https://crests.football-data.org/67.png",
-          "seq": 0
-        },
-        {
           "id": 560696,
           "utcDate": "2026-12-19T15:00:00Z",
           "status": "TIMED",
@@ -2175,20 +2161,6 @@
           "awayId": 322,
           "away": "Hull City AFC",
           "awayCrest": "https://crests.football-data.org/322.png",
-          "seq": 0
-        },
-        {
-          "id": 560697,
-          "utcDate": "2026-12-19T15:00:00Z",
-          "status": "TIMED",
-          "matchday": 16,
-          "stage": "REGULAR_SEASON",
-          "homeId": 71,
-          "home": "Sunderland AFC",
-          "homeCrest": "https://crests.football-data.org/71.png",
-          "awayId": 354,
-          "away": "Crystal Palace FC",
-          "awayCrest": "https://crests.football-data.org/354.png",
           "seq": 0
         },
         {
@@ -2206,22 +2178,8 @@
           "seq": 0
         },
         {
-          "id": 560699,
-          "utcDate": "2026-12-19T15:00:00Z",
-          "status": "TIMED",
-          "matchday": 16,
-          "stage": "REGULAR_SEASON",
-          "homeId": 57,
-          "home": "Arsenal FC",
-          "homeCrest": "https://crests.football-data.org/57.png",
-          "awayId": 66,
-          "away": "Manchester United FC",
-          "awayCrest": "https://crests.football-data.org/66.png",
-          "seq": 0
-        },
-        {
           "id": 560700,
-          "utcDate": "2026-12-19T15:00:00Z",
+          "utcDate": "2026-12-19T17:30:00Z",
           "status": "TIMED",
           "matchday": 16,
           "stage": "REGULAR_SEASON",
@@ -2231,11 +2189,53 @@
           "awayId": 73,
           "away": "Tottenham Hotspur FC",
           "awayCrest": "https://crests.football-data.org/73.png",
-          "seq": 0
+          "seq": 1
+        },
+        {
+          "id": 560693,
+          "utcDate": "2026-12-20T14:00:00Z",
+          "status": "TIMED",
+          "matchday": 16,
+          "stage": "REGULAR_SEASON",
+          "homeId": 397,
+          "home": "Brighton & Hove Albion FC",
+          "homeCrest": "https://crests.football-data.org/397.png",
+          "awayId": 349,
+          "away": "Ipswich Town FC",
+          "awayCrest": "https://crests.football-data.org/349.png",
+          "seq": 1
+        },
+        {
+          "id": 560697,
+          "utcDate": "2026-12-20T14:00:00Z",
+          "status": "TIMED",
+          "matchday": 16,
+          "stage": "REGULAR_SEASON",
+          "homeId": 71,
+          "home": "Sunderland AFC",
+          "homeCrest": "https://crests.football-data.org/71.png",
+          "awayId": 354,
+          "away": "Crystal Palace FC",
+          "awayCrest": "https://crests.football-data.org/354.png",
+          "seq": 1
+        },
+        {
+          "id": 560699,
+          "utcDate": "2026-12-20T16:30:00Z",
+          "status": "TIMED",
+          "matchday": 16,
+          "stage": "REGULAR_SEASON",
+          "homeId": 57,
+          "home": "Arsenal FC",
+          "homeCrest": "https://crests.football-data.org/57.png",
+          "awayId": 66,
+          "away": "Manchester United FC",
+          "awayCrest": "https://crests.football-data.org/66.png",
+          "seq": 1
         },
         {
           "id": 560701,
-          "utcDate": "2026-12-19T15:00:00Z",
+          "utcDate": "2026-12-21T20:00:00Z",
           "status": "TIMED",
           "matchday": 16,
           "stage": "REGULAR_SEASON",
@@ -2245,7 +2245,7 @@
           "awayId": 58,
           "away": "Aston Villa FC",
           "awayCrest": "https://crests.football-data.org/58.png",
-          "seq": 0
+          "seq": 1
         },
         {
           "id": 560702,
@@ -5841,7 +5841,7 @@
         {
           "id": 575359,
           "utcDate": "2026-10-20T16:45:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 3,
           "stage": "LEAGUE_STAGE",
           "homeId": 10233,
@@ -5855,7 +5855,7 @@
         {
           "id": 575360,
           "utcDate": "2026-10-20T16:45:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 3,
           "stage": "LEAGUE_STAGE",
           "homeId": 613,
@@ -5869,7 +5869,7 @@
         {
           "id": 575361,
           "utcDate": "2026-10-20T19:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 3,
           "stage": "LEAGUE_STAGE",
           "homeId": 65,
@@ -5883,7 +5883,7 @@
         {
           "id": 575362,
           "utcDate": "2026-10-20T19:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 3,
           "stage": "LEAGUE_STAGE",
           "homeId": 10,
@@ -5897,7 +5897,7 @@
         {
           "id": 575363,
           "utcDate": "2026-10-20T19:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 3,
           "stage": "LEAGUE_STAGE",
           "homeId": 64,
@@ -5911,7 +5911,7 @@
         {
           "id": 575364,
           "utcDate": "2026-10-20T19:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 3,
           "stage": "LEAGUE_STAGE",
           "homeId": 100,
@@ -5925,7 +5925,7 @@
         {
           "id": 575365,
           "utcDate": "2026-10-20T19:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 3,
           "stage": "LEAGUE_STAGE",
           "homeId": 503,
@@ -5939,7 +5939,7 @@
         {
           "id": 575366,
           "utcDate": "2026-10-20T19:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 3,
           "stage": "LEAGUE_STAGE",
           "homeId": 113,
@@ -5953,7 +5953,7 @@
         {
           "id": 575367,
           "utcDate": "2026-10-20T19:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 3,
           "stage": "LEAGUE_STAGE",
           "homeId": 524,
@@ -7962,7 +7962,7 @@
         {
           "id": 565814,
           "utcDate": "2026-10-11T13:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 1,
@@ -7976,7 +7976,7 @@
         {
           "id": 565816,
           "utcDate": "2026-10-11T15:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 5,
           "stage": "REGULAR_SEASON",
           "homeId": 17,
@@ -7990,7 +7990,7 @@
         {
           "id": 565828,
           "utcDate": "2026-10-16T18:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 19,
@@ -8004,7 +8004,7 @@
         {
           "id": 565821,
           "utcDate": "2026-10-17T13:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 28,
@@ -8018,7 +8018,7 @@
         {
           "id": 565822,
           "utcDate": "2026-10-17T13:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 7,
@@ -8032,7 +8032,7 @@
         {
           "id": 565823,
           "utcDate": "2026-10-17T13:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 12,
@@ -8046,7 +8046,7 @@
         {
           "id": 565824,
           "utcDate": "2026-10-17T13:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 719,
@@ -8060,7 +8060,7 @@
         {
           "id": 565829,
           "utcDate": "2026-10-17T13:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 6,
@@ -8074,7 +8074,7 @@
         {
           "id": 565825,
           "utcDate": "2026-10-17T16:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 6,
           "stage": "REGULAR_SEASON",
           "homeId": 5,
