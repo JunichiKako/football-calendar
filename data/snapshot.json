@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-10-23T12:59:02.662Z",
+  "fetchedAt": "2026-10-23T22:46:00.670Z",
   "season": 2026,
   "leagues": [
     {
@@ -990,7 +990,7 @@
         {
           "id": 560620,
           "utcDate": "2026-10-23T19:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 8,
           "stage": "REGULAR_SEASON",
           "homeId": 349,
@@ -8116,7 +8116,7 @@
         {
           "id": 565833,
           "utcDate": "2026-10-23T18:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 7,
           "stage": "REGULAR_SEASON",
           "homeId": 10,
@@ -12911,7 +12911,7 @@
         {
           "id": 564719,
           "utcDate": "2026-10-23T19:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 10,
           "stage": "REGULAR_SEASON",
           "homeId": 263,
@@ -17958,7 +17958,7 @@
         {
           "id": 558567,
           "utcDate": "2026-10-23T18:45:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 8,
           "stage": "REGULAR_SEASON",
           "homeId": 586,
@@ -23187,7 +23187,7 @@
         {
           "id": 559654,
           "utcDate": "2026-10-23T18:45:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 8,
           "stage": "REGULAR_SEASON",
           "homeId": 512,
@@ -23298,7 +23298,7 @@
         },
         {
           "id": 559648,
-          "utcDate": "2026-10-25T19:45:00Z",
+          "utcDate": "2026-10-26T19:30:00Z",
           "status": "TIMED",
           "matchday": 8,
           "stage": "REGULAR_SEASON",
@@ -23308,7 +23308,7 @@
           "awayId": 523,
           "away": "Olympique Lyonnais",
           "awayCrest": "https://crests.football-data.org/523.png",
-          "seq": 0
+          "seq": 1
         },
         {
           "id": 559644,
