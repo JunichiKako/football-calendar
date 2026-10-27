@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-10-27T13:48:11.986Z",
+  "fetchedAt": "2026-10-27T23:23:34.551Z",
   "season": 2026,
   "leagues": [
     {
@@ -18098,7 +18098,7 @@
         {
           "id": 558556,
           "utcDate": "2026-10-27T17:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 9,
           "stage": "REGULAR_SEASON",
           "homeId": 471,
@@ -18112,7 +18112,7 @@
         {
           "id": 558555,
           "utcDate": "2026-10-27T19:45:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 9,
           "stage": "REGULAR_SEASON",
           "homeId": 100,
@@ -18126,7 +18126,7 @@
         {
           "id": 558557,
           "utcDate": "2026-10-27T19:45:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 9,
           "stage": "REGULAR_SEASON",
           "homeId": 586,
@@ -23325,6 +23325,20 @@
           "seq": 1
         },
         {
+          "id": 559646,
+          "utcDate": "2026-10-30T18:00:00Z",
+          "status": "TIMED",
+          "matchday": 9,
+          "stage": "REGULAR_SEASON",
+          "homeId": 522,
+          "home": "OGC Nice",
+          "homeCrest": "https://crests.football-data.org/522.png",
+          "awayId": 529,
+          "away": "Stade Rennais FC 1901",
+          "awayCrest": "https://crests.football-data.org/529.png",
+          "seq": 2
+        },
+        {
           "id": 559639,
           "utcDate": "2026-10-30T20:05:00Z",
           "status": "TIMED",
@@ -23336,48 +23350,6 @@
           "awayId": 546,
           "away": "Racing Club de Lens",
           "awayCrest": "https://crests.football-data.org/546.png",
-          "seq": 1
-        },
-        {
-          "id": 559646,
-          "utcDate": "2026-10-31T16:15:00Z",
-          "status": "TIMED",
-          "matchday": 9,
-          "stage": "REGULAR_SEASON",
-          "homeId": 522,
-          "home": "OGC Nice",
-          "homeCrest": "https://crests.football-data.org/522.png",
-          "awayId": 529,
-          "away": "Stade Rennais FC 1901",
-          "awayCrest": "https://crests.football-data.org/529.png",
-          "seq": 1
-        },
-        {
-          "id": 559640,
-          "utcDate": "2026-10-31T19:45:00Z",
-          "status": "TIMED",
-          "matchday": 9,
-          "stage": "REGULAR_SEASON",
-          "homeId": 523,
-          "home": "Olympique Lyonnais",
-          "homeCrest": "https://crests.football-data.org/523.png",
-          "awayId": 532,
-          "away": "Angers SCO",
-          "awayCrest": "https://crests.football-data.org/532.png",
-          "seq": 1
-        },
-        {
-          "id": 559641,
-          "utcDate": "2026-10-31T19:45:00Z",
-          "status": "TIMED",
-          "matchday": 9,
-          "stage": "REGULAR_SEASON",
-          "homeId": 525,
-          "home": "FC Lorient",
-          "homeCrest": "https://crests.football-data.org/525.png",
-          "awayId": 512,
-          "away": "Stade Brestois 29",
-          "awayCrest": "https://crests.football-data.org/512.png",
           "seq": 1
         },
         {
@@ -23409,6 +23381,20 @@
           "seq": 1
         },
         {
+          "id": 559640,
+          "utcDate": "2026-11-01T16:15:00Z",
+          "status": "TIMED",
+          "matchday": 9,
+          "stage": "REGULAR_SEASON",
+          "homeId": 523,
+          "home": "Olympique Lyonnais",
+          "homeCrest": "https://crests.football-data.org/523.png",
+          "awayId": 532,
+          "away": "Angers SCO",
+          "awayCrest": "https://crests.football-data.org/532.png",
+          "seq": 2
+        },
+        {
           "id": 559642,
           "utcDate": "2026-11-01T16:15:00Z",
           "status": "TIMED",
@@ -23435,6 +23421,20 @@
           "away": "Toulouse FC",
           "awayCrest": "https://crests.football-data.org/511.png",
           "seq": 1
+        },
+        {
+          "id": 559641,
+          "utcDate": "2026-11-02T19:45:00Z",
+          "status": "TIMED",
+          "matchday": 9,
+          "stage": "REGULAR_SEASON",
+          "homeId": 525,
+          "home": "FC Lorient",
+          "homeCrest": "https://crests.football-data.org/525.png",
+          "awayId": 512,
+          "away": "Stade Brestois 29",
+          "awayCrest": "https://crests.football-data.org/512.png",
+          "seq": 2
         },
         {
           "id": 559638,
