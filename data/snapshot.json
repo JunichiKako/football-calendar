@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-10-29T23:43:39.827Z",
+  "fetchedAt": "2026-10-30T14:43:09.115Z",
   "season": 2026,
   "leagues": [
     {
@@ -12629,20 +12629,6 @@
           "seq": 1
         },
         {
-          "id": 564698,
-          "utcDate": "2026-10-10T12:00:00Z",
-          "status": "CANCELLED",
-          "matchday": 8,
-          "stage": "REGULAR_SEASON",
-          "homeId": 87,
-          "home": "Rayo Vallecano de Madrid",
-          "homeCrest": "https://crests.football-data.org/87.png",
-          "awayId": 77,
-          "away": "Athletic Club",
-          "awayCrest": "https://crests.football-data.org/77.png",
-          "seq": 2
-        },
-        {
           "id": 564699,
           "utcDate": "2026-10-10T14:15:00Z",
           "status": "FINISHED",
@@ -13747,6 +13733,20 @@
           "away": "Levante UD",
           "awayCrest": "https://crests.football-data.org/88.png",
           "seq": 0
+        },
+        {
+          "id": 564698,
+          "utcDate": "2026-12-09T19:00:00Z",
+          "status": "CANCELLED",
+          "matchday": 8,
+          "stage": "REGULAR_SEASON",
+          "homeId": 87,
+          "home": "Rayo Vallecano de Madrid",
+          "homeCrest": "https://crests.football-data.org/87.png",
+          "awayId": 77,
+          "away": "Athletic Club",
+          "awayCrest": "https://crests.football-data.org/77.png",
+          "seq": 3
         },
         {
           "id": 564778,
