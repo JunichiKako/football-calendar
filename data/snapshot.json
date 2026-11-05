@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-04T15:52:32.138Z",
+  "fetchedAt": "2026-11-05T00:40:28.767Z",
   "season": 2026,
   "leagues": [
     {
@@ -23452,7 +23452,7 @@
         },
         {
           "id": 559637,
-          "utcDate": "2026-11-07T16:15:00Z",
+          "utcDate": "2026-11-07T18:00:00Z",
           "status": "TIMED",
           "matchday": 10,
           "stage": "REGULAR_SEASON",
@@ -23462,11 +23462,11 @@
           "awayId": 1045,
           "away": "Paris FC",
           "awayCrest": "https://crests.football-data.org/1045.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 559635,
-          "utcDate": "2026-11-07T19:45:00Z",
+          "utcDate": "2026-11-07T20:05:00Z",
           "status": "TIMED",
           "matchday": 10,
           "stage": "REGULAR_SEASON",
@@ -23476,7 +23476,7 @@
           "awayId": 531,
           "away": "ES Troyes AC",
           "awayCrest": "https://crests.football-data.org/531.png",
-          "seq": 1
+          "seq": 2
         },
         {
           "id": 559636,
