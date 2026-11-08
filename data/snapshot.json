@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-07T23:17:26.261Z",
+  "fetchedAt": "2026-11-08T14:39:54.843Z",
   "season": 2026,
   "leagues": [
     {
@@ -1284,7 +1284,7 @@
         {
           "id": 560632,
           "utcDate": "2026-11-07T12:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 10,
           "stage": "REGULAR_SEASON",
           "homeId": 341,
@@ -1298,7 +1298,7 @@
         {
           "id": 560633,
           "utcDate": "2026-11-07T15:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 10,
           "stage": "REGULAR_SEASON",
           "homeId": 63,
@@ -1312,7 +1312,7 @@
         {
           "id": 560640,
           "utcDate": "2026-11-07T15:00:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 10,
           "stage": "REGULAR_SEASON",
           "homeId": 57,
@@ -1326,7 +1326,7 @@
         {
           "id": 560641,
           "utcDate": "2026-11-07T17:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 10,
           "stage": "REGULAR_SEASON",
           "homeId": 351,
@@ -8452,7 +8452,7 @@
         {
           "id": 565855,
           "utcDate": "2026-11-08T14:30:00Z",
-          "status": "TIMED",
+          "status": "IN_PLAY",
           "matchday": 9,
           "stage": "REGULAR_SEASON",
           "homeId": 1,
@@ -13247,7 +13247,7 @@
         {
           "id": 564738,
           "utcDate": "2026-11-08T13:00:00Z",
-          "status": "TIMED",
+          "status": "IN_PLAY",
           "matchday": 12,
           "stage": "REGULAR_SEASON",
           "homeId": 285,
@@ -13592,6 +13592,34 @@
           "awayId": 82,
           "away": "Getafe CF",
           "awayCrest": "https://crests.football-data.org/82.png",
+          "seq": 1
+        },
+        {
+          "id": 564855,
+          "utcDate": "2026-12-02T18:00:00Z",
+          "status": "TIMED",
+          "matchday": 23,
+          "stage": "REGULAR_SEASON",
+          "homeId": 92,
+          "home": "Real Sociedad de Fútbol",
+          "homeCrest": "https://crests.football-data.org/92.png",
+          "awayId": 86,
+          "away": "Real Madrid CF",
+          "awayCrest": "https://crests.football-data.org/86.png",
+          "seq": 1
+        },
+        {
+          "id": 564857,
+          "utcDate": "2026-12-02T20:30:00Z",
+          "status": "TIMED",
+          "matchday": 23,
+          "stage": "REGULAR_SEASON",
+          "homeId": 81,
+          "home": "FC Barcelona",
+          "homeCrest": "https://crests.football-data.org/81.png",
+          "awayId": 78,
+          "away": "Club Atlético de Madrid",
+          "awayCrest": "https://crests.football-data.org/78.png",
           "seq": 1
         },
         {
@@ -14827,20 +14855,6 @@
           "seq": 0
         },
         {
-          "id": 564855,
-          "utcDate": "2027-02-07T00:00:00Z",
-          "status": "SCHEDULED",
-          "matchday": 23,
-          "stage": "REGULAR_SEASON",
-          "homeId": 92,
-          "home": "Real Sociedad de Fútbol",
-          "homeCrest": "https://crests.football-data.org/92.png",
-          "awayId": 86,
-          "away": "Real Madrid CF",
-          "awayCrest": "https://crests.football-data.org/86.png",
-          "seq": 0
-        },
-        {
           "id": 564856,
           "utcDate": "2027-02-07T00:00:00Z",
           "status": "SCHEDULED",
@@ -14852,20 +14866,6 @@
           "awayId": 5335,
           "away": "Real Racing Club de Santander",
           "awayCrest": "https://crests.football-data.org/5335.png",
-          "seq": 0
-        },
-        {
-          "id": 564857,
-          "utcDate": "2027-02-07T00:00:00Z",
-          "status": "SCHEDULED",
-          "matchday": 23,
-          "stage": "REGULAR_SEASON",
-          "homeId": 81,
-          "home": "FC Barcelona",
-          "homeCrest": "https://crests.football-data.org/81.png",
-          "awayId": 78,
-          "away": "Club Atlético de Madrid",
-          "awayCrest": "https://crests.football-data.org/78.png",
           "seq": 0
         },
         {
@@ -18448,7 +18448,7 @@
         {
           "id": 558533,
           "utcDate": "2026-11-08T11:30:00Z",
-          "status": "TIMED",
+          "status": "FINISHED",
           "matchday": 11,
           "stage": "REGULAR_SEASON",
           "homeId": 113,
@@ -18462,7 +18462,7 @@
         {
           "id": 558536,
           "utcDate": "2026-11-08T14:00:00Z",
-          "status": "TIMED",
+          "status": "IN_PLAY",
           "matchday": 11,
           "stage": "REGULAR_SEASON",
           "homeId": 107,
@@ -18476,7 +18476,7 @@
         {
           "id": 558538,
           "utcDate": "2026-11-08T14:00:00Z",
-          "status": "TIMED",
+          "status": "IN_PLAY",
           "matchday": 11,
           "stage": "REGULAR_SEASON",
           "homeId": 5911,
@@ -23481,7 +23481,7 @@
         {
           "id": 559636,
           "utcDate": "2026-11-08T14:00:00Z",
-          "status": "TIMED",
+          "status": "IN_PLAY",
           "matchday": 10,
           "stage": "REGULAR_SEASON",
           "homeId": 529,
