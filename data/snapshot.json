@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-15T23:40:08.724Z",
+  "fetchedAt": "2026-11-16T17:41:55.820Z",
   "season": 2026,
   "leagues": [
     {
@@ -13693,34 +13693,6 @@
           "seq": 1
         },
         {
-          "id": 564769,
-          "utcDate": "2026-12-06T00:00:00Z",
-          "status": "SCHEDULED",
-          "matchday": 15,
-          "stage": "REGULAR_SEASON",
-          "homeId": 559,
-          "home": "Sevilla FC",
-          "homeCrest": "https://crests.football-data.org/559.png",
-          "awayId": 84,
-          "away": "Málaga CF",
-          "awayCrest": "https://crests.football-data.org/84.png",
-          "seq": 0
-        },
-        {
-          "id": 564771,
-          "utcDate": "2026-12-06T00:00:00Z",
-          "status": "SCHEDULED",
-          "matchday": 15,
-          "stage": "REGULAR_SEASON",
-          "homeId": 78,
-          "home": "Club Atlético de Madrid",
-          "homeCrest": "https://crests.football-data.org/78.png",
-          "awayId": 90,
-          "away": "Real Betis Balompié",
-          "awayCrest": "https://crests.football-data.org/90.png",
-          "seq": 0
-        },
-        {
           "id": 564768,
           "utcDate": "2026-12-06T13:00:00Z",
           "status": "TIMED",
@@ -13760,6 +13732,34 @@
           "awayId": 95,
           "away": "Valencia CF",
           "awayCrest": "https://crests.football-data.org/95.png",
+          "seq": 1
+        },
+        {
+          "id": 564771,
+          "utcDate": "2026-12-06T20:00:00Z",
+          "status": "TIMED",
+          "matchday": 15,
+          "stage": "REGULAR_SEASON",
+          "homeId": 78,
+          "home": "Club Atlético de Madrid",
+          "homeCrest": "https://crests.football-data.org/78.png",
+          "awayId": 90,
+          "away": "Real Betis Balompié",
+          "awayCrest": "https://crests.football-data.org/90.png",
+          "seq": 1
+        },
+        {
+          "id": 564769,
+          "utcDate": "2026-12-07T20:00:00Z",
+          "status": "TIMED",
+          "matchday": 15,
+          "stage": "REGULAR_SEASON",
+          "homeId": 559,
+          "home": "Sevilla FC",
+          "homeCrest": "https://crests.football-data.org/559.png",
+          "awayId": 84,
+          "away": "Málaga CF",
+          "awayCrest": "https://crests.football-data.org/84.png",
           "seq": 1
         },
         {
