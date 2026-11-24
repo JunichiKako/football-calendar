@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-24T04:31:27.767Z",
+  "fetchedAt": "2026-11-24T19:14:05.799Z",
   "season": 2026,
   "leagues": [
     {
@@ -6345,7 +6345,7 @@
         {
           "id": 575395,
           "utcDate": "2026-11-24T17:45:00Z",
-          "status": "TIMED",
+          "status": "IN_PLAY",
           "matchday": 5,
           "stage": "LEAGUE_STAGE",
           "homeId": 610,
@@ -6359,7 +6359,7 @@
         {
           "id": 575396,
           "utcDate": "2026-11-24T17:45:00Z",
-          "status": "TIMED",
+          "status": "IN_PLAY",
           "matchday": 5,
           "stage": "LEAGUE_STAGE",
           "homeId": 5721,
@@ -24123,20 +24123,6 @@
           "seq": 1
         },
         {
-          "id": 559591,
-          "utcDate": "2027-01-02T20:00:00Z",
-          "status": "TIMED",
-          "matchday": 15,
-          "stage": "REGULAR_SEASON",
-          "homeId": 1045,
-          "home": "Paris FC",
-          "homeCrest": "https://crests.football-data.org/1045.png",
-          "awayId": 533,
-          "away": "Le Havre AC",
-          "awayCrest": "https://crests.football-data.org/533.png",
-          "seq": 1
-        },
-        {
           "id": 559592,
           "utcDate": "2027-01-02T20:00:00Z",
           "status": "TIMED",
@@ -24163,6 +24149,20 @@
           "away": "Olympique Lyonnais",
           "awayCrest": "https://crests.football-data.org/523.png",
           "seq": 1
+        },
+        {
+          "id": 559591,
+          "utcDate": "2027-01-03T16:15:00Z",
+          "status": "TIMED",
+          "matchday": 15,
+          "stage": "REGULAR_SEASON",
+          "homeId": 1045,
+          "home": "Paris FC",
+          "homeCrest": "https://crests.football-data.org/1045.png",
+          "awayId": 533,
+          "away": "Le Havre AC",
+          "awayCrest": "https://crests.football-data.org/533.png",
+          "seq": 2
         },
         {
           "id": 559593,
